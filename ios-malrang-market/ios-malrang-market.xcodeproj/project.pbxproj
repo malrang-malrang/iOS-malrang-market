@@ -121,13 +121,11 @@
 		30F68FE2289AB0AA0056C7FC /* ios-malrang-market */ = {
 			isa = PBXGroup;
 			children = (
-				30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */,
-				30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */,
-				30F68FE7289AB0AA0056C7FC /* ViewController.swift */,
-				30F68FE9289AB0AA0056C7FC /* Main.storyboard */,
-				30F68FEC289AB0AA0056C7FC /* Assets.xcassets */,
-				30F68FEE289AB0AA0056C7FC /* LaunchScreen.storyboard */,
 				30F68FF1289AB0AA0056C7FC /* Info.plist */,
+				30F6901A289ADFBB0056C7FC /* Application */,
+				30F6901B289ADFD90056C7FC /* Resource */,
+				30F6901C289ADFE60056C7FC /* SupportingFiles */,
+				30F68FE7289AB0AA0056C7FC /* ViewController.swift */,
 			);
 			path = "ios-malrang-market";
 			sourceTree = "<group>";
@@ -147,6 +145,32 @@
 				30F69006289AB0AA0056C7FC /* ios_malrang_marketUITestsLaunchTests.swift */,
 			);
 			path = "ios-malrang-marketUITests";
+			sourceTree = "<group>";
+		};
+		30F6901A289ADFBB0056C7FC /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */,
+				30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		30F6901B289ADFD90056C7FC /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				30F68FEC289AB0AA0056C7FC /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		30F6901C289ADFE60056C7FC /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				30F68FE9289AB0AA0056C7FC /* Main.storyboard */,
+				30F68FEE289AB0AA0056C7FC /* LaunchScreen.storyboard */,
+			);
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		E8AC81D0A2415236880D2C46 /* Pods */ = {
