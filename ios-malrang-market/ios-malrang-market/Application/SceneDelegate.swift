@@ -16,6 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
-        guard let _ = (scene as? UIWindowScene) else { return }
+//        window?.rootViewController = MalrangLuanchScreen()
+        window?.makeKeyAndVisible()
     }
 }

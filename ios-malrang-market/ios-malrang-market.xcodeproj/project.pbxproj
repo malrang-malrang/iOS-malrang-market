@@ -19,6 +19,8 @@
 		30F69017289AB20B0056C7FC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 30F69016289AB20B0056C7FC /* .swiftlint.yml */; };
 		30F69018289AB20B0056C7FC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 30F69016289AB20B0056C7FC /* .swiftlint.yml */; };
 		30F69019289AB20B0056C7FC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 30F69016289AB20B0056C7FC /* .swiftlint.yml */; };
+		30F69020289AF80E0056C7FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* ViewController.swift */; };
+		30F69021289AF80E0056C7FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* ViewController.swift */; };
 		9B8C45B63C1BDF4282B59BE0 /* Pods_ios_malrang_market_ios_malrang_marketUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A5F98799D2F08C8BAD4B043 /* Pods_ios_malrang_market_ios_malrang_marketUITests.framework */; };
 		B8F4660BE242D1CE2EE51A07 /* Pods_ios_malrang_market.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEEE333137F8D3F6D38B457 /* Pods_ios_malrang_market.framework */; };
 		D9D6E8351D75DDA61C60FCAC /* Pods_ios_malrang_marketTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F45B096B702857EEBB1E54 /* Pods_ios_malrang_marketTests.framework */; };
@@ -100,6 +102,7 @@
 			children = (
 				30F69016289AB20B0056C7FC /* .swiftlint.yml */,
 				30F68FE2289AB0AA0056C7FC /* ios-malrang-market */,
+				30F68FE7289AB0AA0056C7FC /* ViewController.swift */,
 				30F68FF9289AB0AA0056C7FC /* ios-malrang-marketTests */,
 				30F69003289AB0AA0056C7FC /* ios-malrang-marketUITests */,
 				30F68FE1289AB0AA0056C7FC /* Products */,
@@ -125,7 +128,6 @@
 				30F6901A289ADFBB0056C7FC /* Application */,
 				30F6901B289ADFD90056C7FC /* Resource */,
 				30F6901C289ADFE60056C7FC /* SupportingFiles */,
-				30F68FE7289AB0AA0056C7FC /* ViewController.swift */,
 			);
 			path = "ios-malrang-market";
 			sourceTree = "<group>";
@@ -430,6 +432,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30F69020289AF80E0056C7FC /* ViewController.swift in Sources */,
 				30F68FFB289AB0AA0056C7FC /* ios_malrang_marketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,6 +441,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30F69021289AF80E0056C7FC /* ViewController.swift in Sources */,
 				30F69005289AB0AA0056C7FC /* ios_malrang_marketUITests.swift in Sources */,
 				30F69007289AB0AA0056C7FC /* ios_malrang_marketUITestsLaunchTests.swift in Sources */,
 			);
