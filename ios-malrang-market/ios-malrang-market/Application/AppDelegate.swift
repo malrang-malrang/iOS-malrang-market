@@ -18,4 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
+
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+        Thread.sleep(forTimeInterval: 1.5)
+        return true
+    }
 }
