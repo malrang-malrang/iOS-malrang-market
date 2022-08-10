@@ -1,3 +1,4 @@
+//
 //  AppCoordinator.swift
 //  ios-malrang-market
 //
@@ -26,5 +27,12 @@ final class AppCoordinator: Coordinator {
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+    }
+
+    func start() {
+        let mainCoordinator = MainViewCoordinator(navigationController: self.navigationController)
+        self.childCoordinators.append(mainCoordinator)
+        mainCoordinator.parentCoordinators = self
+        mainCoordinator.start()
     }
 }

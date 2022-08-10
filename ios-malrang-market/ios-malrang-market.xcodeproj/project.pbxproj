@@ -18,8 +18,9 @@
 		30F69017289AB20B0056C7FC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 30F69016289AB20B0056C7FC /* .swiftlint.yml */; };
 		30F69018289AB20B0056C7FC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 30F69016289AB20B0056C7FC /* .swiftlint.yml */; };
 		30F69019289AB20B0056C7FC /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 30F69016289AB20B0056C7FC /* .swiftlint.yml */; };
-		30F69020289AF80E0056C7FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* ViewController.swift */; };
-		30F69021289AF80E0056C7FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* ViewController.swift */; };
+		30F69020289AF80E0056C7FC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* MainViewController.swift */; };
+		30F69021289AF80E0056C7FC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* MainViewController.swift */; };
+		30F6902E289FCCB80056C7FC /* MainViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6902D289FCCB80056C7FC /* MainViewCoordinator.swift */; };
 		30F69030289FCF9A0056C7FC /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6902F289FCF9A0056C7FC /* AppCoordinator.swift */; };
 		9B8C45B63C1BDF4282B59BE0 /* Pods_ios_malrang_market_ios_malrang_marketUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A5F98799D2F08C8BAD4B043 /* Pods_ios_malrang_market_ios_malrang_marketUITests.framework */; };
 		B8F4660BE242D1CE2EE51A07 /* Pods_ios_malrang_market.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEEE333137F8D3F6D38B457 /* Pods_ios_malrang_market.framework */; };
@@ -49,8 +50,7 @@
 		30F68FE0289AB0AA0056C7FC /* ios-malrang-market.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-malrang-market.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		30F68FE7289AB0AA0056C7FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		30F68FEA289AB0AA0056C7FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		30F68FE7289AB0AA0056C7FC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		30F68FEC289AB0AA0056C7FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		30F68FEF289AB0AA0056C7FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		30F68FF1289AB0AA0056C7FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -60,6 +60,7 @@
 		30F69004289AB0AA0056C7FC /* ios_malrang_marketUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ios_malrang_marketUITests.swift; sourceTree = "<group>"; };
 		30F69006289AB0AA0056C7FC /* ios_malrang_marketUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ios_malrang_marketUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		30F69016289AB20B0056C7FC /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		30F6902D289FCCB80056C7FC /* MainViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCoordinator.swift; sourceTree = "<group>"; };
 		30F6902F289FCF9A0056C7FC /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		3FA8D5EC518A37EB6E8F1F9A /* Pods-ios-malrang-market.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-malrang-market.release.xcconfig"; path = "Target Support Files/Pods-ios-malrang-market/Pods-ios-malrang-market.release.xcconfig"; sourceTree = "<group>"; };
 		54D2D4FC17CC73F11AB1F4FE /* Pods-ios-malrang-marketTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-malrang-marketTests.debug.xcconfig"; path = "Target Support Files/Pods-ios-malrang-marketTests/Pods-ios-malrang-marketTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,7 +104,6 @@
 			children = (
 				30F69016289AB20B0056C7FC /* .swiftlint.yml */,
 				30F68FE2289AB0AA0056C7FC /* ios-malrang-market */,
-				30F68FE7289AB0AA0056C7FC /* ViewController.swift */,
 				30F68FF9289AB0AA0056C7FC /* ios-malrang-marketTests */,
 				30F69003289AB0AA0056C7FC /* ios-malrang-marketUITests */,
 				30F68FE1289AB0AA0056C7FC /* Products */,
@@ -129,6 +129,7 @@
 				30F6901A289ADFBB0056C7FC /* Application */,
 				30F6901B289ADFD90056C7FC /* Resource */,
 				30F6901C289ADFE60056C7FC /* SupportingFiles */,
+				30F69025289E7F570056C7FC /* Presentation */,
 			);
 			path = "ios-malrang-market";
 			sourceTree = "<group>";
@@ -174,6 +175,47 @@
 				30F68FEE289AB0AA0056C7FC /* LaunchScreen.storyboard */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		30F69025289E7F570056C7FC /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				30F69029289E81A30056C7FC /* Coordinator */,
+				30F69026289E7FF70056C7FC /* Main */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		30F69026289E7FF70056C7FC /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				30F69028289E80270056C7FC /* Presenter */,
+				30F69027289E80160056C7FC /* View */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		30F69027289E80160056C7FC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				30F68FE7289AB0AA0056C7FC /* MainViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		30F69028289E80270056C7FC /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		30F69029289E81A30056C7FC /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				30F6902D289FCCB80056C7FC /* MainViewCoordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		E8AC81D0A2415236880D2C46 /* Pods */ = {
@@ -422,7 +464,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30F68FE8289AB0AA0056C7FC /* ViewController.swift in Sources */,
+				30F6902E289FCCB80056C7FC /* MainViewCoordinator.swift in Sources */,
+				30F68FE8289AB0AA0056C7FC /* MainViewController.swift in Sources */,
 				30F69030289FCF9A0056C7FC /* AppCoordinator.swift in Sources */,
 				30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */,
 				30F68FE6289AB0AA0056C7FC /* SceneDelegate.swift in Sources */,
@@ -433,7 +476,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30F69020289AF80E0056C7FC /* ViewController.swift in Sources */,
+				30F69020289AF80E0056C7FC /* MainViewController.swift in Sources */,
 				30F68FFB289AB0AA0056C7FC /* ios_malrang_marketTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,7 +485,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30F69021289AF80E0056C7FC /* ViewController.swift in Sources */,
+				30F69021289AF80E0056C7FC /* MainViewController.swift in Sources */,
 				30F69005289AB0AA0056C7FC /* ios_malrang_marketUITests.swift in Sources */,
 				30F69007289AB0AA0056C7FC /* ios_malrang_marketUITestsLaunchTests.swift in Sources */,
 			);
