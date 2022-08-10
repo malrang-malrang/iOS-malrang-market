@@ -49,13 +49,17 @@ final class MainViewController: UIViewController {
         return barButtonItem
     }()
 
+    private let segmentController = SegmentController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
         self.setupNavigationItem()
+        self.setupConstraint()
     }
 
     private func setupView() {
+        self.view.addSubview(self.segmentController)
         self.view.backgroundColor = .systemBackground
     }
 
@@ -63,4 +67,14 @@ final class MainViewController: UIViewController {
         self.navigationItem.titleView = self.searchBar
         self.navigationItem.rightBarButtonItems = [self.cartBarButton, self.bookmarkBarButton]
     }
+
+    private func setupConstraint() {
+        NSLayoutConstraint.activate([
+            self.segmentController.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.segmentController.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.segmentController.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.segmentController.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.05)
+        ])
+    }
+
 }
