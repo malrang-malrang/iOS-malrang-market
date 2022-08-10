@@ -50,6 +50,19 @@ final class MainViewController: UIViewController {
     }()
 
     private let segmentController = SegmentController()
+    private let heightLightView: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 1, green: 0.8737915158, blue: 0.9193537831, alpha: 1)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private let underLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.systemGray3
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +72,7 @@ final class MainViewController: UIViewController {
     }
 
     private func setupView() {
-        self.view.addSubview(self.segmentController)
+        self.view.addSubViews(self.segmentController, self.underLineView)
         self.view.backgroundColor = .systemBackground
     }
 
@@ -75,6 +88,12 @@ final class MainViewController: UIViewController {
             self.segmentController.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.segmentController.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.05)
         ])
-    }
 
+        NSLayoutConstraint.activate([
+            self.underLineView.topAnchor.constraint(equalTo: self.segmentController.bottomAnchor),
+            self.underLineView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.underLineView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.underLineView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.001)
+        ])
+    }
 }
