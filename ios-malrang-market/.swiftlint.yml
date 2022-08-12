@@ -3,6 +3,7 @@ disabled_rules:
 - vertical_parameter_alignment
 - trailing_whitespace
 - colon
+- line_length
 
 excluded:
 - Pods
