@@ -32,7 +32,7 @@ final class MainViewController: UIViewController {
             target: nil,
             action: nil
         )
-        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.8737915158, blue: 0.9193537831, alpha: 1)
+        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
         return barButtonItem
     }()
 
@@ -45,7 +45,7 @@ final class MainViewController: UIViewController {
             target: nil,
             action: nil
         )
-        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.8737915158, blue: 0.9193537831, alpha: 1)
+        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
         return barButtonItem
     }()
 
@@ -59,7 +59,7 @@ final class MainViewController: UIViewController {
     }
 
     private func setupView() {
-        self.view.addSubview(self.segmentView)
+        self.view.addSubviews(self.segmentView)
         self.view.backgroundColor = .systemBackground
     }
 

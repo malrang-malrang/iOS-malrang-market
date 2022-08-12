@@ -22,7 +22,7 @@
 		30F69021289AF80E0056C7FC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* MainViewController.swift */; };
 		30F6902E289FCCB80056C7FC /* MainViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6902D289FCCB80056C7FC /* MainViewCoordinator.swift */; };
 		30F69030289FCF9A0056C7FC /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6902F289FCF9A0056C7FC /* AppCoordinator.swift */; };
-		30F6903828A3EFEA0056C7FC /* SegmentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6903728A3EFEA0056C7FC /* SegmentController.swift */; };
+		30F6903828A3EFEA0056C7FC /* UnderlineSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6903728A3EFEA0056C7FC /* UnderlineSegmentControl.swift */; };
 		30F6903F28A443040056C7FC /* UIView+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6903E28A443040056C7FC /* UIView+Sugar.swift */; };
 		30F6904128A578800056C7FC /* SegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6904028A578800056C7FC /* SegmentView.swift */; };
 		9B8C45B63C1BDF4282B59BE0 /* Pods_ios_malrang_market_ios_malrang_marketUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A5F98799D2F08C8BAD4B043 /* Pods_ios_malrang_market_ios_malrang_marketUITests.framework */; };
@@ -65,7 +65,7 @@
 		30F69016289AB20B0056C7FC /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		30F6902D289FCCB80056C7FC /* MainViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCoordinator.swift; sourceTree = "<group>"; };
 		30F6902F289FCF9A0056C7FC /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		30F6903728A3EFEA0056C7FC /* SegmentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentController.swift; sourceTree = "<group>"; };
+		30F6903728A3EFEA0056C7FC /* UnderlineSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentControl.swift; sourceTree = "<group>"; };
 		30F6903E28A443040056C7FC /* UIView+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Sugar.swift"; sourceTree = "<group>"; };
 		30F6904028A578800056C7FC /* SegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentView.swift; sourceTree = "<group>"; };
 		3FA8D5EC518A37EB6E8F1F9A /* Pods-ios-malrang-market.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-malrang-market.release.xcconfig"; path = "Target Support Files/Pods-ios-malrang-market/Pods-ios-malrang-market.release.xcconfig"; sourceTree = "<group>"; };
@@ -246,7 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				30F6904028A578800056C7FC /* SegmentView.swift */,
-				30F6903728A3EFEA0056C7FC /* SegmentController.swift */,
+				30F6903728A3EFEA0056C7FC /* UnderlineSegmentControl.swift */,
 			);
 			path = SegmentController;
 			sourceTree = "<group>";
@@ -503,7 +503,7 @@
 				30F69030289FCF9A0056C7FC /* AppCoordinator.swift in Sources */,
 				30F6903F28A443040056C7FC /* UIView+Sugar.swift in Sources */,
 				30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */,
-				30F6903828A3EFEA0056C7FC /* SegmentController.swift in Sources */,
+				30F6903828A3EFEA0056C7FC /* UnderlineSegmentControl.swift in Sources */,
 				30F68FE6289AB0AA0056C7FC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

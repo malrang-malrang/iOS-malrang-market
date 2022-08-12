@@ -1,5 +1,5 @@
 //
-//  SegmentController.swift
+//  UnderlineSegmentControl.swift
 //  ios-malrang-market
 //
 //  Created by 김동욱 on 2022/08/10.
@@ -16,7 +16,7 @@ private enum SegmentType: String, CaseIterable {
     }
 }
 
-final class SegmentController: UISegmentedControl {
+final class UnderlineSegmentControl: UISegmentedControl {
     private lazy var underlineView: UIView = {
         let width = self.bounds.size.width / CGFloat(self.numberOfSegments)
         let height = 10.0
@@ -24,7 +24,7 @@ final class SegmentController: UISegmentedControl {
         let yPosition = self.bounds.size.height - 5
         let frame = CGRect(x: xPosition, y: yPosition, width: width, height: height)
         let view = UIView(frame: frame)
-        view.backgroundColor = #colorLiteral(red: 1, green: 0.8737915158, blue: 0.9193537831, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
         self.addSubview(view)
         return view
     }()
@@ -42,16 +42,17 @@ final class SegmentController: UISegmentedControl {
     private func setupSegmentControl() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.selectedSegmentIndex = 0
-        let selectedFontColor = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1, green: 0.8737915158, blue: 0.9193537831, alpha: 1)]
+        let selectedFontColor = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)]
         self.setTitleTextAttributes(selectedFontColor, for: .selected)
+        let font = UIFont.preferredFont(forTextStyle: .subheadline)
+        self.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
     }
 
     private func removeBackgroundAndDivider() {
-        let image = UIImage()
-        self.setBackgroundImage(image, for: .normal, barMetrics: .default)
-        self.setBackgroundImage(image, for: .selected, barMetrics: .default)
-        self.setBackgroundImage(image, for: .highlighted, barMetrics: .default)
-        self.setDividerImage(image, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
+        self.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
+        self.setBackgroundImage(UIImage(), for: .selected, barMetrics: .default)
+        self.setBackgroundImage(UIImage(), for: .highlighted, barMetrics: .default)
+        self.setDividerImage(UIImage(), forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
     }
 
     override func layoutSubviews() {

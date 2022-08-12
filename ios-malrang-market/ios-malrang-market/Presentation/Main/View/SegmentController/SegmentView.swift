@@ -8,7 +8,7 @@
 import UIKit
 
 final class SegmentView: UIView {
-    private var segmentController = SegmentController()
+    private var segmentController = UnderlineSegmentControl()
 
     private let underlineView: UIView = {
         let view = UIView()
