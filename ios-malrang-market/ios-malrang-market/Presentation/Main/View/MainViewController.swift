@@ -49,23 +49,36 @@ final class MainViewController: UIViewController {
         return barButtonItem
     }()
 
-    private let segmentView = SegmentView()
+    private let segmentView: SegmentView
+    private let pageContentView: PageContentViewController
+
+    init() {
+        self.segmentView = SegmentView()
+        self.pageContentView = PageContentViewController()
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupView()
         self.setupNavigationItem()
+        self.setupView()
         self.setupConstraint()
-    }
-
-    private func setupView() {
-        self.view.addSubviews(self.segmentView)
-        self.view.backgroundColor = .systemBackground
     }
 
     private func setupNavigationItem() {
         self.navigationItem.titleView = self.searchBar
         self.navigationItem.rightBarButtonItems = [self.cartBarButton, self.bookmarkBarButton]
+    }
+
+    private func setupView() {
+        self.addChild(self.pageContentView)
+        self.pageContentView.didMove(toParent: self)
+        self.view.addSubviews(self.segmentView, self.pageContentView.view)
+        self.view.backgroundColor = .systemBackground
     }
 
     private func setupConstraint() {
@@ -75,5 +88,16 @@ final class MainViewController: UIViewController {
             self.segmentView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.segmentView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.06)
         ])
+
+        NSLayoutConstraint.activate([
+            self.pageContentView.view.topAnchor.constraint(equalTo: self.segmentView.bottomAnchor),
+            self.pageContentView.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.pageContentView.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.pageContentView.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+    }
+
+    private func bind() {
+        
     }
 }

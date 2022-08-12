@@ -25,6 +25,7 @@
 		30F6903828A3EFEA0056C7FC /* UnderlineSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6903728A3EFEA0056C7FC /* UnderlineSegmentControl.swift */; };
 		30F6903F28A443040056C7FC /* UIView+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6903E28A443040056C7FC /* UIView+Sugar.swift */; };
 		30F6904128A578800056C7FC /* SegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6904028A578800056C7FC /* SegmentView.swift */; };
+		30F6904528A58C0D0056C7FC /* PageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F6904428A58C0D0056C7FC /* PageContentViewController.swift */; };
 		9B8C45B63C1BDF4282B59BE0 /* Pods_ios_malrang_market_ios_malrang_marketUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A5F98799D2F08C8BAD4B043 /* Pods_ios_malrang_market_ios_malrang_marketUITests.framework */; };
 		B8F4660BE242D1CE2EE51A07 /* Pods_ios_malrang_market.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEEE333137F8D3F6D38B457 /* Pods_ios_malrang_market.framework */; };
 		D9D6E8351D75DDA61C60FCAC /* Pods_ios_malrang_marketTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F45B096B702857EEBB1E54 /* Pods_ios_malrang_marketTests.framework */; };
@@ -68,6 +69,7 @@
 		30F6903728A3EFEA0056C7FC /* UnderlineSegmentControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentControl.swift; sourceTree = "<group>"; };
 		30F6903E28A443040056C7FC /* UIView+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Sugar.swift"; sourceTree = "<group>"; };
 		30F6904028A578800056C7FC /* SegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentView.swift; sourceTree = "<group>"; };
+		30F6904428A58C0D0056C7FC /* PageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageContentViewController.swift; sourceTree = "<group>"; };
 		3FA8D5EC518A37EB6E8F1F9A /* Pods-ios-malrang-market.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-malrang-market.release.xcconfig"; path = "Target Support Files/Pods-ios-malrang-market/Pods-ios-malrang-market.release.xcconfig"; sourceTree = "<group>"; };
 		54D2D4FC17CC73F11AB1F4FE /* Pods-ios-malrang-marketTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-malrang-marketTests.debug.xcconfig"; path = "Target Support Files/Pods-ios-malrang-marketTests/Pods-ios-malrang-marketTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7A5F98799D2F08C8BAD4B043 /* Pods_ios_malrang_market_ios_malrang_marketUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios_malrang_market_ios_malrang_marketUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,7 +208,8 @@
 			isa = PBXGroup;
 			children = (
 				30F68FE7289AB0AA0056C7FC /* MainViewController.swift */,
-				30F6904228A583FA0056C7FC /* SegmentController */,
+				30F6904228A583FA0056C7FC /* SegmentControl */,
+				30F6904628A58C380056C7FC /* PageContentView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -242,13 +245,21 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		30F6904228A583FA0056C7FC /* SegmentController */ = {
+		30F6904228A583FA0056C7FC /* SegmentControl */ = {
 			isa = PBXGroup;
 			children = (
 				30F6904028A578800056C7FC /* SegmentView.swift */,
 				30F6903728A3EFEA0056C7FC /* UnderlineSegmentControl.swift */,
 			);
-			path = SegmentController;
+			path = SegmentControl;
+			sourceTree = "<group>";
+		};
+		30F6904628A58C380056C7FC /* PageContentView */ = {
+			isa = PBXGroup;
+			children = (
+				30F6904428A58C0D0056C7FC /* PageContentViewController.swift */,
+			);
+			path = PageContentView;
 			sourceTree = "<group>";
 		};
 		E8AC81D0A2415236880D2C46 /* Pods */ = {
@@ -503,6 +514,7 @@
 				30F69030289FCF9A0056C7FC /* AppCoordinator.swift in Sources */,
 				30F6903F28A443040056C7FC /* UIView+Sugar.swift in Sources */,
 				30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */,
+				30F6904528A58C0D0056C7FC /* PageContentViewController.swift in Sources */,
 				30F6903828A3EFEA0056C7FC /* UnderlineSegmentControl.swift in Sources */,
 				30F68FE6289AB0AA0056C7FC /* SceneDelegate.swift in Sources */,
 			);

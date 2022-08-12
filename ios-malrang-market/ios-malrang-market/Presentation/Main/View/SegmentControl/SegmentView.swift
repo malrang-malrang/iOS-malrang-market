@@ -8,7 +8,7 @@
 import UIKit
 
 final class SegmentView: UIView {
-    private var segmentController = UnderlineSegmentControl()
+    private var segmentControl = UnderlineSegmentControl()
 
     private let underlineView: UIView = {
         let view = UIView()
@@ -30,19 +30,19 @@ final class SegmentView: UIView {
     private func setupView() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .systemBackground
-        self.addSubviews(self.segmentController, self.underlineView)
+        self.addSubviews(self.segmentControl, self.underlineView)
     }
 
     private func setupConstraint() {
         NSLayoutConstraint.activate([
-            self.segmentController.topAnchor.constraint(equalTo: self.topAnchor),
-            self.segmentController.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.segmentController.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.segmentController.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.98)
+            self.segmentControl.topAnchor.constraint(equalTo: self.topAnchor),
+            self.segmentControl.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.segmentControl.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.segmentControl.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.98)
         ])
 
         NSLayoutConstraint.activate([
-            self.underlineView.topAnchor.constraint(equalTo: self.segmentController.bottomAnchor),
+            self.underlineView.topAnchor.constraint(equalTo: self.segmentControl.bottomAnchor),
             self.underlineView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.underlineView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             self.underlineView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
