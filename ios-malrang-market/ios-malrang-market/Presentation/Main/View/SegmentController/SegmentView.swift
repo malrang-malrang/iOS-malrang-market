@@ -30,7 +30,7 @@ final class SegmentView: UIView {
     private func setupView() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .systemBackground
-        self.addSubViews(self.segmentController, self.underlineView)
+        self.addSubviews(self.segmentController, self.underlineView)
     }
 
     private func setupConstraint() {
