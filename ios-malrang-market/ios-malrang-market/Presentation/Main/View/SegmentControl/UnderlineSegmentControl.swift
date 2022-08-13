@@ -7,12 +7,27 @@
 
 import UIKit
 
-private enum SegmentType: String, CaseIterable {
-    case latelyProduct = "최근 상품"
-    case popularProduct = "인기 상품"
+enum Page: Int, CaseIterable {
+    case latelyProduct = 0
+    case popularProduct = 1
+}
 
-    static var value: [String] {
-        return Self.allCases.map { $0.rawValue }
+extension Page {
+    static var inventory: [String] {
+        return Self.allCases.map { $0.description }
+    }
+
+    var value: Int {
+        return self.rawValue
+    }
+
+    private var description: String {
+        switch self {
+        case .latelyProduct:
+            return "최근 상품"
+        case .popularProduct:
+            return "인기 상품"
+        }
     }
 }
 
@@ -30,7 +45,7 @@ final class UnderlineSegmentControl: UISegmentedControl {
     }()
 
     init() {
-        super.init(items: SegmentType.value)
+        super.init(items: Page.inventory)
         self.setupSegmentControl()
         self.removeBackgroundAndDivider()
     }
@@ -41,7 +56,6 @@ final class UnderlineSegmentControl: UISegmentedControl {
 
     private func setupSegmentControl() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.selectedSegmentIndex = 0
         let selectedFontColor = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)]
         self.setTitleTextAttributes(selectedFontColor, for: .selected)
         let font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -55,16 +69,12 @@ final class UnderlineSegmentControl: UISegmentedControl {
         self.setDividerImage(UIImage(), forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.changeUnderlinePosition()
-      }
-
-    private func changeUnderlinePosition() {
+    func changeUnderlinePosition() {
         let underlineWidth = self.bounds.width / CGFloat(self.numberOfSegments)
         let underlineFinalXPosition = underlineWidth * CGFloat(self.selectedSegmentIndex)
         UIView.animate(withDuration: 0.1, animations: {
             self.underlineView.frame.origin.x = underlineFinalXPosition
+            self.layoutIfNeeded()
           })
     }
 }

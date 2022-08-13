@@ -52,9 +52,9 @@ final class MainViewController: UIViewController {
     private let segmentView: SegmentView
     private let pageContentView: PageContentViewController
 
-    init() {
-        self.segmentView = SegmentView()
-        self.pageContentView = PageContentViewController()
+    init(viewModel: MainViewModelable) {
+        self.segmentView = SegmentView(viewModel: viewModel)
+        self.pageContentView = PageContentViewController(viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -95,9 +95,5 @@ final class MainViewController: UIViewController {
             self.pageContentView.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.pageContentView.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-    }
-
-    private func bind() {
-        
     }
 }
