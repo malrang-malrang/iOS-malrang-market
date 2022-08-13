@@ -4,6 +4,7 @@ disabled_rules:
 - trailing_whitespace
 - colon
 - line_length
+- nesting
 
 excluded:
 - Pods
