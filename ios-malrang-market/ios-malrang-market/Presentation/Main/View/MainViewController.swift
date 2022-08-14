@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 private enum Const {
     static let searchBarPlaceholder = "말랑마켓 통합검색"
 }
@@ -84,25 +86,22 @@ final class MainViewController: UIViewController {
     }
 
     private func setupConstraint() {
-        NSLayoutConstraint.activate([
-            self.segmentView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.segmentView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.segmentView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.segmentView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.06)
-        ])
+        self.segmentView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.06)
+        }
 
-        NSLayoutConstraint.activate([
-            self.pageContentView.view.topAnchor.constraint(equalTo: self.segmentView.bottomAnchor),
-            self.pageContentView.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            self.pageContentView.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            self.pageContentView.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        ])
+        self.pageContentView.view.snp.makeConstraints {
+            $0.top.equalTo(self.segmentView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
 
-        NSLayoutConstraint.activate([
-            self.addButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            self.addButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
-            self.addButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.13),
-            self.addButton.heightAnchor.constraint(equalTo: self.addButton.widthAnchor)
-        ])
+        self.addButton.snp.makeConstraints {
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(10)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.width.equalToSuperview().multipliedBy(0.13)
+            $0.height.equalTo(self.addButton.snp.width)
+        }
     }
 }
