@@ -5,15 +5,16 @@
 //  Created by 김동욱 on 2022/08/12.
 //
 
-import Combine
 import UIKit
 
+import RxCocoa
+import RxSwift
 import SnapKit
 
 final class SegmentView: UIView {
     private let segmentControl = UnderlineSegmentControl()
     private let viewModel: MainViewModelable
-    private var cancellableBag = Set<AnyCancellable>()
+    private var disposeBag = DisposeBag()
 
     private let underlineView: UIView = {
         let view = UIView()
@@ -54,16 +55,17 @@ final class SegmentView: UIView {
 
     private func bind() {
         self.viewModel.pageState
-            .sink { [weak self] page in
+            .subscribe(onNext: { [weak self] page in
                 self?.segmentControl.selectedSegmentIndex = page.value
                 self?.segmentControl.changeUnderlinePosition()
-            }
-            .store(in: &self.cancellableBag)
+            })
+            .disposed(by: self.disposeBag)
 
-        self.segmentControl.selectedPublisher
-            .sink { [weak self] page in
-                self?.viewModel.didTapSegmentControl(selected: page)
-            }
-            .store(in: &self.cancellableBag)
+        self.segmentControl.rx.value
+            .bind(onNext: { [weak self] index in
+                self?.viewModel.didTapSegmentControl(selected: index)
+                self?.segmentControl.changeUnderlinePosition()
+            })
+            .disposed(by: self.disposeBag)
     }
 }

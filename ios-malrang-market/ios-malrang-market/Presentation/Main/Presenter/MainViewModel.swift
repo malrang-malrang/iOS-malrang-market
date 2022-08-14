@@ -5,26 +5,30 @@
 //  Created by 김동욱 on 2022/08/12.
 //
 
-import Combine
+import RxRelay
 
 enum MainViewModelState {
     case selectedSegment(type: Page)
 }
 
 protocol MainViewModelInput {
-    func didTapSegmentControl(selected page: Page)
+    func didTapSegmentControl(selected index: Int)
 }
 
 protocol MainViewModelOutput {
-    var pageState: CurrentValueSubject<Page, Never> { get }
+    var pageState: BehaviorRelay<Page> { get }
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
-    let pageState = CurrentValueSubject<Page, Never>(.latelyProduct)
+    let pageState = BehaviorRelay<Page>(value: .latelyProduct)
 
-    func didTapSegmentControl(selected page: Page) {
-        self.pageState.send(page)
+    func didTapSegmentControl(selected index: Int) {
+        guard let index = Page(rawValue: index) else {
+            return
+        }
+
+        self.pageState.accept(index)
     }
 }

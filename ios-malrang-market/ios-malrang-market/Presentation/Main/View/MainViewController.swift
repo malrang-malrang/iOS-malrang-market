@@ -98,8 +98,8 @@ final class MainViewController: UIViewController {
         }
 
         self.addButton.snp.makeConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(10)
-            $0.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+            $0.trailing.equalToSuperview().inset(40)
             $0.width.equalToSuperview().multipliedBy(0.13)
             $0.height.equalTo(self.addButton.snp.width)
         }
