@@ -51,10 +51,12 @@ final class MainViewController: UIViewController {
 
     private let segmentView: SegmentView
     private let pageContentView: PageContentViewController
+    private let addButton: AddProductButton
 
     init(viewModel: MainViewModelable) {
         self.segmentView = SegmentView(viewModel: viewModel)
         self.pageContentView = PageContentViewController(viewModel: viewModel)
+        self.addButton = AddProductButton()
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -77,7 +79,7 @@ final class MainViewController: UIViewController {
     private func setupView() {
         self.addChild(self.pageContentView)
         self.pageContentView.didMove(toParent: self)
-        self.view.addSubviews(self.segmentView, self.pageContentView.view)
+        self.view.addSubviews(self.segmentView, self.pageContentView.view, self.addButton)
         self.view.backgroundColor = .systemBackground
     }
 
@@ -94,6 +96,13 @@ final class MainViewController: UIViewController {
             self.pageContentView.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.pageContentView.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.pageContentView.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        ])
+
+        NSLayoutConstraint.activate([
+            self.addButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            self.addButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            self.addButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.13),
+            self.addButton.heightAnchor.constraint(equalTo: self.addButton.widthAnchor)
         ])
     }
 }
