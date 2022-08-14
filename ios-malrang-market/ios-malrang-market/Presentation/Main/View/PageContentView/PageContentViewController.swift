@@ -8,6 +8,9 @@
 import Combine
 import UIKit
 
+import RxCocoa
+import RxSwift
+
 enum Page: Int, CaseIterable {
     case latelyProduct = 0
     case popularProduct = 1
@@ -51,7 +54,7 @@ final class PageContentViewController: UIPageViewController {
 
     private var currentPage: Page
     private let viewModel: MainViewModelable
-    private var cancellableBag = Set<AnyCancellable>()
+    private var disposeBag = DisposeBag()
 
     init(viewModel: MainViewModelable) {
         self.currentPage = .latelyProduct
@@ -77,11 +80,11 @@ final class PageContentViewController: UIPageViewController {
 
     private func bind() {
         self.viewModel.pageState
-            .sink { [weak self] type in
-                self?.currentPage = type
-                self?.switchView(state: type)
-            }
-            .store(in: &self.cancellableBag)
+            .bind(onNext: { [weak self] page in
+                self?.currentPage = page
+                self?.switchView(state: page)
+            })
+            .disposed(by: self.disposeBag)
     }
 
     private func switchView(state: Page) {
@@ -136,7 +139,7 @@ extension PageContentViewController: UIPageViewControllerDelegate {
                 return
             }
             self.currentPage = Page(rawValue: index) ?? .latelyProduct
-            self.viewModel.didTapSegmentControl(selected: currentPage)
+            self.viewModel.didTapSegmentControl(selected: index)
         }
     }
 }

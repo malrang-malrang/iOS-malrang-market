@@ -6,6 +6,8 @@ target 'ios-malrang-market' do
   use_frameworks!
   pod 'SwiftLint'
   pod 'SnapKit', '~> 5.0.0'
+  pod 'RxSwift', '~> 6.5.0'
+  pod 'RxCocoa', '~> 6.5.0'
 
   # Pods for ios-malrang-market
 
