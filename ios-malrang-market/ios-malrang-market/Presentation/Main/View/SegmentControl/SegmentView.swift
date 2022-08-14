@@ -8,6 +8,8 @@
 import Combine
 import UIKit
 
+import SnapKit
+
 final class SegmentView: UIView {
     private let segmentControl = UnderlineSegmentControl()
     private let viewModel: MainViewModelable
@@ -39,19 +41,15 @@ final class SegmentView: UIView {
     }
 
     private func setupConstraint() {
-        NSLayoutConstraint.activate([
-            self.segmentControl.topAnchor.constraint(equalTo: self.topAnchor),
-            self.segmentControl.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.segmentControl.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.segmentControl.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.98)
-        ])
+        self.segmentControl.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.98)
+        }
 
-        NSLayoutConstraint.activate([
-            self.underlineView.topAnchor.constraint(equalTo: self.segmentControl.bottomAnchor),
-            self.underlineView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.underlineView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.underlineView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
+        self.underlineView.snp.makeConstraints {
+            $0.top.equalTo(self.segmentControl.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
 
     private func bind() {
