@@ -7,42 +7,8 @@
 
 import UIKit
 
-enum Page: Int, CaseIterable {
-    case latelyProduct = 0
-    case popularProduct = 1
-}
-
-extension Page {
-    static var inventory: [String] {
-        return Self.allCases.map { $0.description }
-    }
-
-    var value: Int {
-        return self.rawValue
-    }
-
-    private var description: String {
-        switch self {
-        case .latelyProduct:
-            return "최근 상품"
-        case .popularProduct:
-            return "인기 상품"
-        }
-    }
-}
-
 final class UnderlineSegmentControl: UISegmentedControl {
-    private lazy var underlineView: UIView = {
-        let width = self.bounds.size.width / CGFloat(self.numberOfSegments)
-        let height = 10.0
-        let xPosition = CGFloat(self.selectedSegmentIndex * Int(width))
-        let yPosition = self.bounds.size.height - 5
-        let frame = CGRect(x: xPosition, y: yPosition, width: width, height: height)
-        let view = UIView(frame: frame)
-        view.backgroundColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
-        self.addSubview(view)
-        return view
-    }()
+    private let underlineView = UIView()
 
     init() {
         super.init(items: Page.inventory)
@@ -52,6 +18,11 @@ final class UnderlineSegmentControl: UISegmentedControl {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.setupUnderlineView()
     }
 
     private func setupSegmentControl() {
@@ -69,12 +40,26 @@ final class UnderlineSegmentControl: UISegmentedControl {
         self.setDividerImage(UIImage(), forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
     }
 
+    private func setupUnderlineView() {
+        let width = self.bounds.size.width / (CGFloat(self.numberOfSegments) * 2)
+        let height = 7.0
+        let spacer = (self.bounds.size.width / (CGFloat(self.numberOfSegments) * 4))
+        let dividePotin = self.bounds.width / CGFloat(self.numberOfSegments)
+        let xPosition = CGFloat(self.selectedSegmentIndex) * dividePotin + spacer
+        let yPosition = self.bounds.size.height - height
+        let frame = CGRect(x: xPosition, y: yPosition, width: width, height: height)
+        self.underlineView.frame = frame
+        self.underlineView.backgroundColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
+        self.underlineView.layer.cornerRadius = 2.5
+        self.addSubview(underlineView)
+    }
+
     func changeUnderlinePosition() {
-        let underlineWidth = self.bounds.width / CGFloat(self.numberOfSegments)
-        let underlineFinalXPosition = underlineWidth * CGFloat(self.selectedSegmentIndex)
+        let spacer = (self.bounds.size.width / (CGFloat(self.numberOfSegments) * 4))
+        let dividePotin = self.bounds.width / CGFloat(self.numberOfSegments)
+        let xPosition = CGFloat(self.selectedSegmentIndex) * dividePotin + spacer
         UIView.animate(withDuration: 0.1, animations: {
-            self.underlineView.frame.origin.x = underlineFinalXPosition
-            self.layoutIfNeeded()
-          })
+            self.underlineView.frame.origin.x = xPosition
+        })
     }
 }

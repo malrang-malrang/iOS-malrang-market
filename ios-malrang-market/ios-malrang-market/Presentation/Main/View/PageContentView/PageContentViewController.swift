@@ -8,16 +8,40 @@
 import Combine
 import UIKit
 
+enum Page: Int, CaseIterable {
+    case latelyProduct = 0
+    case popularProduct = 1
+}
+
+extension Page {
+    static var inventory: [String] {
+        return Self.allCases.map { $0.description }
+    }
+
+    var value: Int {
+        return self.rawValue
+    }
+
+    private var description: String {
+        switch self {
+        case .latelyProduct:
+            return "최근 상품"
+        case .popularProduct:
+            return "인기 상품"
+        }
+    }
+}
+
 final class PageContentViewController: UIPageViewController {
     private let recentProductsView: UIViewController = {
         let viewController = UIViewController()
-        viewController.view.backgroundColor = .red
+        viewController.view.backgroundColor = .systemBackground
         return viewController
     }()
 
     private let popularProductsView: UIViewController = {
         let viewController = UIViewController()
-        viewController.view.backgroundColor = .green
+        viewController.view.backgroundColor = .systemBackground
         return viewController
     }()
 
