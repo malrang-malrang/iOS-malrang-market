@@ -10,7 +10,7 @@ import Foundation
 enum NetworkError: Error {
     case unknownError
     case statusCodeError(statusCode: Int)
-    case urlComponetError
+    case urlError
     case emptyDataError
     case decodeError
     case responseError
@@ -21,7 +21,7 @@ enum NetworkError: Error {
             return "알 수 없는 에러입니다."
         case .statusCodeError(let statusCode):
             return "status코드가 200~299가 아닌, \(statusCode)입니다."
-        case .urlComponetError:
+        case .urlError:
             return "URL components 생성 에러가 발생했습니다."
         case .emptyDataError:
             return "data가 비어있습니다."

@@ -7,7 +7,12 @@
 
 import Foundation
 
-protocol Provider {}
+protocol Provider {
+    func fatchData<T: Decodable>(
+        from endPoint: Endpoint,
+        completionHandler: @escaping (Result<T, Error>) -> Void
+    )
+}
 
 protocol URLSessionProtocol {
     func dataTask(
@@ -30,6 +35,29 @@ final class NetworkProvider: Provider {
 
     init(urlSession: URLSessionProtocol = URLSession.shared) {
         self.urlSession = urlSession
+    }
+
+    func fatchData<T: Decodable>(
+        from endPoint: Endpoint,
+        completionHandler: @escaping (Result<T, Error>) -> Void
+    ) {
+        let urlRequest = endPoint.urlRequest(httpMethod: .get)
+
+        switch urlRequest {
+        case .success(let urlRequest):
+            self.urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
+                self?.checkError(with: data, response, error: error, completionHandler: { result in
+                    switch result {
+                    case .success(let data):
+                        completionHandler(data.decode())
+                    case .failure(let error):
+                        completionHandler(.failure(error))
+                    }
+                })
+            }.resume()
+        case .failure(let error):
+            completionHandler(.failure(error))
+        }
     }
 
     private func checkError(

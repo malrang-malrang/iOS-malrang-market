@@ -15,16 +15,25 @@ enum Endpoint {
 }
 
 extension Endpoint {
-    var url: URL? {
+    var url: Result<URL, NetworkError> {
         switch self {
         case .healthChecker:
-            return .makeForEndpoint("healthChecker")
+            return URL.generateEndpoint("healthChecker")
         case .productList(let page, let itemsPerPage):
-            return .makeForEndpoint("api/products?page_no=\(page)&items_per_page=\(itemsPerPage)")
+            return URL.generateEndpoint("api/products?page_no=\(page)&items_per_page=\(itemsPerPage)")
         case .detailProduct(let id):
-            return .makeForEndpoint("api/products/\(id)")
+            return URL.generateEndpoint("api/products/\(id)")
         case .productRegistration:
-            return .makeForEndpoint("api/products")
+            return URL.generateEndpoint("api/products")
+        }
+    }
+
+    func urlRequest(httpMethod: HttpMethod) -> Result<URLRequest, NetworkError> {
+        switch self.url {
+        case .success(let url):
+            return URLRequest.generateRequest(httpMethod: httpMethod, url: url)
+        case .failure(let error):
+            return .failure(error)
         }
     }
 }
@@ -32,7 +41,20 @@ extension Endpoint {
 private extension URL {
     static let baseURL = "https://market-training.yagom-academy.kr/"
 
-    static func makeForEndpoint(_ endpoint: String) -> URL? {
-        return URL(string: baseURL + endpoint)
+    static func generateEndpoint(_ endpoint: String) -> Result<URL, NetworkError> {
+        guard let url = URL(string: baseURL + endpoint) else {
+            return .failure(.urlError)
+        }
+
+        return .success(url)
+    }
+}
+
+private extension URLRequest {
+    static func generateRequest(httpMethod: HttpMethod, url: URL) -> Result<URLRequest, NetworkError> {
+        var request = URLRequest(url: url)
+        request.httpMethod = httpMethod.value
+
+        return .success(request)
     }
 }

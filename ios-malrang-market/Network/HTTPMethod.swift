@@ -12,4 +12,8 @@ enum HttpMethod: String {
     case post = "POST"
     case patch = "PATCH"
     case delete = "DELETE"
+
+    var value: String {
+        return self.rawValue
+    }
 }
