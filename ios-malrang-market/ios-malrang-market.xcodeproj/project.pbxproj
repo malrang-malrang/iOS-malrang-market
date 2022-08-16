@@ -14,6 +14,7 @@
 		300442D728ABCFCB007FF20B /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300442D628ABCFCB007FF20B /* EndPoint.swift */; };
 		30E7A2BF28ABDA8500396255 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2BE28ABDA8500396255 /* NetworkError.swift */; };
 		30E7A2C128AC227500396255 /* Data+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2C028AC227500396255 /* Data+Sugar.swift */; };
+		30E7A2C428AC23C400396255 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2C328AC23C400396255 /* Json.swift */; };
 		30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */; };
 		30F68FE6289AB0AA0056C7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */; };
 		30F68FE8289AB0AA0056C7FC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* MainViewController.swift */; };
@@ -67,6 +68,7 @@
 		300442D628ABCFCB007FF20B /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		30E7A2BE28ABDA8500396255 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		30E7A2C028AC227500396255 /* Data+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Sugar.swift"; sourceTree = "<group>"; };
+		30E7A2C328AC23C400396255 /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		30F68FE0289AB0AA0056C7FC /* ios-malrang-market.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-malrang-market.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +136,14 @@
 				300442D628ABCFCB007FF20B /* EndPoint.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		30E7A2C228AC239E00396255 /* Singletone */ = {
+			isa = PBXGroup;
+			children = (
+				30E7A2C328AC23C400396255 /* Json.swift */,
+			);
+			path = Singletone;
 			sourceTree = "<group>";
 		};
 		30F68FD7289AB0AA0056C7FC = {
@@ -264,6 +274,7 @@
 		30F6903928A3FC110056C7FC /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				30E7A2C228AC239E00396255 /* Singletone */,
 				30F6903D28A442EA0056C7FC /* Extension */,
 			);
 			path = Utils;
@@ -600,6 +611,7 @@
 				300442D528ABCFBA007FF20B /* HTTPMethod.swift in Sources */,
 				300442D128ABC98C007FF20B /* URLSession.swift in Sources */,
 				300442D728ABCFCB007FF20B /* EndPoint.swift in Sources */,
+				30E7A2C428AC23C400396255 /* Json.swift in Sources */,
 				30F6904828A678840056C7FC /* MainViewModel.swift in Sources */,
 				30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */,
 				30F6904528A58C0D0056C7FC /* PageContentViewController.swift in Sources */,
