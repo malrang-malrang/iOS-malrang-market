@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Provider {
-    func fatchData<T: Decodable>(
+    func fetchData<T: Decodable>(
         from endPoint: Endpoint,
         completionHandler: @escaping (Result<T, Error>) -> Void
     )
@@ -37,7 +37,7 @@ final class NetworkProvider: Provider {
         self.urlSession = urlSession
     }
 
-    func fatchData<T: Decodable>(
+    func fetchData<T: Decodable>(
         from endPoint: Endpoint,
         completionHandler: @escaping (Result<T, Error>) -> Void
     ) {

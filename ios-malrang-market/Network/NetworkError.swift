@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NetworkError: Error {
+enum NetworkError: Error, Equatable {
     case unknownError
     case statusCodeError(statusCode: Int)
     case urlError

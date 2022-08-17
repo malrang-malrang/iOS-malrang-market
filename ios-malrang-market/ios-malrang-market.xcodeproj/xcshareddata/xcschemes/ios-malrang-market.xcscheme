@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1330"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "30F68FDF289AB0AA0056C7FC"
+               BuildableName = "ios-malrang-market.app"
+               BlueprintName = "ios-malrang-market"
+               ReferencedContainer = "container:ios-malrang-market.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "30F68FDF289AB0AA0056C7FC"
+            BuildableName = "ios-malrang-market.app"
+            BlueprintName = "ios-malrang-market"
+            ReferencedContainer = "container:ios-malrang-market.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "30F68FF5289AB0AA0056C7FC"
+            BuildableName = "ios-malrang-marketTests.xctest"
+            BlueprintName = "ios-malrang-marketTests"
+            ReferencedContainer = "container:ios-malrang-market.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "30F68FFF289AB0AA0056C7FC"
+            BuildableName = "ios-malrang-marketUITests.xctest"
+            BlueprintName = "ios-malrang-marketUITests"
+            ReferencedContainer = "container:ios-malrang-market.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "30F68FF5289AB0AA0056C7FC"
+               BuildableName = "ios-malrang-marketTests.xctest"
+               BlueprintName = "ios-malrang-marketTests"
+               ReferencedContainer = "container:ios-malrang-market.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "30F68FFF289AB0AA0056C7FC"
+               BuildableName = "ios-malrang-marketUITests.xctest"
+               BlueprintName = "ios-malrang-marketUITests"
+               ReferencedContainer = "container:ios-malrang-market.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "30F68FDF289AB0AA0056C7FC"
+            BuildableName = "ios-malrang-market.app"
+            BlueprintName = "ios-malrang-market"
+            ReferencedContainer = "container:ios-malrang-market.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "30F68FDF289AB0AA0056C7FC"
+            BuildableName = "ios-malrang-market.app"
+            BlueprintName = "ios-malrang-market"
+            ReferencedContainer = "container:ios-malrang-market.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>
