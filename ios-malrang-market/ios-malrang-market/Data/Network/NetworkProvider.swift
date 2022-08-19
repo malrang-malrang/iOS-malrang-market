@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol Provider {
-    func fetchData<T: Decodable>(
+    func fetchData(
         from endPoint: Endpoint,
-        completionHandler: @escaping (Result<T, Error>) -> Void
+        completionHandler: @escaping (Result<Data, Error>) -> Void
     )
 }
 
@@ -37,19 +38,19 @@ final class NetworkProvider: Provider {
         self.urlSession = urlSession
     }
 
-    func fetchData<T: Decodable>(
+    func fetchData(
         from endPoint: Endpoint,
-        completionHandler: @escaping (Result<T, Error>) -> Void
+        completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
         let urlRequest = endPoint.urlRequest(httpMethod: .get)
 
         switch urlRequest {
         case .success(let urlRequest):
             self.urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
-                self?.checkError(with: data, response, error: error, completionHandler: { result in
+                self?.checkError(with: data, response, error, completionHandler: { result in
                     switch result {
                     case .success(let data):
-                        completionHandler(data.decode())
+                        completionHandler(.success(data))
                     case .failure(let error):
                         completionHandler(.failure(error))
                     }
@@ -63,7 +64,7 @@ final class NetworkProvider: Provider {
     private func checkError(
         with data: Data?,
         _ response: URLResponse?,
-        error: Error?,
+        _ error: Error?,
         completionHandler: @escaping (Result<Data, Error>) -> Void
     ) {
         if let error = error {

@@ -15,7 +15,7 @@ enum Endpoint {
 }
 
 extension Endpoint {
-    var url: Result<URL, NetworkError> {
+    private var url: Result<URL, NetworkError> {
         switch self {
         case .healthChecker:
             return URL.generateEndpoint("healthChecker")
@@ -31,7 +31,7 @@ extension Endpoint {
     func urlRequest(httpMethod: HttpMethod) -> Result<URLRequest, NetworkError> {
         switch self.url {
         case .success(let url):
-            return URLRequest.generateRequest(httpMethod: httpMethod, url: url)
+            return URLRequest.generateUrlRequest(httpMethod: httpMethod, url: url)
         case .failure(let error):
             return .failure(error)
         }
@@ -51,10 +51,10 @@ private extension URL {
 }
 
 private extension URLRequest {
-    static func generateRequest(httpMethod: HttpMethod, url: URL) -> Result<URLRequest, NetworkError> {
-        var request = URLRequest(url: url)
-        request.httpMethod = httpMethod.value
+    static func generateUrlRequest(httpMethod: HttpMethod, url: URL) -> Result<URLRequest, NetworkError> {
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = httpMethod.value
 
-        return .success(request)
+        return .success(urlRequest)
     }
 }
