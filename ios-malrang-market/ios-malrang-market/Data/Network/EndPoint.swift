@@ -7,54 +7,32 @@
 
 import Foundation
 
-enum Endpoint {
-    case healthChecker
-    case productList(page: Int, itemsPerPage: Int)
-    case detailProduct(id: Int)
-    case productRegistration
-}
-
-extension Endpoint {
-    private var url: Result<URL, NetworkError> {
-        switch self {
-        case .healthChecker:
-            return URL.generateEndpoint("healthChecker")
-        case .productList(let page, let itemsPerPage):
-            return URL.generateEndpoint("api/products?page_no=\(page)&items_per_page=\(itemsPerPage)")
-        case .detailProduct(let id):
-            return URL.generateEndpoint("api/products/\(id)")
-        case .productRegistration:
-            return URL.generateEndpoint("api/products")
-        }
-    }
-
-    func urlRequest(httpMethod: HttpMethod) -> Result<URLRequest, NetworkError> {
-        switch self.url {
-        case .success(let url):
-            return URLRequest.generateUrlRequest(httpMethod: httpMethod, url: url)
-        case .failure(let error):
-            return .failure(error)
-        }
-    }
-}
-
-private extension URL {
+private enum Const {
     static let baseURL = "https://market-training.yagom-academy.kr/"
-
-    static func generateEndpoint(_ endpoint: String) -> Result<URL, NetworkError> {
-        guard let url = URL(string: baseURL + endpoint) else {
-            return .failure(.urlError)
-        }
-
-        return .success(url)
-    }
 }
 
-private extension URLRequest {
-    static func generateUrlRequest(httpMethod: HttpMethod, url: URL) -> Result<URLRequest, NetworkError> {
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = httpMethod.value
+final class EndPoint: Requestable {
+    var baseURL: String
+    var path: String
+    var method: HttpMethod
+    var queryParameters: Encodable?
+    var bodyParameters: Encodable?
+    var headers: [String: String]?
+    var sampleData: Data?
 
-        return .success(urlRequest)
+    init(baseURL: String = Const.baseURL,
+         path: String = "",
+         method: HttpMethod = .get,
+         queryParameters: Encodable? = nil,
+         bodyParameters: Encodable? = nil,
+         headers: [String: String]? = [:],
+         sampleData: Data? = nil) {
+        self.baseURL = baseURL
+        self.path = path
+        self.method = method
+        self.queryParameters = queryParameters
+        self.bodyParameters = bodyParameters
+        self.headers = headers
+        self.sampleData = sampleData
     }
 }

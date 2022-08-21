@@ -8,12 +8,10 @@
 import Foundation
 
 extension Data {
-    func decode<T: Decodable>() -> Result<T, Error> {
-        do {
-            let data = try Json.decoder.decode(T.self, from: self)
-            return .success(data)
-        } catch {
-            return .failure(NetworkError.decodeError)
+    mutating func appendString(_ string: String) {
+        guard let data = string.data(using: .utf8) else {
+            return
         }
+        self.append(data)
     }
 }

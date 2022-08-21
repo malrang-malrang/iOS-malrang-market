@@ -9,10 +9,7 @@ import Foundation
 import RxSwift
 
 protocol Provider {
-    func fetchData(
-        from endPoint: Endpoint,
-        completionHandler: @escaping (Result<Data, Error>) -> Void
-    )
+    func request(endPoint: EndPoint) -> Single<Data>
 }
 
 protocol URLSessionProtocol {
@@ -38,51 +35,59 @@ final class NetworkProvider: Provider {
         self.urlSession = urlSession
     }
 
-    func fetchData(
-        from endPoint: Endpoint,
-        completionHandler: @escaping (Result<Data, Error>) -> Void
-    ) {
-        let urlRequest = endPoint.urlRequest(httpMethod: .get)
+    func request(endPoint: EndPoint) -> Single<Data> {
+        return Single<Data>.create { single in
+            let urlRequest: URLRequest
 
-        switch urlRequest {
-        case .success(let urlRequest):
-            self.urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
-                self?.checkError(with: data, response, error, completionHandler: { result in
-                    switch result {
-                    case .success(let data):
-                        completionHandler(.success(data))
-                    case .failure(let error):
-                        completionHandler(.failure(error))
-                    }
+            switch endPoint.generateUrlRequest() {
+            case .success(let request):
+                urlRequest = request
+            case .failure(let error):
+                single(.failure(error))
+                return Disposables.create()
+            }
+
+            let task = self.urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
+                _ = self?.checkError(with: data, response, error)
+                    .subscribe(onSuccess: { data in
+                    single(.success(data))
+                }, onFailure: { error in
+                    single(.failure(error))
                 })
-            }.resume()
-        case .failure(let error):
-            completionHandler(.failure(error))
+            }
+            task.resume()
+            return Disposables.create()
         }
     }
 
     private func checkError(
         with data: Data?,
         _ response: URLResponse?,
-        _ error: Error?,
-        completionHandler: @escaping (Result<Data, Error>) -> Void
-    ) {
-        if let error = error {
-            return completionHandler(.failure(error))
-        }
+        _ error: Error?
+    ) -> Single<Data> {
+        return Single<Data>.create { single in
+            if let error = error {
+                single(.failure(error))
+                return Disposables.create()
+            }
 
-        guard let response = response as? HTTPURLResponse else {
-            return completionHandler(.failure(NetworkError.responseError))
-        }
+            guard let response = response as? HTTPURLResponse else {
+                single(.failure(NetworkError.responseError))
+                return Disposables.create()
+            }
 
-        guard (200..<300).contains(response.statusCode) else {
-            return completionHandler(.failure(NetworkError.statusCodeError(statusCode: response.statusCode)))
-        }
+            guard (200..<300).contains(response.statusCode) else {
+                single(.failure(NetworkError.statusCodeError(statusCode: response.statusCode)))
+                return Disposables.create()
+            }
 
-        guard let data = data else {
-            return completionHandler(.failure(NetworkError.emptyDataError))
-        }
+            guard let data = data else {
+                single(.failure(NetworkError.emptyDataError))
+                return Disposables.create()
+            }
 
-        completionHandler(.success(data))
+            single(.success(data))
+            return Disposables.create()
+        }
     }
 }

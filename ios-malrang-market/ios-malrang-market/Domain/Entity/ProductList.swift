@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-// 아래가 파싱된애 근데 화면에 아래의 모든정보를 다 보여줄 필요는 없음 그치만 전에 할때는
 struct ProductList: Decodable {
     let pageNumber: Int?
     let itemsPerPage: Int?

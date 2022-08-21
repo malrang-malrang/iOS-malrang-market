@@ -14,5 +14,11 @@ struct Json {
         return decoder
     }()
 
+    static let encoder: JSONEncoder = {
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase
+        return encoder
+    }()
+
     private init() {}
 }

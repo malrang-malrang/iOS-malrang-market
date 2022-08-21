@@ -8,20 +8,19 @@
 import Foundation
 
 import RxSwift
-import RxRelay
 
-final class ProjectListRepository: Repositoryable {
+final class ProductListRepository: Repositoryable {
     private let service: Provider
 
     init(networkProvider: Provider = NetworkProvider()) {
         self.service = networkProvider
     }
 
-    func requestAPI(endPointStorage: EndPointStorage) -> Single<ProductList?> {
-        return Single<ProductList?>.create { single in
-            _ = self.service.request(endPointStorage: endPointStorage)
+    func fetch(endPoint: EndPoint) -> Single<ProductList?> {
+        return Single<ProductList?>.create { [weak self] single in
+            _ = self?.service.request(endPoint: endPoint)
                 .subscribe { data in
-                    single(.success(self.decode(data: data)))
+                    single(.success(self?.decode(data: data)))
                 } onFailure: { error in
                     single(.failure(error))
                 }
