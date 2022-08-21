@@ -5,8 +5,6 @@
 //  Created by 김동욱 on 2022/08/03.
 //
 
-import UIKit
-
 import SnapKit
 
 private enum Const {

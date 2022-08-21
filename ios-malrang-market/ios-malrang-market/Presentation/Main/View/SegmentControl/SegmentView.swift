@@ -5,8 +5,6 @@
 //  Created by 김동욱 on 2022/08/12.
 //
 
-import UIKit
-
 import RxCocoa
 import RxSwift
 import SnapKit
