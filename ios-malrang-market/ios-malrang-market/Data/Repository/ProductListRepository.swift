@@ -5,11 +5,9 @@
 //  Created by 김동욱 on 2022/08/18.
 //
 
-import Foundation
-
 import RxSwift
 
-final class ProductListRepository: Repositoryable {
+final class ProductListRepository: ProductListRepositoryProtocol {
     private let service: Provider
 
     init(networkProvider: Provider = NetworkProvider()) {
