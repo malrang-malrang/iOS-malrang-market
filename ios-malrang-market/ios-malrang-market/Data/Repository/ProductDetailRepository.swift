@@ -9,7 +9,7 @@ import Foundation
 
 import RxSwift
 
-final class ProjectDetailRepository: Repositoryable {
+final class ProjectDetailRepository: ProductDetailRepositoryProtocol {
     private let service: Provider
 
     init(networkProvider: Provider = NetworkProvider()) {

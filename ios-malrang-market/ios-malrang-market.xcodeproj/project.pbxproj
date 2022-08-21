@@ -27,6 +27,7 @@
 		30E7A2EB28B219D200396255 /* Encodable+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2EA28B219D200396255 /* Encodable+Sugar.swift */; };
 		30E7A2ED28B2333800396255 /* UserInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2EC28B2333800396255 /* UserInfomation.swift */; };
 		30E7A2EF28B271E000396255 /* ProductDetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2EE28B271E000396255 /* ProductDetailRepository.swift */; };
+		30E7A2F828B2825900396255 /* ProductDetailRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2F728B2825900396255 /* ProductDetailRepositoryProtocol.swift */; };
 		30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */; };
 		30F68FE6289AB0AA0056C7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */; };
 		30F68FE8289AB0AA0056C7FC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* MainViewController.swift */; };
@@ -91,6 +92,7 @@
 		30E7A2EA28B219D200396255 /* Encodable+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Encodable+Sugar.swift"; sourceTree = "<group>"; };
 		30E7A2EC28B2333800396255 /* UserInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfomation.swift; sourceTree = "<group>"; };
 		30E7A2EE28B271E000396255 /* ProductDetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailRepository.swift; sourceTree = "<group>"; };
+		30E7A2F728B2825900396255 /* ProductDetailRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailRepositoryProtocol.swift; sourceTree = "<group>"; };
 		30F68FE0289AB0AA0056C7FC /* ios-malrang-market.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-malrang-market.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				30E7A2DA28AD4E6800396255 /* ProductListRepositoryProtocol.swift */,
+				30E7A2F728B2825900396255 /* ProductDetailRepositoryProtocol.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -686,6 +689,7 @@
 				30E7A2C728ACD86A00396255 /* ProductList.swift in Sources */,
 				30F6902E289FCCB80056C7FC /* MainViewCoordinator.swift in Sources */,
 				30E7A2DC28AD4FCC00396255 /* ProductListRepository.swift in Sources */,
+				30E7A2F828B2825900396255 /* ProductDetailRepositoryProtocol.swift in Sources */,
 				30E7A2C128AC227500396255 /* Data+Sugar.swift in Sources */,
 				300442CF28AB81A6007FF20B /* NetworkProvider.swift in Sources */,
 				300442CC28A99CC5007FF20B /* LatelyProductViewController.swift in Sources */,
