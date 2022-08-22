@@ -6,6 +6,7 @@
 //
 
 import RxRelay
+import RxCocoa
 
 enum MainViewModelState {
     case selectedSegment(type: Page)
@@ -17,17 +18,22 @@ protocol MainViewModelInput {
 
 protocol MainViewModelOutput {
     var pageState: BehaviorRelay<Page> { get }
+    var recentProducts: Driver<[ProductList]> { get }
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
     private let useCase: Usecase
+    private let productsList = BehaviorRelay<[ProductList]>(value: [])
     let pageState = BehaviorRelay<Page>(value: .recentProduct)
-    let recentProducts = BehaviorRelay<ProductList>(value: ProductList())
+    let recentProducts: Driver<[ProductList]>
 
     init(useCase: Usecase) {
         self.useCase = useCase
+
+        self.recentProducts = self.productsList
+            .asDriver(onErrorJustReturn: [])
     }
 
     func didTapSegmentControl(selected index: Int) {
@@ -44,7 +50,7 @@ final class MainViewModel: MainViewModelable {
                 guard let recentProducts = productList else {
                     return
                 }
-                self.recentProducts.accept(recentProducts)
+                self.productsList.accept([recentProducts])
             } onFailure: { error in
                 return print(error)
             }
