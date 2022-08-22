@@ -1,17 +1,17 @@
 //
-//  latelyProductViewController.swift
+//  PopularProductViewController.swift
 //  ios-malrang-market
 //
-//  Created by 김동욱 on 2022/08/15.
+//  Created by 김동욱 on 2022/08/22.
 //
 
 import RxCocoa
 import RxSwift
 import SnapKit
 
-final class RecentProductViewController: UIViewController {
+final class PopularProductViewController: UIViewController {
     private let viewModel: MainViewModelable
-    private let tableView = UITableView()
+    private let collectionView = UICollectionView()
     private let disposeBag = DisposeBag()
 
     init(viewModel: MainViewModelable) {
@@ -31,16 +31,16 @@ final class RecentProductViewController: UIViewController {
     }
 
     private func setupView() {
-        self.view.addSubviews(self.tableView)
+        self.view.addSubviews(self.collectionView)
     }
 
     private func setupConstraint() {
-        self.tableView.snp.makeConstraints {
+        self.collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
 
     private func bind() {
-        
+
     }
 }

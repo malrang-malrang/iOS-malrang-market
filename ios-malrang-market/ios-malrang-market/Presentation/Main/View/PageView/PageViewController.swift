@@ -10,32 +10,19 @@ import RxSwift
 import SnapKit
 
 final class PageViewController: UIPageViewController {
-    private let recentProductsView: UIViewController = {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .systemBackground
-        return viewController
-    }()
-
-    private let popularProductsView: UIViewController = {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .systemBackground
-        return viewController
-    }()
-
-    private lazy var pageList: [UIViewController] = {
-        return [recentProductsView, popularProductsView]
-    }()
-
     private let segmentView: SegmentView
     private var currentPage: Page
-//    private let pageList: [PageView]
+    private let pageList: [UIViewController]
     private let viewModel: MainViewModelable
     private var disposeBag = DisposeBag()
 
     init(viewModel: MainViewModelable) {
         self.segmentView = SegmentView(viewModel: viewModel)
         self.currentPage = .recentProduct
-//        self.pageList =
+        self.pageList = [
+            RecentProductViewController(viewModel: viewModel),
+            PopularProductViewController(viewModel: viewModel)
+        ]
         self.viewModel = viewModel
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
     }

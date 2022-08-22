@@ -30,5 +30,3 @@ extension Page {
         }
     }
 }
-
-protocol PageView where Self: UIViewController {}
