@@ -31,6 +31,7 @@
 		30E7A2F828B2825900396255 /* ProductDetailRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2F728B2825900396255 /* ProductDetailRepositoryProtocol.swift */; };
 		30E7A2FB28B3736200396255 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2FA28B3736200396255 /* Page.swift */; };
 		30E7A2FD28B3799D00396255 /* PopularProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2FC28B3799D00396255 /* PopularProductViewController.swift */; };
+		30E7A30028B39BBE00396255 /* RecentProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2FF28B39BBE00396255 /* RecentProductListCell.swift */; };
 		30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */; };
 		30F68FE6289AB0AA0056C7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */; };
 		30F68FE8289AB0AA0056C7FC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* MainViewController.swift */; };
@@ -99,6 +100,7 @@
 		30E7A2F728B2825900396255 /* ProductDetailRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailRepositoryProtocol.swift; sourceTree = "<group>"; };
 		30E7A2FA28B3736200396255 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		30E7A2FC28B3799D00396255 /* PopularProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularProductViewController.swift; sourceTree = "<group>"; };
+		30E7A2FF28B39BBE00396255 /* RecentProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentProductListCell.swift; sourceTree = "<group>"; };
 		30F68FE0289AB0AA0056C7FC /* ios-malrang-market.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-malrang-market.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -252,6 +254,14 @@
 				30F6904628A58C380056C7FC /* PageContentView */,
 			);
 			path = PageView;
+			sourceTree = "<group>";
+		};
+		30E7A2FE28B3939F00396255 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				30E7A2FF28B39BBE00396255 /* RecentProductListCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		30F68FD7289AB0AA0056C7FC = {
@@ -414,6 +424,7 @@
 			children = (
 				300442CB28A99CC5007FF20B /* RecentProductViewController.swift */,
 				30E7A2FC28B3799D00396255 /* PopularProductViewController.swift */,
+				30E7A2FE28B3939F00396255 /* Cell */,
 			);
 			path = PageContentView;
 			sourceTree = "<group>";
@@ -726,6 +737,7 @@
 				30F6904F28A930930056C7FC /* AddProductButton.swift in Sources */,
 				30F6904128A578800056C7FC /* SegmentView.swift in Sources */,
 				30F69030289FCF9A0056C7FC /* AppCoordinator.swift in Sources */,
+				30E7A30028B39BBE00396255 /* RecentProductListCell.swift in Sources */,
 				30E7A2FB28B3736200396255 /* Page.swift in Sources */,
 				30F6903F28A443040056C7FC /* UIView+Sugar.swift in Sources */,
 				300442D528ABCFBA007FF20B /* HTTPMethod.swift in Sources */,
