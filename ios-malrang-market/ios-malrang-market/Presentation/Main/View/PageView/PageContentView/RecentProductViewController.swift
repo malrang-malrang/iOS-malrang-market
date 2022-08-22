@@ -9,7 +9,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-final class RecentProductViewController: UICollectionViewController {
+final class RecentProductViewController: UIViewController, PageView {
     private let tableView = UITableView()
     private let disposeBag = DisposeBag()
 

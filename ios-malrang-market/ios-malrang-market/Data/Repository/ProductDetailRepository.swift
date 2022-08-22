@@ -16,8 +16,9 @@ final class ProjectDetailRepository: ProductDetailRepositoryProtocol {
         self.service = networkProvider
     }
 
-    func fetch(endPoint: EndPoint) -> Single<ProductDetail?> {
+    func fetch(id: Int) -> Single<ProductDetail?> {
         return Single<ProductDetail?>.create { [weak self] single in
+            let endPoint = EndPointStorage.productDetail(id: id).endPoint
             _ = self?.service.request(endPoint: endPoint)
                 .subscribe { data in
                     single(.success(self?.decode(data: data)))

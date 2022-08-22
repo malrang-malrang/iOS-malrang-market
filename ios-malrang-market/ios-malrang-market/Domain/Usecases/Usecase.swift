@@ -8,8 +8,8 @@
 import RxSwift
 
 protocol Usecase {
-    func fetchProductList(endPoint: EndPoint) -> Single<ProductList?>
-    func fetchProductDetail(endPoint: EndPoint) -> Single<ProductDetail?>
+    func fetchProductList(pageNumber: Int, perPages: Int) -> Single<ProductList?>
+    func fetchProductDetail(id: Int) -> Single<ProductDetail?>
 }
 
 struct DefaultUsecase: Usecase {
@@ -24,11 +24,11 @@ struct DefaultUsecase: Usecase {
         self.productDetailRepository = detailRepository
     }
 
-    func fetchProductList(endPoint: EndPoint) -> Single<ProductList?> {
-        return self.productListRepository.fetch(endPoint: endPoint)
+    func fetchProductList(pageNumber: Int, perPages: Int) -> Single<ProductList?> {
+        return self.productListRepository.fetch(pageNumber: pageNumber, perPages: perPages)
     }
 
-    func fetchProductDetail(endPoint: EndPoint) -> Single<ProductDetail?> {
-        return self.productDetailRepository.fetch(endPoint: endPoint)
+    func fetchProductDetail(id: Int) -> Single<ProductDetail?> {
+        return self.productDetailRepository.fetch(id: id)
     }
 }

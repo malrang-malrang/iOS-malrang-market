@@ -1,41 +1,15 @@
 //
-//  PageContentsViewController.swift
+//  PageViewController.swift
 //  ios-malrang-market
 //
 //  Created by 김동욱 on 2022/08/12.
 //
 
-import Combine
-import UIKit
-
 import RxCocoa
 import RxSwift
+import SnapKit
 
-enum Page: Int, CaseIterable {
-    case latelyProduct = 0
-    case popularProduct = 1
-}
-
-extension Page {
-    static var inventory: [String] {
-        return Self.allCases.map { $0.description }
-    }
-
-    var value: Int {
-        return self.rawValue
-    }
-
-    private var description: String {
-        switch self {
-        case .latelyProduct:
-            return "최근 상품"
-        case .popularProduct:
-            return "인기 상품"
-        }
-    }
-}
-
-final class PageContentViewController: UIPageViewController {
+final class PageViewController: UIPageViewController {
     private let recentProductsView: UIViewController = {
         let viewController = UIViewController()
         viewController.view.backgroundColor = .systemBackground
@@ -52,12 +26,16 @@ final class PageContentViewController: UIPageViewController {
         return [recentProductsView, popularProductsView]
     }()
 
+    private let segmentView: SegmentView
     private var currentPage: Page
+//    private let pageList: [PageView]
     private let viewModel: MainViewModelable
     private var disposeBag = DisposeBag()
 
     init(viewModel: MainViewModelable) {
-        self.currentPage = .latelyProduct
+        self.segmentView = SegmentView(viewModel: viewModel)
+        self.currentPage = .recentProduct
+//        self.pageList =
         self.viewModel = viewModel
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
     }
@@ -69,6 +47,7 @@ final class PageContentViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupPageView()
+        self.setupConstraints()
         self.bind()
     }
 
@@ -76,6 +55,14 @@ final class PageContentViewController: UIPageViewController {
         self.delegate = self
         self.dataSource = self
         self.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.segmentView)
+    }
+
+    private func setupConstraints() {
+        self.segmentView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.06)
+        }
     }
 
     private func bind() {
@@ -90,13 +77,13 @@ final class PageContentViewController: UIPageViewController {
     private func switchView(state: Page) {
         let vireController = self.pageList[state.value]
         let direction: UIPageViewController.NavigationDirection = {
-            currentPage == .latelyProduct ? .reverse : .forward
+            currentPage == .recentProduct ? .reverse : .forward
         }()
         self.setViewControllers([vireController], direction: direction, animated: true)
     }
 }
 
-extension PageContentViewController: UIPageViewControllerDataSource {
+extension PageViewController: UIPageViewControllerDataSource {
     func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController
@@ -126,7 +113,7 @@ extension PageContentViewController: UIPageViewControllerDataSource {
     }
 }
 
-extension PageContentViewController: UIPageViewControllerDelegate {
+extension PageViewController: UIPageViewControllerDelegate {
     func pageViewController(
         _ pageViewController: UIPageViewController,
         didFinishAnimating finished: Bool,
@@ -138,7 +125,7 @@ extension PageContentViewController: UIPageViewControllerDelegate {
                   let index = self.pageList.firstIndex(of: viewController) else {
                 return
             }
-            self.currentPage = Page(rawValue: index) ?? .latelyProduct
+            self.currentPage = Page(rawValue: index) ?? .recentProduct
             self.viewModel.didTapSegmentControl(selected: index)
         }
     }

@@ -14,8 +14,13 @@ final class ProductListRepository: ProductListRepositoryProtocol {
         self.service = networkProvider
     }
 
-    func fetch(endPoint: EndPoint) -> Single<ProductList?> {
+    func fetch(pageNumber: Int, perPages: Int) -> Single<ProductList?> {
         return Single<ProductList?>.create { [weak self] single in
+            let endPoint = EndPointStorage.productList(
+                pageNumber: pageNumber,
+                perPages: perPages
+            ).endPoint
+            
             _ = self?.service.request(endPoint: endPoint)
                 .subscribe { data in
                     single(.success(self?.decode(data: data)))

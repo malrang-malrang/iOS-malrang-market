@@ -22,7 +22,7 @@ protocol MainViewModelOutput {
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
-    let pageState = BehaviorRelay<Page>(value: .latelyProduct)
+    let pageState = BehaviorRelay<Page>(value: .recentProduct)
 
     func didTapSegmentControl(selected index: Int) {
         guard let index = Page(rawValue: index) else {
