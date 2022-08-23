@@ -18,7 +18,7 @@ protocol MainViewModelInput {
 
 protocol MainViewModelOutput {
     var pageState: BehaviorRelay<Page> { get }
-    var recentProducts: Driver<[ProductList]> { get }
+    var recentProducts: Driver<[ProductDetail]> { get }
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
@@ -27,15 +27,16 @@ final class MainViewModel: MainViewModelable {
     private let useCase: Usecase
     private let productsList = BehaviorRelay<[ProductList]>(value: [])
     let pageState = BehaviorRelay<Page>(value: .recentProduct)
-    let recentProducts: Driver<[ProductList]>
+    var recentProducts: Driver<[ProductDetail]>
 
     init(useCase: Usecase) {
         self.useCase = useCase
 
         self.recentProducts = self.productsList
+            .compactMap { $0.last?.pages }
             .asDriver(onErrorJustReturn: [])
 
-        self.fetchRecentProductList(pageNumber: 0, perPages: 30)
+        self.fetchRecentProductList(pageNumber: 0, perPages: 20)
     }
 
     func didTapSegmentControl(selected index: Int) {
