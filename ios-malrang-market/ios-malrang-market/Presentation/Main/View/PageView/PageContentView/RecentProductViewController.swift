@@ -16,7 +16,7 @@ final class RecentProductViewController: UIViewController {
 
     init(viewModel: MainViewModelable) {
         self.viewModel = viewModel
-        super.init()
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder: NSCoder) {
@@ -32,6 +32,10 @@ final class RecentProductViewController: UIViewController {
 
     private func setupView() {
         self.view.addSubviews(self.tableView)
+        self.tableView.register(
+            RecentProductListCell.self,
+            forCellReuseIdentifier: RecentProductListCell.identifier
+        )
     }
 
     private func setupConstraint() {
@@ -41,6 +45,18 @@ final class RecentProductViewController: UIViewController {
     }
 
     private func bind() {
-        
+        self.viewModel.recentProducts
+            .drive(self.tableView.rx.items) { tableView, row, element in
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: RecentProductListCell.identifier,
+                    for: IndexPath(row: row, section: .zero)) as? RecentProductListCell else {
+                    return UITableViewCell()
+                }
+                let product = element.pages?[row]
+                cell.configure(product: product)
+
+                return cell
+            }
+            .disposed(by: self.disposeBag)
     }
 }
