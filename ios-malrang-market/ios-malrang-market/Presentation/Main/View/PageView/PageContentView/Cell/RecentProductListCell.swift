@@ -12,21 +12,27 @@ final class RecentProductListCell: UITableViewCell {
         String(describing: Self.self)
     }
 
+    private let productContentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.spacing = 20
+        return stackView
+    }()
+
     private let productImageView: UIImageView = {
         let image = UIImage(named: "malrang")
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
     private let descriptionStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 10
         return stackView
     }()
 
@@ -64,7 +70,11 @@ final class RecentProductListCell: UITableViewCell {
     }
 
     private func setupContentView() {
-        self.contentView.addSubviews(self.productImageView, self.descriptionStackView)
+        self.contentView.addSubviews(self.productContentStackView)
+        self.productContentStackView.addArrangedSubviews(
+            self.productImageView,
+            self.descriptionStackView
+        )
         self.descriptionStackView.addArrangedSubviews(
             self.productNameLabel,
             self.productIssuedAtLabel,
@@ -73,15 +83,13 @@ final class RecentProductListCell: UITableViewCell {
     }
 
     private func setupConstraint() {
-        self.productImageView.snp.makeConstraints {
-            $0.top.leading.bottom.equalToSuperview().inset(10)
-            $0.width.equalToSuperview().multipliedBy(0.25)
-            $0.height.equalTo(self.productImageView.snp.width)
+        self.productContentStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(10)
         }
 
-        self.descriptionStackView.snp.makeConstraints {
-            $0.top.trailing.bottom.equalToSuperview().inset(10)
-            $0.leading.equalTo(self.productImageView.snp.trailing).offset(10)
+        self.productImageView.snp.makeConstraints {
+            $0.width.equalToSuperview().multipliedBy(0.25)
+            $0.height.equalTo(self.productImageView.snp.width)
         }
     }
 
