@@ -252,7 +252,6 @@
 			children = (
 				30E7A2FA28B3736200396255 /* Page.swift */,
 				30F6904428A58C0D0056C7FC /* PageViewController.swift */,
-				30F6904228A583FA0056C7FC /* SegmentControl */,
 				30F6904628A58C380056C7FC /* PageContentView */,
 			);
 			path = PageView;
@@ -370,6 +369,7 @@
 			isa = PBXGroup;
 			children = (
 				30F68FE7289AB0AA0056C7FC /* MainViewController.swift */,
+				30F6904228A583FA0056C7FC /* SegmentControl */,
 				30E7A2F928B3734A00396255 /* PageView */,
 				30F6905028A943170056C7FC /* AddButton */,
 			);

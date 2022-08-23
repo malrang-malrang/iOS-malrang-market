@@ -10,14 +10,12 @@ import RxSwift
 import SnapKit
 
 final class PageViewController: UIPageViewController {
-    private let segmentView: SegmentView
     private var currentPage: Page
     private let pageList: [UIViewController]
     private let viewModel: MainViewModelable
     private var disposeBag = DisposeBag()
 
     init(viewModel: MainViewModelable) {
-        self.segmentView = SegmentView(viewModel: viewModel)
         self.currentPage = .recentProduct
         self.pageList = [
             RecentProductViewController(viewModel: viewModel),
@@ -34,7 +32,6 @@ final class PageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupPageView()
-        self.setupConstraints()
         self.bind()
     }
 
@@ -42,14 +39,6 @@ final class PageViewController: UIPageViewController {
         self.delegate = self
         self.dataSource = self
         self.view.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(self.segmentView)
-    }
-
-    private func setupConstraints() {
-        self.segmentView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.06)
-        }
     }
 
     private func bind() {

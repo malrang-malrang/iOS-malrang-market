@@ -34,6 +34,8 @@ final class MainViewModel: MainViewModelable {
 
         self.recentProducts = self.productsList
             .asDriver(onErrorJustReturn: [])
+
+        self.fetchRecentProductList(pageNumber: 0, perPages: 30)
     }
 
     func didTapSegmentControl(selected index: Int) {
