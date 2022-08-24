@@ -7,11 +7,16 @@
 
 import UIKit
 
-final class DetailViewCoordinator: Coordinator {
+protocol DetailViewCoordinatorProtocol {
+    func popDetailView()
+}
+
+final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
-    let useCase: Usecase
+    private let useCase: Usecase
+    private lazy var viewModel: DetailViewModelable = DetailViewModel(coordinator: self)
 
     init(
         navigationController: UINavigationController,
@@ -24,7 +29,15 @@ final class DetailViewCoordinator: Coordinator {
     }
 
     func start() {
-        let detailView = DetailViewController()
+        let detailView = DetailViewController(viewModel: self.viewModel)
         self.navigationController.pushViewController(detailView, animated: true)
+    }
+
+    func popDetailView() {
+//        guard let detailView = self.navigationController.viewControllers.last else {
+//            return
+//        }
+        self.navigationController.popViewController(animated: true)
+        self.parentCoordinators?.removeChild(self)
     }
 }
