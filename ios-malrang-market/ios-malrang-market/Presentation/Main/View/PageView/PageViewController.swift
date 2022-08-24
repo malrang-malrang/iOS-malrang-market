@@ -38,7 +38,6 @@ final class PageViewController: UIPageViewController {
     private func setupPageView() {
         self.delegate = self
         self.dataSource = self
-        self.view.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func bind() {

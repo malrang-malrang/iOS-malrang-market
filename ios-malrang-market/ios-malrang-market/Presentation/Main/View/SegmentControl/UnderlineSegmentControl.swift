@@ -32,7 +32,6 @@ final class UnderlineSegmentControl: UISegmentedControl {
 
     private func setupSegmentControl() {
         self.addSubview(underlineView)
-        self.translatesAutoresizingMaskIntoConstraints = false
         let selectedFontColor = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)]
         self.setTitleTextAttributes(selectedFontColor, for: .selected)
         let font = UIFont.preferredFont(forTextStyle: .subheadline)

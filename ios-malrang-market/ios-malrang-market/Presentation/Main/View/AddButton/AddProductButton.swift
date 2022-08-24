@@ -31,7 +31,6 @@ final class AddProductButton: UIButton {
     private func setupButton() {
         self.backgroundColor = .systemBackground
         self.clipsToBounds = true
-        self.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func drawCircle() {

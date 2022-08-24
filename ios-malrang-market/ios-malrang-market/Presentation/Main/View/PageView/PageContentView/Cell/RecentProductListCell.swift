@@ -42,21 +42,18 @@ final class RecentProductListCell: UITableViewCell {
 
     private let productNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "상품 이름"
         label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
 
     private let productCreatedAtLabel: UILabel = {
         let label = UILabel()
-        label.text = "등록 날짜"
         label.textColor = .systemGray
         return label
     }()
 
     private let productPriceLabel: UILabel = {
         let label = UILabel()
-        label.text = "상품 가격"
         label.font = .systemFont(ofSize: 17, weight: .bold)
         return label
     }()

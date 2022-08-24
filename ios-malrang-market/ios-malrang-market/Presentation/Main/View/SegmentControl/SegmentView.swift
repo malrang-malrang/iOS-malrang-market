@@ -17,7 +17,6 @@ final class SegmentView: UIView {
     private let underlineView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.systemGray3
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
@@ -34,7 +33,6 @@ final class SegmentView: UIView {
     }
 
     private func setupView() {
-        self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .systemBackground
         self.addSubviews(self.segmentControl, self.underlineView)
     }
