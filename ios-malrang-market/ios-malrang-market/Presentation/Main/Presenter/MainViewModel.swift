@@ -5,12 +5,8 @@
 //  Created by 김동욱 on 2022/08/12.
 //
 
-import RxRelay
 import RxCocoa
-
-enum MainViewModelState {
-    case selectedSegment(type: Page)
-}
+import RxRelay
 
 protocol MainViewModelInput {
     func didTapSegmentControl(selected index: Int)
