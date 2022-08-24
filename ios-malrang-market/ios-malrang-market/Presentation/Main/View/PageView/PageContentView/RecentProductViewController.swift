@@ -63,5 +63,11 @@ final class RecentProductViewController: UIViewController {
                 self?.viewModel.cellSelectEvent(selected: product)
             })
             .disposed(by: self.disposeBag)
+
+        self.tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                self?.tableView.deselectRow(at: indexPath, animated: true)
+            })
+            .disposed(by: self.disposeBag)
     }
 }
