@@ -52,8 +52,7 @@ final class RecentProductViewController: UIViewController {
                     for: IndexPath(row: row, section: .zero)) as? RecentProductListCell else {
                     return UITableViewCell()
                 }
-                let product = element.pages?[row]
-                cell.configure(product: product)
+                cell.configure(product: element)
 
                 return cell
             }

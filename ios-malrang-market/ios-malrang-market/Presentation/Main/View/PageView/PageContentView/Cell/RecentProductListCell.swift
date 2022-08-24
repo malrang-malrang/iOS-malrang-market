@@ -7,6 +7,10 @@
 
 import UIKit
 
+private enum Const {
+    static let emptyString = ""
+}
+
 final class RecentProductListCell: UITableViewCell {
     static var identifier: String {
         String(describing: Self.self)
@@ -39,24 +43,26 @@ final class RecentProductListCell: UITableViewCell {
     private let productNameLabel: UILabel = {
         let label = UILabel()
         label.text = "상품 이름"
+        label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
 
-    private let productIssuedAtLabel: UILabel = {
+    private let productCreatedAtLabel: UILabel = {
         let label = UILabel()
-        label.text = "끌올 1분전"
+        label.text = "등록 날짜"
+        label.textColor = .systemGray
         return label
     }()
 
     private let productPriceLabel: UILabel = {
         let label = UILabel()
         label.text = "상품 가격"
+        label.font = .systemFont(ofSize: 17, weight: .bold)
         return label
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.setupCell()
         self.setupContentView()
         self.setupConstraint()
     }
@@ -65,11 +71,9 @@ final class RecentProductListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupCell() {
-        self.contentView.backgroundColor = .systemBackground
-    }
-
     private func setupContentView() {
+        self.contentView.backgroundColor = .systemBackground
+
         self.contentView.addSubviews(self.productContentStackView)
         self.productContentStackView.addArrangedSubviews(
             self.productImageView,
@@ -77,7 +81,7 @@ final class RecentProductListCell: UITableViewCell {
         )
         self.descriptionStackView.addArrangedSubviews(
             self.productNameLabel,
-            self.productIssuedAtLabel,
+            self.productCreatedAtLabel,
             self.productPriceLabel
         )
     }
@@ -93,10 +97,23 @@ final class RecentProductListCell: UITableViewCell {
         }
     }
 
-    func configure(product: ProductDetail?) {
-        guard let product = product else {
-            return
+    func configure(product: ProductDetail) {
+        self.productNameLabel.text = product.name
+        self.productCreatedAtLabel.text = self.createdAtString(product.createdAt)
+        self.productPriceLabel.text = self.priceString(product.price)
+    }
+
+    private func createdAtString(_ createdAt: String?) -> String {
+        guard let createdAt = createdAt?.date()?.formatterString() else {
+            return Const.emptyString
         }
-        print(product)
+        return createdAt
+    }
+
+    private func priceString(_ price: Int?) -> String? {
+        guard let price = price?.formatterString() else {
+            return Const.emptyString
+        }
+        return "\(price)원"
     }
 }
