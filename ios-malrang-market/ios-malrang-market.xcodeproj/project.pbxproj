@@ -33,6 +33,7 @@
 		30E7A2FD28B3799D00396255 /* PopularProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2FC28B3799D00396255 /* PopularProductViewController.swift */; };
 		30E7A30028B39BBE00396255 /* RecentProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A2FF28B39BBE00396255 /* RecentProductListCell.swift */; };
 		30E7A30228B403A200396255 /* UIStackView+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A30128B403A200396255 /* UIStackView+Sugar.swift */; };
+		30E7A30428B5203900396255 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E7A30328B5203900396255 /* Formatter.swift */; };
 		30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */; };
 		30F68FE6289AB0AA0056C7FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */; };
 		30F68FE8289AB0AA0056C7FC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F68FE7289AB0AA0056C7FC /* MainViewController.swift */; };
@@ -103,6 +104,7 @@
 		30E7A2FC28B3799D00396255 /* PopularProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularProductViewController.swift; sourceTree = "<group>"; };
 		30E7A2FF28B39BBE00396255 /* RecentProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentProductListCell.swift; sourceTree = "<group>"; };
 		30E7A30128B403A200396255 /* UIStackView+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Sugar.swift"; sourceTree = "<group>"; };
+		30E7A30328B5203900396255 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		30F68FE0289AB0AA0056C7FC /* ios-malrang-market.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-malrang-market.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		30F68FE3289AB0AA0056C7FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30F68FE5289AB0AA0056C7FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				30E7A2C328AC23C400396255 /* Json.swift */,
+				30E7A30328B5203900396255 /* Formatter.swift */,
 			);
 			path = Singletone;
 			sourceTree = "<group>";
@@ -752,6 +755,7 @@
 				30E7A2EF28B271E000396255 /* ProductDetailRepository.swift in Sources */,
 				30F6904828A678840056C7FC /* MainViewModel.swift in Sources */,
 				30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */,
+				30E7A30428B5203900396255 /* Formatter.swift in Sources */,
 				30E7A2C928ACDAC800396255 /* ProductDetail.swift in Sources */,
 				30F6904528A58C0D0056C7FC /* PageViewController.swift in Sources */,
 				30F6903828A3EFEA0056C7FC /* UnderlineSegmentControl.swift in Sources */,
