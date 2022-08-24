@@ -14,6 +14,7 @@ enum MainViewModelState {
 
 protocol MainViewModelInput {
     func didTapSegmentControl(selected index: Int)
+    func cellSelectEvent(selected: ProductDetail)
 }
 
 protocol MainViewModelOutput {
@@ -57,5 +58,9 @@ final class MainViewModel: MainViewModelable {
             } onFailure: { error in
                 return print(error)
             }
+    }
+
+    func cellSelectEvent(selected: ProductDetail) {
+        
     }
 }

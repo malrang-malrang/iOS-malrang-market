@@ -57,5 +57,11 @@ final class RecentProductViewController: UIViewController {
                 return cell
             }
             .disposed(by: self.disposeBag)
+
+        self.tableView.rx.modelSelected(ProductDetail.self)
+            .subscribe(onNext: { [weak self] product in
+                self?.viewModel.cellSelectEvent(selected: product)
+            })
+            .disposed(by: self.disposeBag)
     }
 }
