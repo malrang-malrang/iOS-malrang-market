@@ -26,12 +26,14 @@ protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
     private let useCase: Usecase
+    private let coordinator: MainViewCoordinatorProtocol
     private let productsList = BehaviorRelay<[ProductList]>(value: [])
     let pageState = BehaviorRelay<Page>(value: .recentProduct)
     var recentProducts: Driver<[ProductDetail]>
 
-    init(useCase: Usecase) {
+    init(useCase: Usecase, coordinator: MainViewCoordinatorProtocol) {
         self.useCase = useCase
+        self.coordinator = coordinator
 
         self.recentProducts = self.productsList
             .compactMap { $0.last?.pages }
@@ -61,6 +63,6 @@ final class MainViewModel: MainViewModelable {
     }
 
     func cellSelectEvent(selected: ProductDetail) {
-        
+        self.coordinator.showDetailView()
     }
 }

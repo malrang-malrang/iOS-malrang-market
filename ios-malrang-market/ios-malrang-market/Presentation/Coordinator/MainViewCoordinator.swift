@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class MainViewCoordinator: Coordinator {
+protocol MainViewCoordinatorProtocol {
+    func showDetailView()
+}
+
+final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
@@ -15,7 +19,7 @@ final class MainViewCoordinator: Coordinator {
         listRepository: ProductListRepository(),
         detailRepository: ProductDetailRepository()
     )
-    lazy var mainViewModel = MainViewModel(useCase: self.useCase)
+    lazy var mainViewModel = MainViewModel(useCase: self.useCase, coordinator: self)
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -24,5 +28,15 @@ final class MainViewCoordinator: Coordinator {
     func start() {
         let mainView = MainViewController(viewModel: mainViewModel)
         self.navigationController.pushViewController(mainView, animated: true)
+    }
+
+    func showDetailView() {
+        let detailCoordinator = DetailViewCoordinator(
+            navigationController: self.navigationController,
+            parentCoordinators: self,
+            useCase: self.useCase
+        )
+        self.childCoordinators.append(detailCoordinator)
+        detailCoordinator.start()
     }
 }
