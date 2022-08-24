@@ -6,6 +6,7 @@
 //
 
 import RxRelay
+import RxCocoa
 
 enum MainViewModelState {
     case selectedSegment(type: Page)
@@ -17,12 +18,26 @@ protocol MainViewModelInput {
 
 protocol MainViewModelOutput {
     var pageState: BehaviorRelay<Page> { get }
+    var recentProducts: Driver<[ProductDetail]> { get }
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
-    let pageState = BehaviorRelay<Page>(value: .latelyProduct)
+    private let useCase: Usecase
+    private let productsList = BehaviorRelay<[ProductList]>(value: [])
+    let pageState = BehaviorRelay<Page>(value: .recentProduct)
+    var recentProducts: Driver<[ProductDetail]>
+
+    init(useCase: Usecase) {
+        self.useCase = useCase
+
+        self.recentProducts = self.productsList
+            .compactMap { $0.last?.pages }
+            .asDriver(onErrorJustReturn: [])
+
+        self.fetchRecentProductList(pageNumber: 0, perPages: 20)
+    }
 
     func didTapSegmentControl(selected index: Int) {
         guard let index = Page(rawValue: index) else {
@@ -30,5 +45,17 @@ final class MainViewModel: MainViewModelable {
         }
 
         self.pageState.accept(index)
+    }
+
+    func fetchRecentProductList(pageNumber: Int, perPages: Int) {
+        _ = self.useCase.fetchProductList(pageNumber: pageNumber, perPages: perPages)
+            .subscribe { productList in
+                guard let recentProducts = productList else {
+                    return
+                }
+                self.productsList.accept([recentProducts])
+            } onFailure: { error in
+                return print(error)
+            }
     }
 }

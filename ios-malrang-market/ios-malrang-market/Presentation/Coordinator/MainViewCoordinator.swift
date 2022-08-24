@@ -11,14 +11,18 @@ final class MainViewCoordinator: Coordinator {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
-    let viewModel = MainViewModel()
+    let useCase: Usecase = DefaultUsecase(
+        listRepository: ProductListRepository(),
+        detailRepository: ProductDetailRepository()
+    )
+    lazy var mainViewModel = MainViewModel(useCase: self.useCase)
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
     func start() {
-        let mainView = MainViewController(viewModel: viewModel)
+        let mainView = MainViewController(viewModel: mainViewModel)
         self.navigationController.pushViewController(mainView, animated: true)
     }
 }

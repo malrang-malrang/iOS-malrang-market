@@ -50,12 +50,12 @@ final class MainViewController: UIViewController {
     }()
 
     private let segmentView: SegmentView
-    private let pageContentView: PageContentViewController
+    private let pageView: PageViewController
     private let addButton: AddProductButton
 
     init(viewModel: MainViewModelable) {
         self.segmentView = SegmentView(viewModel: viewModel)
-        self.pageContentView = PageContentViewController(viewModel: viewModel)
+        self.pageView = PageViewController(viewModel: viewModel)
         self.addButton = AddProductButton()
         super.init(nibName: nil, bundle: nil)
     }
@@ -77,9 +77,9 @@ final class MainViewController: UIViewController {
     }
 
     private func setupView() {
-        self.addChild(self.pageContentView)
-        self.pageContentView.didMove(toParent: self)
-        self.view.addSubviews(self.segmentView, self.pageContentView.view, self.addButton)
+        self.addChild(self.pageView)
+        self.pageView.didMove(toParent: self)
+        self.view.addSubviews(self.segmentView, self.pageView.view, self.addButton)
         self.view.backgroundColor = .systemBackground
     }
 
@@ -87,10 +87,10 @@ final class MainViewController: UIViewController {
         self.segmentView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.06)
+            $0.height.equalToSuperview().multipliedBy(0.05)
         }
 
-        self.pageContentView.view.snp.makeConstraints {
+        self.pageView.view.snp.makeConstraints {
             $0.top.equalTo(self.segmentView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
