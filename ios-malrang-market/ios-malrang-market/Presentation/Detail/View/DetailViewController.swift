@@ -7,13 +7,13 @@
 
 import RxCocoa
 import RxSwift
+import SnapKit
 
 private enum Image {
     static let back = "arrowshape.turn.up.backward.fill"
 }
 
 final class DetailViewController: UIViewController {
-
     private let backBarButton: UIBarButtonItem = {
         let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
         let bookMarkImage = UIImage(systemName: Image.back, withConfiguration: configuration)
@@ -26,6 +26,36 @@ final class DetailViewController: UIViewController {
         barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
         return barButtonItem
     }()
+
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .systemBackground
+        return scrollView
+    }()
+
+    private let imageStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+//        stackView.alignment = .fill
+        stackView.spacing = 20
+        return stackView
+    }()
+
+    private let addImageButton: AddButton = {
+        let button = AddButton()
+        button.layer.cornerRadius = 10
+        return button
+    }()
+
+    private let imageView: UIImageView = {
+        let image = UIImage(named: "malrang")
+        let imageView = UIImageView(image: image)
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+
+    private let textView = UITextView()
 
     private let viewModel: DetailViewModelable
     private let disposeBag = DisposeBag()
@@ -43,15 +73,45 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         self.setupView()
         self.setupNavigationItem()
+        self.setupConstraint()
         self.bind()
     }
 
     private func setupView() {
         self.view.backgroundColor = .systemBackground
+        self.view.addSubviews(self.scrollView, self.textView)
+        self.scrollView.addSubview(self.imageStackView)
+        self.imageStackView.addArrangedSubviews(self.addImageButton, self.imageView)
     }
 
     private func setupNavigationItem() {
         self.navigationItem.leftBarButtonItem = self.backBarButton
+    }
+
+    private func setupConstraint() {
+        self.scrollView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.5)
+        }
+
+        self.imageStackView.snp.makeConstraints {
+            $0.edges.equalToSuperview().inset(10)
+        }
+
+        self.addImageButton.snp.makeConstraints {
+            $0.width.equalTo(self.imageStackView.snp.width).multipliedBy(0.45)
+            $0.height.equalTo(self.addImageButton.snp.width)
+        }
+
+        self.imageView.snp.makeConstraints {
+            $0.width.equalTo(self.imageStackView.snp.width).multipliedBy(0.45)
+            $0.height.equalTo(self.imageView.snp.width)
+        }
+
+        self.textView.snp.makeConstraints {
+            $0.top.equalTo(self.scrollView.snp.bottom).inset(10)
+            $0.leading.trailing.bottom.equalToSuperview().inset(10)
+        }
     }
 
     private func bind() {

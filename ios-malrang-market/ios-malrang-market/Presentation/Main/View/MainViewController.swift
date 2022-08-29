@@ -49,14 +49,18 @@ final class MainViewController: UIViewController {
         return barButtonItem
     }()
 
+    private let addButton: AddButton = {
+        let button = AddButton()
+        button.layer.cornerRadius = 27
+        return button
+    }()
+
     private let segmentView: SegmentView
     private let pageView: PageViewController
-    private let addButton: AddProductButton
 
     init(viewModel: MainViewModelable) {
         self.segmentView = SegmentView(viewModel: viewModel)
         self.pageView = PageViewController(viewModel: viewModel)
-        self.addButton = AddProductButton()
         super.init(nibName: nil, bundle: nil)
     }
 

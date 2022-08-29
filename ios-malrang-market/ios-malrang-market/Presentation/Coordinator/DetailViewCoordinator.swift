@@ -34,9 +34,6 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     }
 
     func popDetailView() {
-//        guard let detailView = self.navigationController.viewControllers.last else {
-//            return
-//        }
         self.navigationController.popViewController(animated: true)
         self.parentCoordinators?.removeChild(self)
     }
