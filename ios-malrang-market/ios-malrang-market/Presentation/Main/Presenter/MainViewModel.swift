@@ -59,6 +59,6 @@ final class MainViewModel: MainViewModelable {
     }
 
     func cellSelectEvent(selected: ProductDetail) {
-        self.coordinator.showDetailView()
+        self.coordinator.showDetailView(product: selected)
     }
 }

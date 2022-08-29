@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainViewCoordinatorProtocol {
-    func showDetailView()
+    func showDetailView(product: ProductDetail)
 }
 
 final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
@@ -17,7 +17,8 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
     var childCoordinators: [Coordinator] = []
     private let useCase: Usecase = DefaultUsecase(
         listRepository: ProductListRepository(),
-        detailRepository: ProductDetailRepository()
+        detailRepository: ProductDetailRepository(),
+        imagesRepository: ProductImagesRepository()
     )
     private lazy var mainViewModel = MainViewModel(useCase: self.useCase, coordinator: self)
 
@@ -30,13 +31,13 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         self.navigationController.pushViewController(mainView, animated: true)
     }
 
-    func showDetailView() {
+    func showDetailView(product: ProductDetail) {
         let detailCoordinator = DetailViewCoordinator(
             navigationController: self.navigationController,
             parentCoordinators: self,
             useCase: self.useCase
         )
         self.childCoordinators.append(detailCoordinator)
-        detailCoordinator.start()
+        detailCoordinator.start(product: product)
     }
 }

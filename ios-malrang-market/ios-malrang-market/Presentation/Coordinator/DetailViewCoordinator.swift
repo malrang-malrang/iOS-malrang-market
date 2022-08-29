@@ -16,7 +16,10 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
     private let useCase: Usecase
-    private lazy var viewModel: DetailViewModelable = DetailViewModel(coordinator: self)
+//    private lazy var viewModel: DetailViewModelable = DetailViewModel(
+//        useCase: self.useCase,
+//        coordinator: self
+//    )
 
     init(
         navigationController: UINavigationController,
@@ -28,8 +31,13 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
         self.useCase = useCase
     }
 
-    func start() {
-        let detailView = DetailViewController(viewModel: self.viewModel)
+    func start(product: ProductDetail) {
+        let viewModel: DetailViewModelable = DetailViewModel(
+            product: product,
+            useCase: self.useCase,
+            coordinator: self
+        )
+        let detailView = DetailViewController(product: product, viewModel: viewModel)
         self.navigationController.pushViewController(detailView, animated: true)
     }
 

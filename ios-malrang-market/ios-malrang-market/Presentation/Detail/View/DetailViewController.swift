@@ -36,31 +36,24 @@ final class DetailViewController: UIViewController {
     private let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-//        stackView.alignment = .fill
         stackView.spacing = 20
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
         return stackView
     }()
 
-    private let addImageButton: AddButton = {
-        let button = AddButton()
-        button.layer.cornerRadius = 10
-        return button
+    private let textView: UITextView = {
+        let textView = UITextView()
+        textView.isUserInteractionEnabled = false
+        return textView
     }()
 
-    private let imageView: UIImageView = {
-        let image = UIImage(named: "malrang")
-        let imageView = UIImageView(image: image)
-        imageView.layer.cornerRadius = 10
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-
-    private let textView = UITextView()
-
+    private let product: ProductDetail
     private let viewModel: DetailViewModelable
     private let disposeBag = DisposeBag()
 
-    init(viewModel: DetailViewModelable) {
+    init(product: ProductDetail, viewModel: DetailViewModelable) {
+        self.product = product
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -71,45 +64,37 @@ final class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupView()
         self.setupNavigationItem()
+        self.setupView()
         self.setupConstraint()
         self.bind()
-    }
-
-    private func setupView() {
-        self.view.backgroundColor = .systemBackground
-        self.view.addSubviews(self.scrollView, self.textView)
-        self.scrollView.addSubview(self.imageStackView)
-        self.imageStackView.addArrangedSubviews(self.addImageButton, self.imageView)
+        self.configureTextView()
     }
 
     private func setupNavigationItem() {
         self.navigationItem.leftBarButtonItem = self.backBarButton
     }
 
+    private func setupView() {
+        self.view.backgroundColor = .systemBackground
+        self.view.addSubviews(self.scrollView, self.textView)
+        self.scrollView.addSubview(self.imageStackView)
+    }
+
     private func setupConstraint() {
         self.scrollView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.5)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.3)
         }
 
         self.imageStackView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(10)
-        }
-
-        self.addImageButton.snp.makeConstraints {
-            $0.width.equalTo(self.imageStackView.snp.width).multipliedBy(0.45)
-            $0.height.equalTo(self.addImageButton.snp.width)
-        }
-
-        self.imageView.snp.makeConstraints {
-            $0.width.equalTo(self.imageStackView.snp.width).multipliedBy(0.45)
-            $0.height.equalTo(self.imageView.snp.width)
+            $0.leading.equalToSuperview().inset(10)
+            $0.trailing.equalToSuperview().inset(10)
         }
 
         self.textView.snp.makeConstraints {
-            $0.top.equalTo(self.scrollView.snp.bottom).inset(10)
+            $0.top.equalTo(self.scrollView.snp.bottom).offset(10)
             $0.leading.trailing.bottom.equalToSuperview().inset(10)
         }
     }
@@ -120,5 +105,36 @@ final class DetailViewController: UIViewController {
                 self?.viewModel.didTapBackBarButton()
             })
             .disposed(by: self.disposeBag)
+
+        self.viewModel.productImages
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { [weak self] images in
+                self?.addProductImage(images: images)
+            })
+            .disposed(by: self.disposeBag)
+    }
+
+    private func addProductImage(images: [UIImage]?) {
+        guard let images = images else { return }
+
+        images.forEach { [weak self] image in
+            guard let imageView = self?.generateImageView(image: image) else { return }
+            self?.imageStackView.addArrangedSubview(imageView)
+        }
+    }
+
+    private func generateImageView(image: UIImage) -> UIImageView {
+        let imageView = UIImageView(image: image)
+        imageView.layer.cornerRadius = 10
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
+        let width = self.view.bounds.width * 0.3
+        let size = CGSize(width: width, height: width)
+        imageView.frame.size = size
+        return imageView
+    }
+
+    private func configureTextView() {
+        self.textView.text = self.product.name
     }
 }
