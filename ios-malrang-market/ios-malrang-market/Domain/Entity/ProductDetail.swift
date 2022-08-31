@@ -30,3 +30,26 @@ struct ProductImages: Codable {
     let succeed: Bool?
     let issuedAt: String?
 }
+
+extension ProductDetail {
+    func createdAtString() -> String {
+        guard let createdAt = self.createdAt?.date()?.formatterString() else {
+            return ""
+        }
+        return createdAt
+    }
+
+    func priceString() -> String? {
+        guard let price = self.price?.formatterString() else {
+            return ""
+        }
+        return "\(price)원"
+    }
+
+    func stockString() -> String {
+        guard let stock = self.stock?.formatterString() else {
+            return ""
+        }
+        return "현재 재고는 \(stock)개 남아있습니다."
+    }
+}
