@@ -10,13 +10,30 @@ import RxSwift
 import SnapKit
 
 private enum Image {
-    static let back = "arrowshape.turn.up.backward.fill"
+    enum Atribute {
+        static let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
+    }
+
+    static let back = UIImage(
+        systemName: "arrowshape.turn.up.backward.fill",
+        withConfiguration: Atribute.configuration
+    )
+
+    static let heart = UIImage(
+        systemName: "heart",
+        withConfiguration: Atribute.configuration
+    )
+
+    static let fillHeart = UIImage(
+        systemName: "heart.fill",
+        withConfiguration: Atribute.configuration
+    )
 }
 
 final class DetailViewController: UIViewController {
     private let backBarButton: UIBarButtonItem = {
         let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
-        let bookMarkImage = UIImage(systemName: Image.back, withConfiguration: configuration)
+        let bookMarkImage = Image.back
         let barButtonItem = UIBarButtonItem(
             image: bookMarkImage,
             style: .plain,
@@ -71,13 +88,13 @@ final class DetailViewController: UIViewController {
     private let priceAndStockStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .equalCentering
+        stackView.distribution = .equalSpacing
         return stackView
     }()
 
     private let favoriteButton: UIButton = {
-        let unselectedImage = UIImage(systemName: "heart")
-        let selectedImage = UIImage(systemName: "heart.fill")
+        let unselectedImage = Image.heart
+        let selectedImage = Image.fillHeart
         let button = UIButton()
         button.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
         button.setImage(unselectedImage, for: .normal)
@@ -171,10 +188,10 @@ final class DetailViewController: UIViewController {
 
     private func configure() {
         self.nameLabel.text = self.product.name
-        self.createdAtLabel.text = self.product.createdAt
-        self.descriptionTextView.text = self.product.name
-        self.priceLabel.text = self.product.price?.description
-        self.stockLabel.text = self.product.stock?.description
+        self.createdAtLabel.text = self.product.createdAtString()
+        self.descriptionTextView.text = self.product.description
+        self.priceLabel.text = self.product.priceString()
+        self.stockLabel.text = self.product.stockString()
     }
 
     private func bind() {
