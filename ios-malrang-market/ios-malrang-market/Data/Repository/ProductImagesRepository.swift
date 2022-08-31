@@ -14,21 +14,10 @@ final class ProductImagesRepository: ProductImagesRepositoryProtocol {
         self.service = networkProvider
     }
 
-    func fetch(id: Int) -> Single<[ProductImages]?> {
-        return Single<[ProductImages]?>.create { [weak self] single in
-            let endPoint = EndPointStorage.productDetail(id: id).endPoint
-            _ = self?.service.request(endPoint: endPoint)
-                .subscribe { data in
-                    let product = self?.decode(data: data)
-                    single(.success(product?.images))
-                } onFailure: { error in
-                    single(.failure(error))
-                }
-            return Disposables.create()
-        }
-    }
-
-    private func decode(data: Data) -> ProductDetail? {
-        return try? Json.decoder.decode(ProductDetail.self, from: data)
+    func fetch(id: Int) -> Observable<[ProductImages]> {
+        let endPoint = EndPointStorage.productDetail(id: id).endPoint
+        return self.service.request(endPoint: endPoint)
+            .decode(type: ProductDetail.self, decoder: Json.decoder)
+            .compactMap(\.images)
     }
 }

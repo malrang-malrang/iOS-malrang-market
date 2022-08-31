@@ -8,5 +8,5 @@
 import RxSwift
 
 protocol ProductImagesRepositoryProtocol {
-    func fetch(id: Int) -> Single<[ProductImages]?>
+    func fetch(id: Int) -> Observable<[ProductImages]>
 }

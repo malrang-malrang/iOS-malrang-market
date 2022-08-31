@@ -49,12 +49,9 @@ final class MainViewModel: MainViewModelable {
     func fetchRecentProductList(pageNumber: Int, perPages: Int) {
         _ = self.useCase.fetchProductList(pageNumber: pageNumber, perPages: perPages)
             .subscribe { productList in
-                guard let recentProducts = productList else {
-                    return
-                }
-                self.productsList.accept([recentProducts])
-            } onFailure: { error in
-                return print(error)
+                self.productsList.accept([productList])
+            } onError: { error in
+                print(error)
             }
     }
 

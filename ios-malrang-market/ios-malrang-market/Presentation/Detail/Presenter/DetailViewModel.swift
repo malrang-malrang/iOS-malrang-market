@@ -14,7 +14,8 @@ protocol DetailViewModelInput {
 }
 
 protocol DetailViewModelOutput {
-    var productImages: BehaviorRelay<[UIImage]?> { get }
+    var productImages: BehaviorRelay<[UIImage]> { get }
+    func productInfomation() -> ProductInfomation
 }
 
 protocol DetailViewModelable: DetailViewModelInput, DetailViewModelOutput {}
@@ -23,19 +24,36 @@ final class DetailViewModel: DetailViewModelable {
     private let product: ProductDetail
     private let useCase: Usecase
     private let coordinator: DetailViewCoordinatorProtocol
-    let productImages = BehaviorRelay<[UIImage]?>(value: [])
+    let productImages = BehaviorRelay<[UIImage]>(value: [])
 
     init(
         product: ProductDetail,
         useCase: Usecase,
         coordinator: DetailViewCoordinatorProtocol
     ) {
+        print(product)
         self.product = product
         self.useCase = useCase
         self.coordinator = coordinator
         self.fetchProductImages(id: self.product.id)
     }
 
+    func didTapBackBarButton() {
+        self.coordinator.popDetailView()
+    }
+
+    func productInfomation() -> ProductInfomation {
+        return ProductInfomation(
+            name: self.product.name ?? "",
+            createdAt: self.createdAtInfomation() ?? "",
+            description: self.product.description ?? "",
+            price: self.priceInfomation() ?? "",
+            stock: self.stockInfomation()
+        )
+    }
+}
+
+extension DetailViewModel {
     private func fetchProductImages(id: Int?) {
         guard let id = id else {
             return print("상품 아이디가 잘못 되었습니다.")
@@ -43,15 +61,36 @@ final class DetailViewModel: DetailViewModelable {
 
         _ = self.useCase.fetchProductImages(id: id)
             .subscribe { [weak self] images in
-                let imageList = images?.compactMap { $0.url?.image() }
+                let imageList = images.compactMap { $0.url?.image() }
                 self?.productImages.accept(imageList)
-            } onFailure: { error in
+            } onError: { error in
                 print(error)
             }
     }
 
-    func didTapBackBarButton() {
-        self.coordinator.popDetailView()
+    private func createdAtInfomation() -> String? {
+        return self.product.createdAt?.date()?.formatterString()
+    }
+
+    private func priceInfomation() -> String? {
+        guard let price = self.product.price?.formatterString() else {
+            return ""
+        }
+        return "\(price)원"
+    }
+
+    private func stockInfomation() -> NSMutableAttributedString {
+        guard let stock = self.product.stock?.formatterString() else {
+            return NSMutableAttributedString()
+        }
+
+        let stockLabel = "현재 재고는 \(stock)개 남아있습니다."
+
+        return NSMutableAttributedString(
+            text: stockLabel,
+            fontWeight: .bold,
+            letter: "\(stock)개"
+        )
     }
 }
 

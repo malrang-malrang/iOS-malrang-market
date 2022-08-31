@@ -14,20 +14,9 @@ final class ProductDetailRepository: ProductDetailRepositoryProtocol {
         self.service = networkProvider
     }
 
-    func fetch(id: Int) -> Single<ProductDetail?> {
-        return Single<ProductDetail?>.create { [weak self] single in
-            let endPoint = EndPointStorage.productDetail(id: id).endPoint
-            _ = self?.service.request(endPoint: endPoint)
-                .subscribe { data in
-                    single(.success(self?.decode(data: data)))
-                } onFailure: { error in
-                    single(.failure(error))
-                }
-            return Disposables.create()
-        }
-    }
-
-    private func decode(data: Data) -> ProductDetail? {
-        return try? Json.decoder.decode(ProductDetail.self, from: data)
+    func fetch(id: Int) -> Observable<ProductDetail> {
+        let endPoint = EndPointStorage.productDetail(id: id).endPoint
+        return self.service.request(endPoint: endPoint)
+            .decode(type: ProductDetail.self, decoder: Json.decoder)
     }
 }

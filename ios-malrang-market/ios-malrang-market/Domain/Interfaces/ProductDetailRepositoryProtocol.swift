@@ -8,5 +8,5 @@
 import RxSwift
 
 protocol ProductDetailRepositoryProtocol {
-    func fetch(id: Int) -> Single<ProductDetail?>
+    func fetch(id: Int) -> Observable<ProductDetail>
 }

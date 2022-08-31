@@ -18,16 +18,6 @@ private enum Image {
         systemName: "arrowshape.turn.up.backward.fill",
         withConfiguration: Atribute.configuration
     )
-
-    static let heart = UIImage(
-        systemName: "heart",
-        withConfiguration: Atribute.configuration
-    )
-
-    static let fillHeart = UIImage(
-        systemName: "heart.fill",
-        withConfiguration: Atribute.configuration
-    )
 }
 
 final class DetailViewController: UIViewController {
@@ -92,15 +82,7 @@ final class DetailViewController: UIViewController {
         return stackView
     }()
 
-    private let favoriteButton: UIButton = {
-        let unselectedImage = Image.heart
-        let selectedImage = Image.fillHeart
-        let button = UIButton()
-        button.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
-        button.setImage(unselectedImage, for: .normal)
-        button.setImage(selectedImage, for: .selected)
-        return button
-    }()
+    private let favoriteButton = FavoriteButton()
 
     private let priceLabel: UILabel = {
         let label = UILabel()
@@ -113,12 +95,10 @@ final class DetailViewController: UIViewController {
         return label
     }()
 
-    private let product: ProductDetail
     private let viewModel: DetailViewModelable
     private let disposeBag = DisposeBag()
 
-    init(product: ProductDetail, viewModel: DetailViewModelable) {
-        self.product = product
+    init(viewModel: DetailViewModelable) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -132,7 +112,6 @@ final class DetailViewController: UIViewController {
         self.setupNavigationItem()
         self.setupView()
         self.setupConstraint()
-        self.configure()
         self.bind()
     }
 
@@ -164,12 +143,12 @@ final class DetailViewController: UIViewController {
         self.scrollView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.35)
+            $0.height.equalToSuperview().multipliedBy(0.45)
         }
 
         self.imageStackView.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(10)
-            $0.trailing.equalToSuperview().inset(10)
+            $0.edges.equalToSuperview().inset(10)
+            $0.height.equalToSuperview().inset(20)
         }
 
         self.infomationStackView.snp.makeConstraints {
@@ -186,15 +165,15 @@ final class DetailViewController: UIViewController {
         }
     }
 
-    private func configure() {
-        self.nameLabel.text = self.product.name
-        self.createdAtLabel.text = self.product.createdAtString()
-        self.descriptionTextView.text = self.product.description
-        self.priceLabel.text = self.product.priceString()
-        self.stockLabel.text = self.product.stockString()
-    }
-
     private func bind() {
+        let productInfomation = self.viewModel.productInfomation()
+
+        self.nameLabel.text = productInfomation.name
+        self.createdAtLabel.text = productInfomation.createdAt
+        self.descriptionTextView.text = productInfomation.description
+        self.priceLabel.text = productInfomation.price
+        self.stockLabel.attributedText = productInfomation.stock
+
         self.backBarButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 self?.viewModel.didTapBackBarButton()
@@ -207,25 +186,28 @@ final class DetailViewController: UIViewController {
                 self?.addProductImage(images: images)
             })
             .disposed(by: self.disposeBag)
+
+        self.favoriteButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.favoriteButton.isSelected.toggle()
+            })
+            .disposed(by: self.disposeBag)
     }
 
     private func addProductImage(images: [UIImage]?) {
-        guard let images = images else { return }
-
-        images.forEach { [weak self] image in
-            guard let imageView = self?.generateImageView(image: image) else { return }
-            self?.imageStackView.addArrangedSubview(imageView)
+        images?.forEach { image in
+            let imageView = self.generateImageView(image: image)
+            self.imageStackView.addArrangedSubview(imageView)
         }
     }
 
     private func generateImageView(image: UIImage) -> UIImageView {
         let imageView = UIImageView(image: image)
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 50
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        let width = self.view.bounds.width * 0.9
+        imageView.contentMode = .scaleAspectFill
 
-        imageView.snp.makeConstraints { $0.width.height.equalTo(width) }
+        imageView.snp.makeConstraints { $0.width.equalTo(imageView.snp.height) }
 
         return imageView
     }

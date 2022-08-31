@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol Provider {
-    func request(endPoint: EndPoint) -> Single<Data>
+    func request(endPoint: EndPoint) -> Observable<Data>
 }
 
 protocol URLSessionProtocol {
@@ -35,7 +35,7 @@ final class NetworkProvider: Provider {
         self.urlSession = urlSession
     }
 
-    func request(endPoint: EndPoint) -> Single<Data> {
+    func request(endPoint: EndPoint) -> Observable<Data> {
         return Single<Data>.create { single in
             let urlRequest: URLRequest
 
@@ -57,9 +57,9 @@ final class NetworkProvider: Provider {
             }
             task.resume()
             return Disposables.create()
-        }
+        }.asObservable()
     }
-
+    //리절트 써도됨
     private func checkError(
         with data: Data?,
         _ response: URLResponse?,

@@ -8,9 +8,9 @@
 import RxSwift
 
 protocol Usecase {
-    func fetchProductList(pageNumber: Int, perPages: Int) -> Single<ProductList?>
-    func fetchProductDetail(id: Int) -> Single<ProductDetail?>
-    func fetchProductImages(id: Int) -> Single<[ProductImages]?>
+    func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductList>
+    func fetchProductDetail(id: Int) -> Observable<ProductDetail>
+    func fetchProductImages(id: Int) -> Observable<[ProductImages]>
 }
 
 struct DefaultUsecase: Usecase {
@@ -28,15 +28,15 @@ struct DefaultUsecase: Usecase {
         self.productImagesRepository = imagesRepository
     }
 
-    func fetchProductList(pageNumber: Int, perPages: Int) -> Single<ProductList?> {
+    func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductList> {
         return self.productListRepository.fetch(pageNumber: pageNumber, perPages: perPages)
     }
 
-    func fetchProductDetail(id: Int) -> Single<ProductDetail?> {
+    func fetchProductDetail(id: Int) -> Observable<ProductDetail> {
         return self.productDetailRepository.fetch(id: id)
     }
 
-    func fetchProductImages(id: Int) -> Single<[ProductImages]?> {
+    func fetchProductImages(id: Int) -> Observable<[ProductImages]> {
         return self.productImagesRepository.fetch(id: id)
     }
 }

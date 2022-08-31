@@ -96,7 +96,17 @@ final class RecentProductListCell: UITableViewCell {
 
     func configure(product: ProductDetail) {
         self.productNameLabel.text = product.name
-        self.productCreatedAtLabel.text = product.createdAtString()
-        self.productPriceLabel.text = product.priceString()
+        self.productCreatedAtLabel.text = self.createdAtString(from: product)
+        self.productPriceLabel.text = self.priceString(from: product)
     }
-}
+
+    private func createdAtString(from: ProductDetail) -> String? {
+        return from.createdAt?.date()?.formatterString()
+    }
+
+    private func priceString(from: ProductDetail) -> String? {
+        guard let price = from.price?.formatterString() else {
+            return ""
+        }
+        return "\(price)원"
+    }}
