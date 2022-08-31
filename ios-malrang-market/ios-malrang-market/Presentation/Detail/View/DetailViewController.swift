@@ -36,16 +36,64 @@ final class DetailViewController: UIViewController {
     private let imageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 20
-        stackView.alignment = .center
-        stackView.distribution = .fillProportionally
+        stackView.spacing = 10
         return stackView
     }()
 
-    private let textView: UITextView = {
+    private let infomationStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        return stackView
+    }()
+
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.setContentHuggingPriority(.required, for: .vertical)
+        return label
+    }()
+
+    private let createdAtLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.setContentHuggingPriority(.required, for: .vertical)
+        return label
+    }()
+
+    private let descriptionTextView: UITextView = {
         let textView = UITextView()
+        textView.font = .preferredFont(forTextStyle: .body)
         textView.isUserInteractionEnabled = false
         return textView
+    }()
+
+    private let priceAndStockStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .equalCentering
+        return stackView
+    }()
+
+    private let favoriteButton: UIButton = {
+        let unselectedImage = UIImage(systemName: "heart")
+        let selectedImage = UIImage(systemName: "heart.fill")
+        let button = UIButton()
+        button.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
+        button.setImage(unselectedImage, for: .normal)
+        button.setImage(selectedImage, for: .selected)
+        return button
+    }()
+
+    private let priceLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 17, weight: .bold)
+        return label
+    }()
+
+    private let stockLabel: UILabel = {
+        let label = UILabel()
+        return label
     }()
 
     private let product: ProductDetail
@@ -67,8 +115,8 @@ final class DetailViewController: UIViewController {
         self.setupNavigationItem()
         self.setupView()
         self.setupConstraint()
+        self.configure()
         self.bind()
-        self.configureTextView()
     }
 
     private func setupNavigationItem() {
@@ -77,15 +125,29 @@ final class DetailViewController: UIViewController {
 
     private func setupView() {
         self.view.backgroundColor = .systemBackground
-        self.view.addSubviews(self.scrollView, self.textView)
+        self.view.addSubviews(
+            self.scrollView,
+            self.infomationStackView,
+            self.priceAndStockStackView
+        )
         self.scrollView.addSubview(self.imageStackView)
+        self.infomationStackView.addArrangedSubviews(
+            self.nameLabel,
+            self.createdAtLabel,
+            self.descriptionTextView
+        )
+        self.priceAndStockStackView.addArrangedSubviews(
+            self.favoriteButton,
+            self.priceLabel,
+            self.stockLabel
+        )
     }
 
     private func setupConstraint() {
         self.scrollView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.3)
+            $0.height.equalToSuperview().multipliedBy(0.35)
         }
 
         self.imageStackView.snp.makeConstraints {
@@ -93,10 +155,26 @@ final class DetailViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(10)
         }
 
-        self.textView.snp.makeConstraints {
-            $0.top.equalTo(self.scrollView.snp.bottom).offset(10)
-            $0.leading.trailing.bottom.equalToSuperview().inset(10)
+        self.infomationStackView.snp.makeConstraints {
+            $0.top.equalTo(self.scrollView.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
+
+        self.descriptionTextView.snp.makeConstraints {
+            $0.height.equalToSuperview().multipliedBy(0.3)
+        }
+
+        self.priceAndStockStackView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(20)
+        }
+    }
+
+    private func configure() {
+        self.nameLabel.text = self.product.name
+        self.createdAtLabel.text = self.product.createdAt
+        self.descriptionTextView.text = self.product.name
+        self.priceLabel.text = self.product.price?.description
+        self.stockLabel.text = self.product.stock?.description
     }
 
     private func bind() {
@@ -128,13 +206,10 @@ final class DetailViewController: UIViewController {
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
-        let width = self.view.bounds.width * 0.3
-        let size = CGSize(width: width, height: width)
-        imageView.frame.size = size
-        return imageView
-    }
+        let width = self.view.bounds.width * 0.9
 
-    private func configureTextView() {
-        self.textView.text = self.product.name
+        imageView.snp.makeConstraints { $0.width.height.equalTo(width) }
+
+        return imageView
     }
 }
