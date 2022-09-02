@@ -15,6 +15,7 @@ protocol DetailViewModelInput {
 
 protocol DetailViewModelOutput {
     var productImages: BehaviorRelay<[UIImage]> { get }
+    var imageCount: BehaviorRelay<Int> { get }
     func productInfomation() -> ProductInfomation
 }
 
@@ -25,6 +26,7 @@ final class DetailViewModel: DetailViewModelable {
     private let useCase: Usecase
     private let coordinator: DetailViewCoordinatorProtocol
     let productImages = BehaviorRelay<[UIImage]>(value: [])
+    let imageCount = BehaviorRelay<Int>(value: .zero)
 
     init(
         product: ProductDetail,
@@ -62,6 +64,7 @@ extension DetailViewModel {
             .subscribe { [weak self] images in
                 let imageList = images.compactMap { $0.url?.image() }
                 self?.productImages.accept(imageList)
+                self?.imageCount.accept(images.count)
             } onError: { error in
                 print(error)
             }
