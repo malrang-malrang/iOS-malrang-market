@@ -5,7 +5,7 @@
 //  Created by 김동욱 on 2022/08/22.
 //
 
-import UIKit
+import RxSwift
 
 private enum Const {
     static let emptyString = ""
@@ -96,17 +96,18 @@ final class RecentProductListCell: UITableViewCell {
 
     func configure(product: ProductDetail) {
         self.productNameLabel.text = product.name
-        self.productCreatedAtLabel.text = self.createdAtString(from: product)
-        self.productPriceLabel.text = self.priceString(from: product)
+        self.productCreatedAtLabel.text = self.createdAtInfomation(from: product)
+        self.productPriceLabel.text = self.priceInfomation(from: product)
     }
 
-    private func createdAtString(from: ProductDetail) -> String? {
+    private func createdAtInfomation(from: ProductDetail) -> String? {
         return from.createdAt?.date()?.formatterString()
     }
 
-    private func priceString(from: ProductDetail) -> String? {
+    private func priceInfomation(from: ProductDetail) -> String? {
         guard let price = from.price?.formatterString() else {
             return ""
         }
         return "\(price)원"
-    }}
+    }
+}
