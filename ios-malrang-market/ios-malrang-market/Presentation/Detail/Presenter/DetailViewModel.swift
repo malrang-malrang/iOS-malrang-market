@@ -31,7 +31,6 @@ final class DetailViewModel: DetailViewModelable {
         useCase: Usecase,
         coordinator: DetailViewCoordinatorProtocol
     ) {
-        print(product)
         self.product = product
         self.useCase = useCase
         self.coordinator = coordinator
