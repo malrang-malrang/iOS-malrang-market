@@ -21,6 +21,7 @@ struct ProductDetail: Decodable {
     let createdAt: String?
     let issuedAt: String?
     let images: [ProductImages]?
+    let favorite: Bool?
 }
 
 struct ProductImages: Codable {
@@ -30,34 +31,3 @@ struct ProductImages: Codable {
     let succeed: Bool?
     let issuedAt: String?
 }
-
-////뷰모델 로 옮겨야함.
-//extension ProductDetail {
-//    func createdAtString() -> String {
-//        guard let createdAt = self.createdAt?.date()?.formatterString() else {
-//            return ""
-//        }
-//        return createdAt
-//    }
-//
-//    func priceString() -> String? {
-//        guard let price = self.price?.formatterString() else {
-//            return ""
-//        }
-//        return "\(price)원"
-//    }
-//
-//    func stockString() -> NSMutableAttributedString {
-//        guard let stock = self.stock?.formatterString() else {
-//            return NSMutableAttributedString()
-//        }
-//
-//        let stockLabel = "현재 재고는 \(stock)개 남아있습니다."
-//
-//        return NSMutableAttributedString(
-//            text: stockLabel,
-//            fontWeight: .bold,
-//            letter: "\(stock)개"
-//        )
-//    }
-//}
