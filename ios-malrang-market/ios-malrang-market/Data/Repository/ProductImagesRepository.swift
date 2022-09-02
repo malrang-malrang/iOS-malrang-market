@@ -18,6 +18,6 @@ final class ProductImagesRepository: ProductImagesRepositoryProtocol {
         let endPoint = EndPointStorage.productDetail(id: id).endPoint
         return self.service.request(endPoint: endPoint)
             .decode(type: ProductDetail.self, decoder: Json.decoder)
-            .compactMap(\.images)
+            .compactMap { $0.images }
     }
 }
