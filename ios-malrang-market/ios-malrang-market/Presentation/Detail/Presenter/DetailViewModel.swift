@@ -11,6 +11,7 @@ import RxRelay
 
 protocol DetailViewModelInput {
     func didTapBackBarButton()
+    func didTapMoreButton()
 }
 
 protocol DetailViewModelOutput {
@@ -39,6 +40,35 @@ final class DetailViewModel: DetailViewModelable {
 
     func didTapBackBarButton() {
         self.coordinator.popDetailView()
+    }
+
+    func didTapMoreButton() {
+        let cancelAction = self.makeAction(
+            title: "취소",
+            style: .cancel
+        )
+
+        let editAction = self.makeAction(
+            title: "상품 정보 수정 하기",
+            style: .default) {
+                self.coordinator.showAlert(
+                    title: "상품 수정 불가",
+                    message: "권한이 없습니다.",
+                    action: cancelAction)
+            }
+
+        let activityAction = self.makeAction(
+            title: "상품 정보 공유 하기",
+            style: .default) {
+                let activityController = UIActivityViewController(
+                    activityItems: [self.product.name ?? ""],
+                    applicationActivities: nil
+                )
+
+                self.coordinator.showActivity(activityController: activityController)
+            }
+
+        self.coordinator.showActionSheet(actions: [editAction, activityAction, cancelAction])
     }
 
     func productInfomation() -> ProductInfomation {
@@ -90,6 +120,18 @@ extension DetailViewModel {
             fontWeight: .bold,
             letter: "\(stock)개"
         )
+    }
+
+    private func makeAction(
+        title: String,
+        style: UIAlertAction.Style,
+        completionHendler: (() -> Void)? = nil
+    ) -> UIAlertAction {
+        let action = UIAlertAction(title: title, style: style) { _ in
+            completionHendler?()
+        }
+
+        return action
     }
 }
 

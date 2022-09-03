@@ -5,7 +5,7 @@
 //  Created by 김동욱 on 2022/09/01.
 //
 
-import Foundation
+import UIKit
 
 struct ProductInfomation {
     let name: String

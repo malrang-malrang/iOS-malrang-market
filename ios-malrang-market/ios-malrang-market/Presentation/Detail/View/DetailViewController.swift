@@ -135,8 +135,8 @@ final class DetailViewController: UIViewController {
             .disposed(by: self.disposeBag)
 
         self.moreBarButton.rx.tap
-            .subscribe(onNext: {
-
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.didTapMoreButton()
             })
             .disposed(by: self.disposeBag)
     }

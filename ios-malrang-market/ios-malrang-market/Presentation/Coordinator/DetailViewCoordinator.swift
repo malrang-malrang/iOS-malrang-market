@@ -9,9 +9,12 @@ import UIKit
 
 protocol DetailViewCoordinatorProtocol {
     func popDetailView()
+    func showActionSheet(actions: [UIAlertAction])
+    func showActivity(activityController: UIActivityViewController)
+    func showAlert(title: String, message: String, action: UIAlertAction)
 }
 
-final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
+final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol, AlertProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
@@ -40,5 +43,19 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     func popDetailView() {
         self.navigationController.popViewController(animated: true)
         self.parentCoordinators?.removeChild(self)
+    }
+
+    func showActionSheet(actions: [UIAlertAction]) {
+        let actionSheet = self.makeActionSheet(actions: actions)
+        self.navigationController.present(actionSheet, animated: true)
+    }
+
+    func showActivity(activityController: UIActivityViewController) {
+        self.navigationController.present(activityController, animated: true)
+    }
+
+    func showAlert(title: String, message: String, action: UIAlertAction) {
+        let alert = self.makeAlert(title: title, message: message, actions: [action])
+        self.navigationController.present(alert, animated: true)
     }
 }
