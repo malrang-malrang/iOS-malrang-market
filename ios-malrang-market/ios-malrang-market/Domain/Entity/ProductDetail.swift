@@ -5,7 +5,7 @@
 //  Created by 김동욱 on 2022/08/17.
 //
 
-import Foundation
+import UIKit
 
 struct ProductDetail: Decodable {
     let id: Int?
@@ -21,6 +21,7 @@ struct ProductDetail: Decodable {
     let createdAt: String?
     let issuedAt: String?
     let images: [ProductImages]?
+    let favorite: Bool?
 }
 
 struct ProductImages: Codable {

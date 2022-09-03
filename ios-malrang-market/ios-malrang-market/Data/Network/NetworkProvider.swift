@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol Provider {
-    func request(endPoint: EndPoint) -> Single<Data>
+    func request(endPoint: EndPoint) -> Observable<Data>
 }
 
 protocol URLSessionProtocol {
@@ -35,7 +35,7 @@ final class NetworkProvider: Provider {
         self.urlSession = urlSession
     }
 
-    func request(endPoint: EndPoint) -> Single<Data> {
+    func request(endPoint: EndPoint) -> Observable<Data> {
         return Single<Data>.create { single in
             let urlRequest: URLRequest
 
@@ -48,46 +48,43 @@ final class NetworkProvider: Provider {
             }
 
             let task = self.urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
-                _ = self?.checkError(with: data, response, error)
-                    .subscribe(onSuccess: { data in
+                guard let result = self?.checkError(with: data, response, error) else {
+                    return
+                }
+
+                switch result {
+                case .success(let data):
                     single(.success(data))
-                }, onFailure: { error in
+                case .failure(let error):
                     single(.failure(error))
-                })
+                }
             }
             task.resume()
             return Disposables.create()
-        }
+        }.asObservable()
     }
 
     private func checkError(
         with data: Data?,
         _ response: URLResponse?,
         _ error: Error?
-    ) -> Single<Data> {
-        return Single<Data>.create { single in
-            if let error = error {
-                single(.failure(error))
-                return Disposables.create()
-            }
-
-            guard let response = response as? HTTPURLResponse else {
-                single(.failure(NetworkError.responseError))
-                return Disposables.create()
-            }
-
-            guard (200..<300).contains(response.statusCode) else {
-                single(.failure(NetworkError.statusCodeError(statusCode: response.statusCode)))
-                return Disposables.create()
-            }
-
-            guard let data = data else {
-                single(.failure(NetworkError.emptyDataError))
-                return Disposables.create()
-            }
-
-            single(.success(data))
-            return Disposables.create()
+    ) -> Result<Data, Error> {
+        if let error = error {
+            return .failure(error)
         }
+
+        guard let response = response as? HTTPURLResponse else {
+            return .failure(NetworkError.responseError)
+        }
+
+        guard (200..<300).contains(response.statusCode) else {
+            return .failure(NetworkError.statusCodeError(statusCode: response.statusCode))
+        }
+
+        guard let data = data else {
+            return .failure(NetworkError.emptyDataError)
+        }
+
+        return .success(data)
     }
 }

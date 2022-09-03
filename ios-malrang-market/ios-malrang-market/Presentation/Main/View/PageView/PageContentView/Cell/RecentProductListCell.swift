@@ -5,7 +5,7 @@
 //  Created by 김동욱 on 2022/08/22.
 //
 
-import UIKit
+import RxSwift
 
 private enum Const {
     static let emptyString = ""
@@ -42,21 +42,18 @@ final class RecentProductListCell: UITableViewCell {
 
     private let productNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "상품 이름"
         label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
 
     private let productCreatedAtLabel: UILabel = {
         let label = UILabel()
-        label.text = "등록 날짜"
         label.textColor = .systemGray
         return label
     }()
 
     private let productPriceLabel: UILabel = {
         let label = UILabel()
-        label.text = "상품 가격"
         label.font = .systemFont(ofSize: 17, weight: .bold)
         return label
     }()
@@ -99,20 +96,17 @@ final class RecentProductListCell: UITableViewCell {
 
     func configure(product: ProductDetail) {
         self.productNameLabel.text = product.name
-        self.productCreatedAtLabel.text = self.createdAtString(product.createdAt)
-        self.productPriceLabel.text = self.priceString(product.price)
+        self.productCreatedAtLabel.text = self.createdAtInfomation(from: product)
+        self.productPriceLabel.text = self.priceInfomation(from: product)
     }
 
-    private func createdAtString(_ createdAt: String?) -> String {
-        guard let createdAt = createdAt?.date()?.formatterString() else {
-            return Const.emptyString
-        }
-        return createdAt
+    private func createdAtInfomation(from: ProductDetail) -> String? {
+        return from.createdAt?.date()?.formatterString()
     }
 
-    private func priceString(_ price: Int?) -> String? {
-        guard let price = price?.formatterString() else {
-            return Const.emptyString
+    private func priceInfomation(from: ProductDetail) -> String? {
+        guard let price = from.price?.formatterString() else {
+            return ""
         }
         return "\(price)원"
     }

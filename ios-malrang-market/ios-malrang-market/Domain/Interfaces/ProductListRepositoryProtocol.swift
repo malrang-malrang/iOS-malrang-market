@@ -8,5 +8,5 @@
 import RxSwift
 
 protocol ProductListRepositoryProtocol {
-    func fetch(pageNumber: Int, perPages: Int) -> Single<ProductList?>
+    func fetch(pageNumber: Int, perPages: Int) -> Observable<ProductList>
 }

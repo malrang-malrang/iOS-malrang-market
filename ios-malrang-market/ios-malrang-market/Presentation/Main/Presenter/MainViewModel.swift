@@ -5,15 +5,12 @@
 //  Created by 김동욱 on 2022/08/12.
 //
 
-import RxRelay
 import RxCocoa
-
-enum MainViewModelState {
-    case selectedSegment(type: Page)
-}
+import RxRelay
 
 protocol MainViewModelInput {
     func didTapSegmentControl(selected index: Int)
+    func cellSelectEvent(selected: ProductDetail)
 }
 
 protocol MainViewModelOutput {
@@ -25,12 +22,14 @@ protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
     private let useCase: Usecase
+    private let coordinator: MainViewCoordinatorProtocol
     private let productsList = BehaviorRelay<[ProductList]>(value: [])
     let pageState = BehaviorRelay<Page>(value: .recentProduct)
     var recentProducts: Driver<[ProductDetail]>
 
-    init(useCase: Usecase) {
+    init(useCase: Usecase, coordinator: MainViewCoordinatorProtocol) {
         self.useCase = useCase
+        self.coordinator = coordinator
 
         self.recentProducts = self.productsList
             .compactMap { $0.last?.pages }
@@ -50,12 +49,13 @@ final class MainViewModel: MainViewModelable {
     func fetchRecentProductList(pageNumber: Int, perPages: Int) {
         _ = self.useCase.fetchProductList(pageNumber: pageNumber, perPages: perPages)
             .subscribe { productList in
-                guard let recentProducts = productList else {
-                    return
-                }
-                self.productsList.accept([recentProducts])
-            } onFailure: { error in
-                return print(error)
+                self.productsList.accept([productList])
+            } onError: { error in
+                print(error)
             }
+    }
+
+    func cellSelectEvent(selected: ProductDetail) {
+        self.coordinator.showDetailView(product: selected)
     }
 }

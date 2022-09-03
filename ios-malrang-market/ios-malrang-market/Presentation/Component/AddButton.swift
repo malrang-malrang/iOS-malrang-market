@@ -1,5 +1,5 @@
 //
-//  addView.swift
+//  AddButton.swift
 //  ios-malrang-market
 //
 //  Created by 김동욱 on 2022/08/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddProductButton: UIButton {
+final class AddButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
             self.didTapButtonAnimation()
@@ -24,17 +24,16 @@ final class AddProductButton: UIButton {
     }
 
     override func draw(_ rect: CGRect) {
-        self.drawCircle()
+        self.drawRectangle()
         self.drawAddLine()
     }
 
     private func setupButton() {
         self.backgroundColor = .systemBackground
         self.clipsToBounds = true
-        self.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private func drawCircle() {
+    private func drawRectangle() {
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
@@ -44,8 +43,12 @@ final class AddProductButton: UIButton {
 
         context.setLineCap(.round)
         context.setFillColor(#colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1))
-        let circle = bounds.insetBy(dx: width * 0.05, dy: height * 0.05)
-        context.addEllipse(in: circle)
+
+        let rect = CGRect(
+            origin: CGPoint(x: 0, y: 0),
+            size: CGSize(width: width, height: height)
+        )
+        context.addRect(rect)
         context.fillPath()
     }
 

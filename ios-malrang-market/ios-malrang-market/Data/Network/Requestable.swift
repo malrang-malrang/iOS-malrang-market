@@ -5,8 +5,6 @@
 //  Created by 김동욱 on 2022/08/20.
 //
 
-import Foundation
-
 import RxSwift
 
 private enum Const {
