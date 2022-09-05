@@ -31,18 +31,6 @@ final class MainViewController: UIViewController, AlertProtocol {
         return searchBar
     }()
 
-    private let bookmarkBarButton: UIBarButtonItem = {
-        let bookMarkImage = Image.bookmark
-        let barButtonItem = UIBarButtonItem(
-            image: bookMarkImage,
-            style: .plain,
-            target: nil,
-            action: nil
-        )
-        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
-        return barButtonItem
-    }()
-
     private let addButton: AddButton = {
         let button = AddButton()
         button.layer.cornerRadius = 27
@@ -77,7 +65,6 @@ final class MainViewController: UIViewController, AlertProtocol {
 
     private func setupNavigationItem() {
         self.navigationItem.titleView = self.searchBar
-        self.navigationItem.rightBarButtonItem = self.bookmarkBarButton
     }
 
     private func setupView() {
@@ -108,7 +95,7 @@ final class MainViewController: UIViewController, AlertProtocol {
     }
 
     private func bind() {
-        self.bookmarkBarButton.rx.tap
+        self.addButton.rx.tap
             .withUnretained(self)
             .subscribe(onNext: { mainView, _ in
                 mainView.coordinator.showRegistrationView()

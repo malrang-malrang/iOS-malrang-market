@@ -49,7 +49,6 @@ final class RecentProductViewController: UIViewController {
     private func bind() {
         self.viewModel.productList
             .bind(to: self.tableView.rx.items) { tableView, row, element in
-                print(element)
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: RecentProductListCell.identifier,
                     for: IndexPath(row: row, section: .zero)

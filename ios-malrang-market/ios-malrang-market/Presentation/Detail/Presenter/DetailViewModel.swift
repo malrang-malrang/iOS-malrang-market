@@ -53,7 +53,7 @@ final class DetailViewModel: DetailViewModelable {
 extension DetailViewModel {
     private func fetchProductImages(id: Int?) {
         guard let id = id else {
-            return print("상품 아이디가 잘못 되었습니다.")
+            return self.error = .just(ProductDetailError.id)
         }
 
         _ = self.useCase.fetchProductImages(id: id)

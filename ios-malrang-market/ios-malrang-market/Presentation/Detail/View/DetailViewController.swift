@@ -71,7 +71,6 @@ final class DetailViewController: UIViewController, AlertProtocol, ActivityProto
     }()
 
     private let infomationView: DetailInfomationView
-    private let favoriteButton = FavoriteButton()
     private let viewModel: DetailViewModelable
     private let coordinator: DetailViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
@@ -104,8 +103,7 @@ final class DetailViewController: UIViewController, AlertProtocol, ActivityProto
         self.view.backgroundColor = .systemBackground
         self.view.addSubviews(
             self.collectionView,
-            self.infomationView,
-            self.favoriteButton
+            self.infomationView
         )
     }
 
@@ -120,11 +118,6 @@ final class DetailViewController: UIViewController, AlertProtocol, ActivityProto
             $0.top.equalTo(self.collectionView.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(20)
-        }
-
-        self.favoriteButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(20)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(15)
         }
     }
 
@@ -141,13 +134,6 @@ final class DetailViewController: UIViewController, AlertProtocol, ActivityProto
             .withUnretained(self)
             .subscribe(onNext: { detailView, _ in
                 detailView.coordinator.popDetailView()
-            })
-            .disposed(by: self.disposeBag)
-
-        self.favoriteButton.rx.tap
-            .withUnretained(self)
-            .subscribe(onNext: { detailView, _ in
-                detailView.favoriteButton.isSelected.toggle()
             })
             .disposed(by: self.disposeBag)
 

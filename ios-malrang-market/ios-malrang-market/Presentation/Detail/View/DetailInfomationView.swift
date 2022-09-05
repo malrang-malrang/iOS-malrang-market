@@ -97,7 +97,7 @@ final class DetailInfomationView: UIView {
         }
 
         self.priceAndStockStackView.snp.makeConstraints {
-            $0.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 
