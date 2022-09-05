@@ -461,6 +461,7 @@
 		30F69025289E7F570056C7FC /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				30C958FF28C35C3D00C802DA /* Protocol */,
 				30F69029289E81A30056C7FC /* Coordinator */,
 				3049243C28B7A9E60026F5BC /* Component */,
 				30F69026289E7FF70056C7FC /* Main */,
@@ -499,7 +500,6 @@
 		30F69029289E81A30056C7FC /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				30C958FF28C35C3D00C802DA /* Protocol */,
 				30F6902D289FCCB80056C7FC /* MainViewCoordinator.swift */,
 				30E7A30C28B6942400396255 /* DetailViewCoordinator.swift */,
 			);

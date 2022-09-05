@@ -10,12 +10,12 @@ import RxSwift
 import RxRelay
 
 protocol DetailViewModelInput {
-    func didTapBackBarButton()
-    func didTapMoreButton()
+
 }
 
 protocol DetailViewModelOutput {
-    var productImages: BehaviorRelay<[UIImage]> { get }
+    var imageString: Observable<[String]> { get }
+    var error: Observable<Error>? { get }
     func productInfomation() -> ProductInfomation
 }
 
@@ -24,51 +24,19 @@ protocol DetailViewModelable: DetailViewModelInput, DetailViewModelOutput {}
 final class DetailViewModel: DetailViewModelable {
     private let product: ProductDetail
     private let useCase: Usecase
-    private let coordinator: DetailViewCoordinatorProtocol
-    let productImages = BehaviorRelay<[UIImage]>(value: [])
+    private let productImages = BehaviorRelay<[String]>(value: [])
+    var error: Observable<Error>?
+    var imageString: Observable<[String]> {
+        self.productImages.asObservable()
+    }
 
     init(
         product: ProductDetail,
-        useCase: Usecase,
-        coordinator: DetailViewCoordinatorProtocol
+        useCase: Usecase
     ) {
         self.product = product
         self.useCase = useCase
-        self.coordinator = coordinator
         self.fetchProductImages(id: self.product.id)
-    }
-
-    func didTapBackBarButton() {
-        self.coordinator.popDetailView()
-    }
-
-    func didTapMoreButton() {
-        let cancelAction = self.makeAction(
-            title: "취소",
-            style: .cancel
-        )
-
-        let editAction = self.makeAction(
-            title: "상품 정보 수정 하기",
-            style: .default) {
-                self.coordinator.showAlert(
-                    title: "상품 수정 불가",
-                    message: "권한이 없습니다.",
-                    action: cancelAction)
-            }
-
-        let activityAction = self.makeAction(
-            title: "상품 정보 공유 하기",
-            style: .default) {
-                let activityController = UIActivityViewController(
-                    activityItems: [self.product.name ?? ""],
-                    applicationActivities: nil
-                )
-
-                self.coordinator.showActivity(activityController: activityController)
-            }
-
-        self.coordinator.showActionSheet(actions: [editAction, activityAction, cancelAction])
     }
 
     func productInfomation() -> ProductInfomation {
@@ -90,10 +58,10 @@ extension DetailViewModel {
 
         _ = self.useCase.fetchProductImages(id: id)
             .subscribe { [weak self] images in
-                let imageList = images.compactMap { $0.url?.image() }
+                let imageList = images.compactMap { $0.url }
                 self?.productImages.accept(imageList)
-            } onError: { error in
-                print(error)
+            } onError: { [weak self] error in
+                self?.error = .just(error)
             }
     }
 
@@ -120,35 +88,5 @@ extension DetailViewModel {
             fontWeight: .bold,
             letter: "\(stock)개"
         )
-    }
-
-    private func makeAction(
-        title: String,
-        style: UIAlertAction.Style,
-        completionHendler: (() -> Void)? = nil
-    ) -> UIAlertAction {
-        let action = UIAlertAction(title: title, style: style) { _ in
-            completionHendler?()
-        }
-
-        return action
-    }
-}
-
-private extension String {
-    func image() -> UIImage {
-        guard let url = URL(string: self) else {
-            return UIImage()
-        }
-
-        guard let data = try? Data(contentsOf: url) else {
-            return UIImage()
-        }
-
-        guard let image = UIImage(data: data) else {
-            return UIImage()
-        }
-
-        return image
     }
 }

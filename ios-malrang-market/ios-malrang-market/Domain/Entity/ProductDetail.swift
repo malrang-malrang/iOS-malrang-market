@@ -7,7 +7,11 @@
 
 import UIKit
 
-struct ProductDetail: Decodable {
+struct ProductDetail: Decodable, Equatable {
+    static func == (lhs: ProductDetail, rhs: ProductDetail) -> Bool {
+        lhs.id == rhs.id
+    }
+
     let id: Int?
     let vendorId: Int?
     let name: String?

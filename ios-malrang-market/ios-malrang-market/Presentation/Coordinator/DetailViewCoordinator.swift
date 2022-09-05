@@ -9,10 +9,9 @@ import UIKit
 
 protocol DetailViewCoordinatorProtocol {
     func popDetailView()
-    func showActionSheet(actions: [UIAlertAction])
+    func showActionSheet(actionSheet: UIAlertController)
     func showActivity(activityController: UIActivityViewController)
-    func showAlert(title: String, message: String, action: UIAlertAction)
-}
+    func showAlert(alert: UIAlertController)}
 
 final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol, AlertProtocol {
     var navigationController: UINavigationController
@@ -33,10 +32,9 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol, A
     func start(product: ProductDetail) {
         let viewModel: DetailViewModelable = DetailViewModel(
             product: product,
-            useCase: self.useCase,
-            coordinator: self
+            useCase: self.useCase
         )
-        let detailView = DetailViewController(viewModel: viewModel)
+        let detailView = DetailViewController(viewModel: viewModel, coordinator: self)
         self.navigationController.pushViewController(detailView, animated: true)
     }
 
@@ -45,8 +43,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol, A
         self.parentCoordinators?.removeChild(self)
     }
 
-    func showActionSheet(actions: [UIAlertAction]) {
-        let actionSheet = self.makeActionSheet(actions: actions)
+    func showActionSheet(actionSheet: UIAlertController) {
         self.navigationController.present(actionSheet, animated: true)
     }
 
@@ -54,8 +51,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol, A
         self.navigationController.present(activityController, animated: true)
     }
 
-    func showAlert(title: String, message: String, action: UIAlertAction) {
-        let alert = self.makeAlert(title: title, message: message, actions: [action])
+    func showAlert(alert: UIAlertController) {
         self.navigationController.present(alert, animated: true)
     }
 }

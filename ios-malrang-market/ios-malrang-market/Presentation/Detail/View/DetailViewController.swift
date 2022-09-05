@@ -25,7 +25,12 @@ private enum Image {
     )
 }
 
-final class DetailViewController: UIViewController {
+private enum Const {
+    static let editTitle = "상품 정보 수정하기"
+    static let activityTitle = "상품 정보 공유하기"
+}
+
+final class DetailViewController: UIViewController, AlertProtocol, ActivityProtocol {
     private let backBarButton: UIBarButtonItem = {
         let bookMarkImage = Image.back
         let barButtonItem = UIBarButtonItem(
@@ -68,10 +73,12 @@ final class DetailViewController: UIViewController {
     private let infomationView: DetailInfomationView
     private let favoriteButton = FavoriteButton()
     private let viewModel: DetailViewModelable
+    private let coordinator: DetailViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
 
-    init(viewModel: DetailViewModelable) {
+    init(viewModel: DetailViewModelable, coordinator: DetailViewCoordinatorProtocol) {
         self.infomationView = DetailInfomationView(viewModel: viewModel)
+        self.coordinator = coordinator
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -122,22 +129,51 @@ final class DetailViewController: UIViewController {
     }
 
     private func bind() {
+        self.viewModel.error?
+            .withUnretained(self)
+            .subscribe(onNext: { detailView, error in
+                let alert = detailView.makeAlert(title: error.localizedDescription)
+                detailView.coordinator.showAlert(alert: alert)
+            })
+            .disposed(by: self.disposeBag)
+
         self.backBarButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.didTapBackBarButton()
+            .withUnretained(self)
+            .subscribe(onNext: { detailView, _ in
+                detailView.coordinator.popDetailView()
             })
             .disposed(by: self.disposeBag)
 
         self.favoriteButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.favoriteButton.isSelected.toggle()
+            .withUnretained(self)
+            .subscribe(onNext: { detailView, _ in
+                detailView.favoriteButton.isSelected.toggle()
             })
             .disposed(by: self.disposeBag)
 
         self.moreBarButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.viewModel.didTapMoreButton()
+            .withUnretained(self)
+            .subscribe(onNext: { detailView, _ in
+                let actionSheet = detailView.makeDetailViewActionSheet()
+                detailView.coordinator.showActionSheet(actionSheet: actionSheet)
             })
             .disposed(by: self.disposeBag)
+    }
+
+    private func makeDetailViewActionSheet() -> UIAlertController {
+        let product = self.viewModel.productInfomation()
+        let editAction = self.makeAction(
+            title: Const.editTitle,
+            style: .default) {
+
+            }
+
+        let activityAction = self.makeAction(
+            title: Const.activityTitle,
+            style: .default) {
+                let activityView = self.makeActivity(product)
+                self.coordinator.showActivity(activityController: activityView)
+            }
+        return self.makeActionSheet(actions: [editAction, activityAction])
     }
 }
