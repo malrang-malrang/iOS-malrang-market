@@ -14,8 +14,8 @@ protocol MainViewModelInput {
 }
 
 protocol MainViewModelOutput {
-    var currentPageState: Observable<Page> { get }
     var error: Observable<Error>? { get }
+    var currentPageState: Observable<Page> { get }
     var productList: Observable<[ProductDetail]> { get }
     func fetchNextPage()
 }
@@ -27,7 +27,7 @@ final class MainViewModel: MainViewModelable {
     private var hasNext: Bool?
     private let useCase: Usecase
     private let pageState = BehaviorRelay<Page>(value: .recentProduct)
-    private let recentProducts = BehaviorRelay<[ProductDetail]>(value: [])
+    private let productPage = BehaviorRelay<[ProductDetail]>(value: [])
 
     var error: Observable<Error>?
     var currentPageState: Observable<Page> {
@@ -35,7 +35,7 @@ final class MainViewModel: MainViewModelable {
     }
 
     var productList: Observable<[ProductDetail]> {
-        recentProducts.distinctUntilChanged().asObservable()
+        productPage.distinctUntilChanged().asObservable()
     }
 
     init(useCase: Usecase) {
@@ -52,7 +52,7 @@ final class MainViewModel: MainViewModelable {
             .subscribe(onNext: { viewModel, productList in
                 viewModel.hasNext = productList.hasNext
                 guard let list = productList.pages else { return }
-                viewModel.recentProducts.accept(list)
+                viewModel.productPage.accept(list)
             }, onError: { [weak self] error in
                 self?.error = .just(error)
             })
@@ -63,13 +63,13 @@ final class MainViewModel: MainViewModelable {
             return self.error = .just(ProductListError.hasNextPage)
         }
         self.currentPage += 1
-        let previous = self.recentProducts.value
+        let previous = self.productPage.value
 
         _ = self.useCase.fetchProductList(pageNumber: self.currentPage, perPages: 20)
             .compactMap { $0.pages }
             .withUnretained(self)
             .subscribe(onNext: { viewModel, productList in
-                viewModel.recentProducts.accept(previous + productList)
+                viewModel.productPage.accept(previous + productList)
             })
     }
 

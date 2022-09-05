@@ -19,7 +19,7 @@ final class PageViewController: UIPageViewController {
         self.currentPage = .recentProduct
         self.pageList = [
             RecentProductViewController(viewModel: viewModel, coordinator: coordinator),
-            PopularProductViewController(viewModel: viewModel)
+            RandomProductViewController(viewModel: viewModel)
         ]
         self.viewModel = viewModel
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
