@@ -13,10 +13,9 @@ final class RandomProductViewController: UIViewController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
         flowLayout.itemSize = CGSize(
-            width: self.view.bounds.width * 0.4,
-            height: self.view.bounds.height * 0.3
+            width: self.view.bounds.width * 0.48,
+            height: self.view.bounds.height * 0.41
         )
-
         let collectionView = UICollectionView(
             frame: self.view.frame,
             collectionViewLayout: flowLayout

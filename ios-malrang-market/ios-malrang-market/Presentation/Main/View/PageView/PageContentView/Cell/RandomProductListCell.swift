@@ -16,7 +16,6 @@ final class RandomProductListCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 5
-        stackView.alignment = .center
         return stackView
     }()
 
@@ -28,15 +27,24 @@ final class RandomProductListCell: UICollectionViewCell {
         return imageView
     }()
 
+    private let infomationStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 2
+        stackView.alignment = .center
+        return stackView
+    }()
+
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
+        label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
 
     private let discriptionlabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 2
+        label.numberOfLines = 3
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
@@ -44,12 +52,14 @@ final class RandomProductListCell: UICollectionViewCell {
     private let priceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .bold)
+        label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
 
     private let stockLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentHuggingPriority(.required, for: .vertical)
         return label
     }()
 
@@ -66,9 +76,13 @@ final class RandomProductListCell: UICollectionViewCell {
     private func setupContentView() {
         self.contentView.backgroundColor = .systemBackground
 
-        self.contentView.addSubviews(self.productContentStackView)
+        self.contentView.addSubviews(self.productContentStackView, self.infomationStackView)
         self.productContentStackView.addArrangedSubviews(
             self.imageView,
+            self.infomationStackView
+        )
+
+        self.infomationStackView.addArrangedSubviews(
             self.nameLabel,
             self.discriptionlabel,
             self.priceLabel,
