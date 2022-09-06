@@ -60,7 +60,7 @@ final class MainViewModel: MainViewModelable {
 
     func fetchNextPage() {
         guard self.hasNext == true else {
-            return self.error = .just(ProductListError.hasNextPage)
+            return self.error = .just(ProductError.hasNextPage)
         }
         self.currentPage += 1
         let previous = self.productPage.value
