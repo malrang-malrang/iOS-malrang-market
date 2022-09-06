@@ -5,6 +5,8 @@
 //  Created by 김동욱 on 2022/08/03.
 //
 
+import RxCocoa
+import RxSwift
 import SnapKit
 
 private enum Const {
@@ -12,41 +14,21 @@ private enum Const {
 }
 
 private enum Image {
-    static let bookmark = "bookmark"
-    static let cart = "cart"
+    enum Atribute {
+        static let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
+    }
+
+    static let bookmark = UIImage(
+        systemName: "bookmark",
+        withConfiguration: Atribute.configuration
+    )
 }
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, AlertProtocol {
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = Const.searchBarPlaceholder
         return searchBar
-    }()
-
-    private let bookmarkBarButton: UIBarButtonItem = {
-        let configuration = UIImage.SymbolConfiguration(weight: .heavy)
-        let bookMarkImage = UIImage(systemName: Image.bookmark, withConfiguration: configuration)
-        let barButtonItem = UIBarButtonItem(
-            image: bookMarkImage,
-            style: .plain,
-            target: nil,
-            action: nil
-        )
-        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
-        return barButtonItem
-    }()
-
-    private let cartBarButton: UIBarButtonItem = {
-        let configuration = UIImage.SymbolConfiguration(weight: .heavy)
-        let cartImage = UIImage(systemName: Image.cart, withConfiguration: configuration)
-        let barButtonItem = UIBarButtonItem(
-            image: cartImage,
-            style: .plain,
-            target: nil,
-            action: nil
-        )
-        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
-        return barButtonItem
     }()
 
     private let addButton: AddButton = {
@@ -57,10 +39,15 @@ final class MainViewController: UIViewController {
 
     private let segmentView: SegmentView
     private let pageView: PageViewController
+    private let viewModel: MainViewModelable
+    private let coordinator: MainViewCoordinatorProtocol
+    private let disposeBag = DisposeBag()
 
-    init(viewModel: MainViewModelable) {
+    init(viewModel: MainViewModelable, coordinator: MainViewCoordinatorProtocol) {
         self.segmentView = SegmentView(viewModel: viewModel)
-        self.pageView = PageViewController(viewModel: viewModel)
+        self.pageView = PageViewController(viewModel: viewModel, coordinator: coordinator)
+        self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -73,11 +60,11 @@ final class MainViewController: UIViewController {
         self.setupNavigationItem()
         self.setupView()
         self.setupConstraint()
+        self.bind()
     }
 
     private func setupNavigationItem() {
         self.navigationItem.titleView = self.searchBar
-        self.navigationItem.rightBarButtonItems = [self.cartBarButton, self.bookmarkBarButton]
     }
 
     private func setupView() {
@@ -105,5 +92,22 @@ final class MainViewController: UIViewController {
             $0.width.equalToSuperview().multipliedBy(0.13)
             $0.height.equalTo(self.addButton.snp.width)
         }
+    }
+
+    private func bind() {
+        self.addButton.rx.tap
+            .withUnretained(self)
+            .subscribe(onNext: { mainView, _ in
+                mainView.coordinator.showRegistrationView()
+            })
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.error?
+            .withUnretained(self)
+            .subscribe(onNext: { mainView, error in
+                let alert = mainView.makeAlert(title: error.localizedDescription)
+                mainView.coordinator.showAlert(alert: alert)
+            })
+            .disposed(by: self.disposeBag)
     }
 }

@@ -25,8 +25,7 @@ final class RecentProductListCell: UITableViewCell {
     }()
 
     private let productImageView: UIImageView = {
-        let image = UIImage(named: "malrang")
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
@@ -95,6 +94,7 @@ final class RecentProductListCell: UITableViewCell {
     }
 
     func configure(product: ProductDetail) {
+        self.productImageView.image = product.thumbnail?.image()
         self.productNameLabel.text = product.name
         self.productCreatedAtLabel.text = self.createdAtInfomation(from: product)
         self.productPriceLabel.text = self.priceInfomation(from: product)

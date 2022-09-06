@@ -15,11 +15,11 @@ final class PageViewController: UIPageViewController {
     private let viewModel: MainViewModelable
     private var disposeBag = DisposeBag()
 
-    init(viewModel: MainViewModelable) {
+    init(viewModel: MainViewModelable, coordinator: MainViewCoordinatorProtocol) {
         self.currentPage = .recentProduct
         self.pageList = [
-            RecentProductViewController(viewModel: viewModel),
-            PopularProductViewController(viewModel: viewModel)
+            RecentProductViewController(viewModel: viewModel, coordinator: coordinator),
+            RandomProductViewController(viewModel: viewModel)
         ]
         self.viewModel = viewModel
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
@@ -41,10 +41,11 @@ final class PageViewController: UIPageViewController {
     }
 
     private func bind() {
-        self.viewModel.pageState
-            .bind(onNext: { [weak self] page in
-                self?.currentPage = page
-                self?.switchView(state: page)
+        self.viewModel.currentPageState
+            .withUnretained(self)
+            .bind(onNext: { pageView, page in
+                pageView.currentPage = page
+                pageView.switchView(state: page)
             })
             .disposed(by: self.disposeBag)
     }

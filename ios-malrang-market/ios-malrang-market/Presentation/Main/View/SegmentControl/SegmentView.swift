@@ -50,7 +50,7 @@ final class SegmentView: UIView {
     }
 
     private func bind() {
-        self.viewModel.pageState
+        self.viewModel.currentPageState
             .subscribe(onNext: { [weak self] page in
                 self?.segmentControl.selectedSegmentIndex = page.value
                 self?.segmentControl.changeUnderlinePosition()

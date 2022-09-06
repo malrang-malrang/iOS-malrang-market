@@ -10,12 +10,14 @@ import RxSwift
 import SnapKit
 
 final class RecentProductViewController: UIViewController {
-    private let viewModel: MainViewModelable
     private let tableView = UITableView()
+    private let viewModel: MainViewModelable
+    private let coordinator: MainViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
 
-    init(viewModel: MainViewModelable) {
+    init(viewModel: MainViewModelable, coordinator: MainViewCoordinatorProtocol) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -45,11 +47,12 @@ final class RecentProductViewController: UIViewController {
     }
 
     private func bind() {
-        self.viewModel.recentProducts
-            .drive(self.tableView.rx.items) { tableView, row, element in
+        self.viewModel.productList
+            .bind(to: self.tableView.rx.items) { tableView, row, element in
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: RecentProductListCell.identifier,
-                    for: IndexPath(row: row, section: .zero)) as? RecentProductListCell else {
+                    for: IndexPath(row: row, section: .zero)
+                ) as? RecentProductListCell else {
                     return UITableViewCell()
                 }
                 cell.configure(product: element)
@@ -59,14 +62,24 @@ final class RecentProductViewController: UIViewController {
             .disposed(by: self.disposeBag)
 
         self.tableView.rx.modelSelected(ProductDetail.self)
-            .subscribe(onNext: { [weak self] product in
-                self?.viewModel.cellSelectEvent(selected: product)
+            .withUnretained(self)
+            .subscribe(onNext: { recentView, product in
+                recentView.coordinator.showDetailView(product: product)
             })
             .disposed(by: self.disposeBag)
 
         self.tableView.rx.itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
-                self?.tableView.deselectRow(at: indexPath, animated: true)
+            .withUnretained(self)
+            .subscribe(onNext: { recentView, indexPath in
+                recentView.tableView.deselectRow(at: indexPath, animated: true)
+            })
+            .disposed(by: self.disposeBag)
+
+        self.tableView.rx.contentOffset
+            .filter { $0.y > self.tableView.contentSize.height * 0.65 }
+            .withUnretained(self)
+            .subscribe(onNext: { recentView, _ in
+                recentView.viewModel.fetchNextPage()
             })
             .disposed(by: self.disposeBag)
     }

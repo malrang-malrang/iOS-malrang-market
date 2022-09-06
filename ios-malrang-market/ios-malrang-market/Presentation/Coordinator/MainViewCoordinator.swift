@@ -9,7 +9,8 @@ import UIKit
 
 protocol MainViewCoordinatorProtocol {
     func showDetailView(product: ProductDetail)
-    func showAlert(title: String, message: String, action: UIAlertAction)
+    func showRegistrationView()
+    func showAlert(alert: UIAlertController)
 }
 
 final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol, AlertProtocol {
@@ -21,14 +22,14 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol, Alert
         detailRepository: ProductDetailRepository(),
         imagesRepository: ProductImagesRepository()
     )
-    private lazy var mainViewModel = MainViewModel(useCase: self.useCase, coordinator: self)
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
     func start() {
-        let mainView = MainViewController(viewModel: mainViewModel)
+        let mainViewModel = MainViewModel(useCase: self.useCase)
+        let mainView = MainViewController(viewModel: mainViewModel, coordinator: self)
         self.navigationController.pushViewController(mainView, animated: true)
     }
 
@@ -42,8 +43,11 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol, Alert
         detailCoordinator.start(product: product)
     }
 
-    func showAlert(title: String, message: String, action: UIAlertAction) {
-        let alert = self.makeAlert(title: title, message: message, actions: [action])
+    func showAlert(alert: UIAlertController) {
         self.navigationController.present(alert, animated: true)
+    }
+
+    func showRegistrationView() {
+
     }
 }

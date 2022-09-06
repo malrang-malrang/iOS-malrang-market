@@ -6,56 +6,76 @@
 //
 
 import RxCocoa
+import RxSwift
 import RxRelay
 
 protocol MainViewModelInput {
     func didTapSegmentControl(selected index: Int)
-    func cellSelectEvent(selected: ProductDetail)
 }
 
 protocol MainViewModelOutput {
-    var pageState: BehaviorRelay<Page> { get }
-    var recentProducts: Driver<[ProductDetail]> { get }
+    var error: Observable<Error>? { get }
+    var currentPageState: Observable<Page> { get }
+    var productList: Observable<[ProductDetail]> { get }
+    func fetchNextPage()
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
+    private var currentPage = 1
+    private var hasNext: Bool?
     private let useCase: Usecase
-    private let coordinator: MainViewCoordinatorProtocol
-    private let productsList = BehaviorRelay<[ProductList]>(value: [])
-    let pageState = BehaviorRelay<Page>(value: .recentProduct)
-    var recentProducts: Driver<[ProductDetail]>
+    private let pageState = BehaviorRelay<Page>(value: .recentProduct)
+    private let productPage = BehaviorRelay<[ProductDetail]>(value: [])
 
-    init(useCase: Usecase, coordinator: MainViewCoordinatorProtocol) {
+    var error: Observable<Error>?
+    var currentPageState: Observable<Page> {
+        self.pageState.asObservable()
+    }
+
+    var productList: Observable<[ProductDetail]> {
+        productPage.distinctUntilChanged().asObservable()
+    }
+
+    init(useCase: Usecase) {
         self.useCase = useCase
-        self.coordinator = coordinator
+        self.hasNext = true
 
-        self.recentProducts = self.productsList
-            .compactMap { $0.last?.pages }
-            .asDriver(onErrorJustReturn: [])
+        self.fetchFirstPage()
+    }
 
-        self.fetchRecentProductList(pageNumber: 0, perPages: 20)
+    private func fetchFirstPage() {
+        self.currentPage = 1
+        _ = self.useCase.fetchProductList(pageNumber: self.currentPage, perPages: 20)
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, productList in
+                viewModel.hasNext = productList.hasNext
+                guard let list = productList.pages else { return }
+                viewModel.productPage.accept(list)
+            }, onError: { [weak self] error in
+                self?.error = .just(error)
+            })
+    }
+
+    func fetchNextPage() {
+        guard self.hasNext == true else {
+            return self.error = .just(ProductListError.hasNextPage)
+        }
+        self.currentPage += 1
+        let previous = self.productPage.value
+
+        _ = self.useCase.fetchProductList(pageNumber: self.currentPage, perPages: 20)
+            .compactMap { $0.pages }
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, productList in
+                viewModel.productPage.accept(previous + productList)
+            })
     }
 
     func didTapSegmentControl(selected index: Int) {
-        guard let index = Page(rawValue: index) else {
-            return
-        }
+        guard let index = Page(rawValue: index) else { return }
 
         self.pageState.accept(index)
-    }
-
-    func fetchRecentProductList(pageNumber: Int, perPages: Int) {
-        _ = self.useCase.fetchProductList(pageNumber: pageNumber, perPages: perPages)
-            .subscribe { productList in
-                self.productsList.accept([productList])
-            } onError: { error in
-                print(error)
-            }
-    }
-
-    func cellSelectEvent(selected: ProductDetail) {
-        self.coordinator.showDetailView(product: selected)
     }
 }

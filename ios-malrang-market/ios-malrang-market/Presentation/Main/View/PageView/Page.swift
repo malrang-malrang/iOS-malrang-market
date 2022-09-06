@@ -9,7 +9,7 @@ import UIKit
 
 enum Page: Int, CaseIterable {
     case recentProduct = 0
-    case popularProduct = 1
+    case randomProduct = 1
 }
 
 extension Page {
@@ -25,8 +25,8 @@ extension Page {
         switch self {
         case .recentProduct:
             return "최근 상품"
-        case .popularProduct:
-            return "인기 상품"
+        case .randomProduct:
+            return "랜덤 상품"
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  PopularProductViewController.swift
+//  RandomProductViewController.swift
 //  ios-malrang-market
 //
 //  Created by 김동욱 on 2022/08/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PopularProductViewController: UIViewController {
+final class RandomProductViewController: UIViewController {
     private let viewModel: MainViewModelable
 
     init(viewModel: MainViewModelable) {

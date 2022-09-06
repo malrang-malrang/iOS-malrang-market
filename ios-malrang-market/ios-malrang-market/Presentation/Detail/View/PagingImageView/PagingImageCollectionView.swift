@@ -36,12 +36,12 @@ final class PagingImageCollectionView: UICollectionView {
     }
 
     private func bind() {
-        self.viewModel.productImages
+        self.viewModel.imageString
             .bind(to: self.rx.items(
                 cellIdentifier: ProductImageCell.identifier,
                 cellType: ProductImageCell.self
-            )) {  _, image, cell in
-                cell.configure(image: image)
+            )) {  _, urlString, cell in
+                cell.configure(image: urlString.image())
             }
             .disposed(by: self.disposeBag)
     }
