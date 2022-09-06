@@ -5,13 +5,31 @@
 //  Created by 김동욱 on 2022/08/22.
 //
 
-import UIKit
+import RxSwift
+import SnapKit
 
 final class RandomProductViewController: UIViewController {
-    private let viewModel: MainViewModelable
+    private lazy var collectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.itemSize = CGSize(
+            width: self.view.bounds.width * 0.4,
+            height: self.view.bounds.height * 0.3
+        )
 
-    init(viewModel: MainViewModelable) {
+        let collectionView = UICollectionView(
+            frame: self.view.frame,
+            collectionViewLayout: flowLayout
+        )
+        return collectionView
+    }()
+    private let viewModel: MainViewModelable
+    private let coordinator: MainViewCoordinatorProtocol
+    private let disposeBag = DisposeBag()
+
+    init(viewModel: MainViewModelable, coordinator: MainViewCoordinatorProtocol) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -21,5 +39,40 @@ final class RandomProductViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupView()
+        self.setupConstraint()
+        self.bind()
+    }
+
+    private func setupView() {
+        self.view.addSubviews(self.collectionView)
+        self.collectionView.register(
+            RandomProductListCell.self,
+            forCellWithReuseIdentifier: RandomProductListCell.identifier
+        )
+    }
+
+    private func setupConstraint() {
+        self.collectionView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+
+    private func bind() {
+        self.viewModel.productList
+            .map { $0.shuffled() }
+            .bind(to: self.collectionView.rx.items) { collectionView, row, element in
+                guard let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: RandomProductListCell.identifier,
+                    for: IndexPath(row: row, section: .zero)
+                ) as? RandomProductListCell else {
+                    return UICollectionViewCell()
+                }
+                cell.configure(product: element)
+
+                return cell
+            }
+            .disposed(by: self.disposeBag)
+
     }
 }
