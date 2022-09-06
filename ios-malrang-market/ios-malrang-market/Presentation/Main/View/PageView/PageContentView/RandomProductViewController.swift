@@ -74,5 +74,12 @@ final class RandomProductViewController: UIViewController {
             }
             .disposed(by: self.disposeBag)
 
+        self.collectionView.rx.contentOffset
+            .filter { $0.y > self.collectionView.contentSize.height * 0.65 }
+            .withUnretained(self)
+            .subscribe(onNext: { recentView, _ in
+                recentView.viewModel.fetchNextPage()
+            })
+            .disposed(by: self.disposeBag)
     }
 }
