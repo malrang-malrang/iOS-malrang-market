@@ -13,4 +13,9 @@ extension UIView {
             self.addSubview(view)
         }
     }
+
+    func addInteraction(delegate: UIContextMenuInteractionDelegate) {
+        let interaction = UIContextMenuInteraction(delegate: delegate)
+        self.addInteraction(interaction)
+    }
 }
