@@ -82,12 +82,54 @@ final class RandomProductViewController: UIViewController {
             })
             .disposed(by: self.disposeBag)
 
+        self.collectionView.rx.modelLongPressed(ProductDetail.self)
+            .subscribe(onNext: { cell, product in
+                cell.addInteraction(delegate: self)
+            })
+            .disposed(by: self.disposeBag)
+
         self.collectionView.rx.contentOffset
             .filter { $0.y > self.collectionView.contentSize.height * 0.65 }
             .withUnretained(self)
-            .subscribe(onNext: { recentView, _ in
-                recentView.viewModel.fetchNextPage()
+            .subscribe(onNext: { randomView, _ in
+                randomView.viewModel.fetchNextPage()
             })
             .disposed(by: self.disposeBag)
+    }
+}
+
+extension RandomProductViewController: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
+
+        return UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil) { _ -> UIMenu? in
+                let shareAction = UIAction(
+                    title: "상품 정보 공유하기",
+                    image: UIImage(systemName: "square.and.arrow.up")
+                ) { _ in
+//                    self.coordinator.showShare()
+                }
+
+                let editAction = UIAction(
+                    title: "상품 정보 수정하기",
+                    image: UIImage(systemName: "square.and.pencil")
+                ) { _ in
+//                    self.coordinator.showEditView()
+                }
+
+                let deleteAction = UIAction(
+                    title: "상품 정보 제거하기",
+                    image: UIImage(systemName: "trash"),
+                    attributes: .destructive
+                ) { _ in
+//                    self.coordinator.delete
+                }
+
+                return UIMenu(title: "상품 메뉴", children: [shareAction, editAction, deleteAction])
+            }
     }
 }
