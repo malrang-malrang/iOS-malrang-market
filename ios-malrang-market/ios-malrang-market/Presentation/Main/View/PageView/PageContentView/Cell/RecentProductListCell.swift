@@ -16,7 +16,7 @@ final class RecentProductListCell: UITableViewCell {
         String(describing: Self.self)
     }
 
-    private let productContentStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -39,19 +39,19 @@ final class RecentProductListCell: UITableViewCell {
         return stackView
     }()
 
-    private let productNameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
 
-    private let productCreatedAtLabel: UILabel = {
+    private let createdAtLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         return label
     }()
 
-    private let productPriceLabel: UILabel = {
+    private let priceLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .bold)
         return label
@@ -70,20 +70,20 @@ final class RecentProductListCell: UITableViewCell {
     private func setupContentView() {
         self.contentView.backgroundColor = .systemBackground
 
-        self.contentView.addSubviews(self.productContentStackView)
-        self.productContentStackView.addArrangedSubviews(
+        self.contentView.addSubviews(self.contentStackView)
+        self.contentStackView.addArrangedSubviews(
             self.productImageView,
             self.descriptionStackView
         )
         self.descriptionStackView.addArrangedSubviews(
-            self.productNameLabel,
-            self.productCreatedAtLabel,
-            self.productPriceLabel
+            self.nameLabel,
+            self.createdAtLabel,
+            self.priceLabel
         )
     }
 
     private func setupConstraint() {
-        self.productContentStackView.snp.makeConstraints {
+        self.contentStackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(10)
         }
 
@@ -95,9 +95,9 @@ final class RecentProductListCell: UITableViewCell {
 
     func configure(product: ProductDetail) {
         self.productImageView.image = product.thumbnail?.image()
-        self.productNameLabel.text = product.name
-        self.productCreatedAtLabel.text = self.createdAtInfomation(from: product)
-        self.productPriceLabel.text = self.priceInfomation(from: product)
+        self.nameLabel.text = product.name
+        self.createdAtLabel.text = self.createdAtInfomation(from: product)
+        self.priceLabel.text = self.priceInfomation(from: product)
     }
 
     private func createdAtInfomation(from: ProductDetail) -> String? {

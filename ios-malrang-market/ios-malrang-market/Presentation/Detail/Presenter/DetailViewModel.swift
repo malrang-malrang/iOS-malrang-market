@@ -9,17 +9,13 @@ import RxCocoa
 import RxSwift
 import RxRelay
 
-protocol DetailViewModelInput {
-
-}
-
 protocol DetailViewModelOutput {
     var imageString: Observable<[String]> { get }
     var error: Observable<Error>? { get }
     func productInfomation() -> ProductInfomation
 }
 
-protocol DetailViewModelable: DetailViewModelInput, DetailViewModelOutput {}
+protocol DetailViewModelable: DetailViewModelOutput {}
 
 final class DetailViewModel: DetailViewModelable {
     private let product: ProductDetail
@@ -53,7 +49,7 @@ final class DetailViewModel: DetailViewModelable {
 extension DetailViewModel {
     private func fetchProductImages(id: Int?) {
         guard let id = id else {
-            return self.error = .just(ProductDetailError.id)
+            return self.error = .just(ProductError.productId)
         }
 
         _ = self.useCase.fetchProductImages(id: id)
