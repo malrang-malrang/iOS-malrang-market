@@ -9,11 +9,11 @@ import UIKit
 
 protocol DetailViewCoordinatorProtocol {
     func popDetailView()
-    func showActionSheet(actionSheet: UIAlertController)
-    func showActivity(activityController: UIActivityViewController)
-    func showAlert(alert: UIAlertController)}
+    func showActionSheet(_ productInfomation: ProductInfomation)
+    func showAlert(title: String)
+}
 
-final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol, AlertProtocol {
+final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
@@ -43,15 +43,38 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol, A
         self.parentCoordinators?.removeChild(self)
     }
 
-    func showActionSheet(actionSheet: UIAlertController) {
-        self.navigationController.present(actionSheet, animated: true)
-    }
+    func showAlert(title: String) {
+        let alert = AlertBuilder.shared
+            .setType(.alert)
+            .setTitle(title)
+            .build()
 
-    func showActivity(activityController: UIActivityViewController) {
-        self.navigationController.present(activityController, animated: true)
-    }
-
-    func showAlert(alert: UIAlertController) {
         self.navigationController.present(alert, animated: true)
+    }
+
+    func showActionSheet(_ productInfomation: ProductInfomation) {
+        let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+        let editAction = UIAlertAction(
+            title: "상품 정보 수정하기",
+            style: .default) { _ in
+
+            }
+
+        let activityAction = UIAlertAction(
+            title: "상품 정보 공유하기",
+            style: .default) { _ in
+                let activity = UIActivityViewController(
+                    activityItems: [productInfomation.name, productInfomation.price],
+                    applicationActivities: nil
+                )
+                self.navigationController.present(activity, animated: true)
+            }
+
+        let actionSheet = AlertBuilder.shared
+            .setType(.actionSheet)
+            .setActions([cancelAction, editAction, activityAction])
+            .build()
+
+        self.navigationController.present(actionSheet, animated: true)
     }
 }

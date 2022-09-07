@@ -10,10 +10,10 @@ import UIKit
 protocol MainViewCoordinatorProtocol {
     func showDetailView(product: ProductDetail)
     func showRegistrationView()
-    func showAlert(alert: UIAlertController)
+    func showAlert(title: String)
 }
 
-final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol, AlertProtocol {
+final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
@@ -43,11 +43,16 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol, Alert
         detailCoordinator.start(product: product)
     }
 
-    func showAlert(alert: UIAlertController) {
-        self.navigationController.present(alert, animated: true)
-    }
-
     func showRegistrationView() {
 
+    }
+
+    func showAlert(title: String) {
+        let alert = AlertBuilder.shared
+            .setType(.alert)
+            .setTitle(title)
+            .build()
+
+        self.navigationController.present(alert, animated: true)
     }
 }

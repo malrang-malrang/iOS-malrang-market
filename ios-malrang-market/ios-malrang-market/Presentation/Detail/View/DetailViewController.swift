@@ -30,7 +30,7 @@ private enum Const {
     static let activityTitle = "상품 정보 공유하기"
 }
 
-final class DetailViewController: UIViewController, AlertProtocol, ActivityProtocol {
+final class DetailViewController: UIViewController {
     private let backBarButton: UIBarButtonItem = {
         let bookMarkImage = Image.back
         let barButtonItem = UIBarButtonItem(
@@ -125,8 +125,7 @@ final class DetailViewController: UIViewController, AlertProtocol, ActivityProto
         self.viewModel.error?
             .withUnretained(self)
             .subscribe(onNext: { detailView, error in
-                let alert = detailView.makeAlert(title: error.localizedDescription)
-                detailView.coordinator.showAlert(alert: alert)
+                detailView.coordinator.showAlert(title: error.localizedDescription)
             })
             .disposed(by: self.disposeBag)
 
@@ -140,26 +139,9 @@ final class DetailViewController: UIViewController, AlertProtocol, ActivityProto
         self.moreBarButton.rx.tap
             .withUnretained(self)
             .subscribe(onNext: { detailView, _ in
-                let actionSheet = detailView.makeDetailViewActionSheet()
-                detailView.coordinator.showActionSheet(actionSheet: actionSheet)
+                let productInfomation = detailView.viewModel.productInfomation()
+                detailView.coordinator.showActionSheet(productInfomation)
             })
             .disposed(by: self.disposeBag)
-    }
-
-    private func makeDetailViewActionSheet() -> UIAlertController {
-        let product = self.viewModel.productInfomation()
-        let editAction = self.makeAction(
-            title: Const.editTitle,
-            style: .default) {
-
-            }
-
-        let activityAction = self.makeAction(
-            title: Const.activityTitle,
-            style: .default) {
-                let activityView = self.makeActivity(product)
-                self.coordinator.showActivity(activityController: activityView)
-            }
-        return self.makeActionSheet(actions: [editAction, activityAction])
     }
 }
