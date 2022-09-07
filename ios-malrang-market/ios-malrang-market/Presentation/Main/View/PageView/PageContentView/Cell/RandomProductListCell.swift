@@ -12,7 +12,7 @@ final class RandomProductListCell: UICollectionViewCell {
         String(describing: Self.self)
     }
 
-    private let productContentStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 5
@@ -67,6 +67,7 @@ final class RandomProductListCell: UICollectionViewCell {
         super.init(frame: frame)
         self.setupContentView()
         self.setupConstraint()
+        self.setupBorder()
     }
 
     required init?(coder: NSCoder) {
@@ -76,8 +77,8 @@ final class RandomProductListCell: UICollectionViewCell {
     private func setupContentView() {
         self.contentView.backgroundColor = .systemBackground
 
-        self.contentView.addSubviews(self.productContentStackView, self.infomationStackView)
-        self.productContentStackView.addArrangedSubviews(
+        self.contentView.addSubviews(self.contentStackView, self.infomationStackView)
+        self.contentStackView.addArrangedSubviews(
             self.imageView,
             self.infomationStackView
         )
@@ -91,7 +92,7 @@ final class RandomProductListCell: UICollectionViewCell {
     }
 
     private func setupConstraint() {
-        self.productContentStackView.snp.makeConstraints {
+        self.contentStackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(10)
         }
 
@@ -99,6 +100,16 @@ final class RandomProductListCell: UICollectionViewCell {
             $0.width.equalToSuperview()
             $0.height.equalTo(self.imageView.snp.width)
         }
+    }
+
+    private func setupBorder() {
+        let border = self.layer.addBorder(
+            edges: [.all],
+            color: .systemGray3,
+            thickness: 2,
+            radius: 10
+        )
+        self.layer.addSublayer(border)
     }
 
     func configure(product: ProductDetail) {

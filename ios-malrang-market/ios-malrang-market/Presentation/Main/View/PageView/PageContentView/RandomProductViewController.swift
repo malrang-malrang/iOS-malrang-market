@@ -12,8 +12,9 @@ final class RandomProductViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
+        flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         flowLayout.itemSize = CGSize(
-            width: self.view.bounds.width * 0.48,
+            width: self.view.bounds.width * 0.46,
             height: self.view.bounds.height * 0.41
         )
         let collectionView = UICollectionView(
@@ -53,7 +54,8 @@ final class RandomProductViewController: UIViewController {
 
     private func setupConstraint() {
         self.collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.top.bottom.equalToSuperview()
         }
     }
 
