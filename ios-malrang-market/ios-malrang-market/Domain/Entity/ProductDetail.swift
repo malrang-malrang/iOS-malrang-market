@@ -25,7 +25,6 @@ struct ProductDetail: Decodable, Equatable {
     let createdAt: String?
     let issuedAt: String?
     let images: [ProductImages]?
-    let favorite: Bool?
 }
 
 struct ProductImages: Codable {
