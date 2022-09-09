@@ -10,7 +10,15 @@ import RxSwift
 import SnapKit
 
 final class RecentProductViewController: UIViewController {
-    private let tableView = UITableView()
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(
+            RecentProductListCell.self,
+            forCellReuseIdentifier: RecentProductListCell.identifier
+        )
+        return tableView
+    }()
+
     private let viewModel: MainViewModelable
     private let coordinator: MainViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
@@ -34,10 +42,7 @@ final class RecentProductViewController: UIViewController {
 
     private func setupView() {
         self.view.addSubviews(self.tableView)
-        self.tableView.register(
-            RecentProductListCell.self,
-            forCellReuseIdentifier: RecentProductListCell.identifier
-        )
+        self.tableView.delegate = self
     }
 
     private func setupConstraint() {
@@ -75,12 +80,6 @@ final class RecentProductViewController: UIViewController {
             })
             .disposed(by: self.disposeBag)
 
-        self.tableView.rx.modelLongPressed(ProductDetail.self)
-            .subscribe(onNext: { cell, product in
-                cell.addInteraction(delegate: self)
-            })
-            .disposed(by: self.disposeBag)
-
         self.tableView.rx.contentOffset
             .filter { $0.y > self.tableView.contentSize.height * 0.65 }
             .withUnretained(self)
@@ -91,20 +90,26 @@ final class RecentProductViewController: UIViewController {
     }
 }
 
-extension RecentProductViewController: UIContextMenuInteractionDelegate {
-    func contextMenuInteraction(
-        _ interaction: UIContextMenuInteraction,
-        configurationForMenuAtLocation location: CGPoint
+extension RecentProductViewController: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        contextMenuConfigurationForRowAt indexPath: IndexPath,
+        point: CGPoint
     ) -> UIContextMenuConfiguration? {
-
         return UIContextMenuConfiguration(
             identifier: nil,
-            previewProvider: nil) { _ -> UIMenu? in
+            previewProvider: nil) { _ in
+
+                let currentCell = self.tableView.cellForRow(at: indexPath) as? RecentProductListCell
+                guard let product = currentCell?.constructedProduct else {
+                    return nil
+                }
+
                 let shareAction = UIAction(
                     title: "상품 정보 공유하기",
                     image: UIImage(systemName: "square.and.arrow.up")
                 ) { _ in
-//                    self.coordinator.showShare()
+                    self.coordinator.showActivity(product: product)
                 }
 
                 let editAction = UIAction(
@@ -122,7 +127,7 @@ extension RecentProductViewController: UIContextMenuInteractionDelegate {
 //                    self.coordinator.delete
                 }
 
-                return UIMenu(title: "상품 메뉴", children: [shareAction, editAction, deleteAction])
+                return UIMenu(children: [shareAction, editAction, deleteAction])
             }
     }
 }

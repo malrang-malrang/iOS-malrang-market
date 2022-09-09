@@ -17,12 +17,15 @@ final class RandomProductViewController: UIViewController {
             width: self.view.bounds.width * 0.46,
             height: self.view.bounds.height * 0.41
         )
+
         let collectionView = UICollectionView(
             frame: self.view.frame,
             collectionViewLayout: flowLayout
         )
+
         return collectionView
     }()
+
     private let viewModel: MainViewModelable
     private let coordinator: MainViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
@@ -50,6 +53,7 @@ final class RandomProductViewController: UIViewController {
             RandomProductListCell.self,
             forCellWithReuseIdentifier: RandomProductListCell.identifier
         )
+        self.collectionView.delegate = self
     }
 
     private func setupConstraint() {
@@ -82,12 +86,6 @@ final class RandomProductViewController: UIViewController {
             })
             .disposed(by: self.disposeBag)
 
-        self.collectionView.rx.modelLongPressed(ProductDetail.self)
-            .subscribe(onNext: { cell, product in
-                cell.addInteraction(delegate: self)
-            })
-            .disposed(by: self.disposeBag)
-
         self.collectionView.rx.contentOffset
             .filter { $0.y > self.collectionView.contentSize.height * 0.65 }
             .withUnretained(self)
@@ -98,20 +96,27 @@ final class RandomProductViewController: UIViewController {
     }
 }
 
-extension RandomProductViewController: UIContextMenuInteractionDelegate {
-    func contextMenuInteraction(
-        _ interaction: UIContextMenuInteraction,
-        configurationForMenuAtLocation location: CGPoint
+extension RandomProductViewController: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfigurationForItemAt indexPath: IndexPath,
+        point: CGPoint
     ) -> UIContextMenuConfiguration? {
-
         return UIContextMenuConfiguration(
             identifier: nil,
-            previewProvider: nil) { _ -> UIMenu? in
+            previewProvider: nil
+        ) { _ -> UIMenu? in
+
+            let currentCell = self.collectionView.cellForItem(at: indexPath) as? RandomProductListCell
+            guard let product = currentCell?.constructedProduct else {
+                return nil
+            }
+
                 let shareAction = UIAction(
                     title: "상품 정보 공유하기",
                     image: UIImage(systemName: "square.and.arrow.up")
                 ) { _ in
-//                    self.coordinator.showShare()
+                    self.coordinator.showActivity(product: product)
                 }
 
                 let editAction = UIAction(
@@ -129,7 +134,7 @@ extension RandomProductViewController: UIContextMenuInteractionDelegate {
 //                    self.coordinator.delete
                 }
 
-                return UIMenu(title: "상품 메뉴", children: [shareAction, editAction, deleteAction])
+                return UIMenu(children: [shareAction, editAction, deleteAction])
             }
     }
 }

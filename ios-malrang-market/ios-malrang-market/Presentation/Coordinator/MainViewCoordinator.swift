@@ -11,6 +11,7 @@ protocol MainViewCoordinatorProtocol {
     func showDetailView(product: ProductDetail)
     func showRegistrationView()
     func showAlert(title: String)
+    func showActivity(product: ProductDetail)
 }
 
 final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
@@ -52,7 +53,14 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
             .setType(.alert)
             .setTitle(title)
             .build()
-
         self.navigationController.present(alert, animated: true)
+    }
+
+    func showActivity(product: ProductDetail) {
+        let activity = UIActivityViewController(
+            activityItems: [product.name ?? "", product.price ?? ""],
+            applicationActivities: nil
+        )
+        self.navigationController.present(activity, animated: true)
     }
 }

@@ -57,6 +57,8 @@ final class RecentProductListCell: UITableViewCell {
         return label
     }()
 
+    private(set) var constructedProduct : ProductDetail?
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupContentView()
@@ -94,6 +96,7 @@ final class RecentProductListCell: UITableViewCell {
     }
 
     func configure(product: ProductDetail) {
+        self.constructedProduct = product
         self.productImageView.image = product.thumbnail?.image()
         self.nameLabel.text = product.name
         self.createdAtLabel.text = self.createdAtInfomation(from: product)
