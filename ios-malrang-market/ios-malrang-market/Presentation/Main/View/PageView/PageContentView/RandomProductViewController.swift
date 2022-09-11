@@ -17,12 +17,15 @@ final class RandomProductViewController: UIViewController {
             width: self.view.bounds.width * 0.46,
             height: self.view.bounds.height * 0.41
         )
+
         let collectionView = UICollectionView(
             frame: self.view.frame,
             collectionViewLayout: flowLayout
         )
+
         return collectionView
     }()
+
     private let viewModel: MainViewModelable
     private let coordinator: MainViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
@@ -50,6 +53,7 @@ final class RandomProductViewController: UIViewController {
             RandomProductListCell.self,
             forCellWithReuseIdentifier: RandomProductListCell.identifier
         )
+        self.collectionView.delegate = self
     }
 
     private func setupConstraint() {
@@ -85,9 +89,52 @@ final class RandomProductViewController: UIViewController {
         self.collectionView.rx.contentOffset
             .filter { $0.y > self.collectionView.contentSize.height * 0.65 }
             .withUnretained(self)
-            .subscribe(onNext: { recentView, _ in
-                recentView.viewModel.fetchNextPage()
+            .subscribe(onNext: { randomView, _ in
+                randomView.viewModel.fetchNextPage()
             })
             .disposed(by: self.disposeBag)
+    }
+}
+
+extension RandomProductViewController: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfigurationForItemAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil
+        ) { _ -> UIMenu? in
+
+            let currentCell = self.collectionView.cellForItem(at: indexPath) as? RandomProductListCell
+            guard let product = currentCell?.constructedProduct else {
+                return nil
+            }
+
+                let shareAction = UIAction(
+                    title: "상품 정보 공유하기",
+                    image: UIImage(systemName: "square.and.arrow.up")
+                ) { _ in
+                    self.coordinator.showActivity(product: product)
+                }
+
+                let editAction = UIAction(
+                    title: "상품 정보 수정하기",
+                    image: UIImage(systemName: "square.and.pencil")
+                ) { _ in
+//                    self.coordinator.showEditView()
+                }
+
+                let deleteAction = UIAction(
+                    title: "상품 정보 제거하기",
+                    image: UIImage(systemName: "trash"),
+                    attributes: .destructive
+                ) { _ in
+//                    self.coordinator.delete
+                }
+
+                return UIMenu(children: [shareAction, editAction, deleteAction])
+            }
     }
 }

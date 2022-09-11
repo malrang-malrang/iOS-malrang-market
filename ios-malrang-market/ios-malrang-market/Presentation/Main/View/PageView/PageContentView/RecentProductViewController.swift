@@ -10,7 +10,15 @@ import RxSwift
 import SnapKit
 
 final class RecentProductViewController: UIViewController {
-    private let tableView = UITableView()
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(
+            RecentProductListCell.self,
+            forCellReuseIdentifier: RecentProductListCell.identifier
+        )
+        return tableView
+    }()
+
     private let viewModel: MainViewModelable
     private let coordinator: MainViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
@@ -34,10 +42,7 @@ final class RecentProductViewController: UIViewController {
 
     private func setupView() {
         self.view.addSubviews(self.tableView)
-        self.tableView.register(
-            RecentProductListCell.self,
-            forCellReuseIdentifier: RecentProductListCell.identifier
-        )
+        self.tableView.delegate = self
     }
 
     private func setupConstraint() {
@@ -82,5 +87,47 @@ final class RecentProductViewController: UIViewController {
                 recentView.viewModel.fetchNextPage()
             })
             .disposed(by: self.disposeBag)
+    }
+}
+
+extension RecentProductViewController: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        contextMenuConfigurationForRowAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil) { _ in
+
+                let currentCell = self.tableView.cellForRow(at: indexPath) as? RecentProductListCell
+                guard let product = currentCell?.constructedProduct else {
+                    return nil
+                }
+
+                let shareAction = UIAction(
+                    title: "상품 정보 공유하기",
+                    image: UIImage(systemName: "square.and.arrow.up")
+                ) { _ in
+                    self.coordinator.showActivity(product: product)
+                }
+
+                let editAction = UIAction(
+                    title: "상품 정보 수정하기",
+                    image: UIImage(systemName: "square.and.pencil")
+                ) { _ in
+//                    self.coordinator.showEditView()
+                }
+
+                let deleteAction = UIAction(
+                    title: "상품 정보 제거하기",
+                    image: UIImage(systemName: "trash"),
+                    attributes: .destructive
+                ) { _ in
+//                    self.coordinator.delete
+                }
+
+                return UIMenu(children: [shareAction, editAction, deleteAction])
+            }
     }
 }

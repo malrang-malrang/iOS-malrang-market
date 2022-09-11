@@ -21,7 +21,6 @@
 		3049245228C21AD40026F5BC /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049245128C21AD40026F5BC /* ProductImageCell.swift */; };
 		30C958FB28C2333400C802DA /* PagingCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C958FA28C2333400C802DA /* PagingCollectionViewFlowLayout.swift */; };
 		30C958FD28C25E2400C802DA /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C958FC28C25E2400C802DA /* AlertBuilder.swift */; };
-		30C9590128C35C5A00C802DA /* AlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C9590028C35C5A00C802DA /* AlertProtocol.swift */; };
 		30C9590828C657A200C802DA /* ProductError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C9590728C657A200C802DA /* ProductError.swift */; };
 		30C9590A28C65D1F00C802DA /* RandomProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C9590928C65D1F00C802DA /* RandomProductListCell.swift */; };
 		30C9590C28C756D200C802DA /* CALayer+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C9590B28C756D200C802DA /* CALayer+Sugar.swift */; };
@@ -111,7 +110,6 @@
 		3049245128C21AD40026F5BC /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
 		30C958FA28C2333400C802DA /* PagingCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		30C958FC28C25E2400C802DA /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
-		30C9590028C35C5A00C802DA /* AlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertProtocol.swift; sourceTree = "<group>"; };
 		30C9590728C657A200C802DA /* ProductError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductError.swift; sourceTree = "<group>"; };
 		30C9590928C65D1F00C802DA /* RandomProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomProductListCell.swift; sourceTree = "<group>"; };
 		30C9590B28C756D200C802DA /* CALayer+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Sugar.swift"; sourceTree = "<group>"; };
@@ -246,14 +244,6 @@
 				3049244928BFCF850026F5BC /* ProductInfomation.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		30C958FF28C35C3D00C802DA /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				30C9590028C35C5A00C802DA /* AlertProtocol.swift */,
-			);
-			path = Protocol;
 			sourceTree = "<group>";
 		};
 		30C9590628C6579500C802DA /* Error */ = {
@@ -474,7 +464,6 @@
 			isa = PBXGroup;
 			children = (
 				30C9590628C6579500C802DA /* Error */,
-				30C958FF28C35C3D00C802DA /* Protocol */,
 				30F69029289E81A30056C7FC /* Coordinator */,
 				3049243C28B7A9E60026F5BC /* Component */,
 				30F69026289E7FF70056C7FC /* Main */,
@@ -860,7 +849,6 @@
 				30E7A31228B694BD00396255 /* DetailViewController.swift in Sources */,
 				30E7A2F628B2812100396255 /* Usecase.swift in Sources */,
 				300442CC28A99CC5007FF20B /* RecentProductViewController.swift in Sources */,
-				30C9590128C35C5A00C802DA /* AlertProtocol.swift in Sources */,
 				30E7A2E928B1314600396255 /* EndPointStorage.swift in Sources */,
 				3049244028BCBF2C0026F5BC /* ProductImagesRepository.swift in Sources */,
 				30E7A2FD28B3799D00396255 /* RandomProductViewController.swift in Sources */,

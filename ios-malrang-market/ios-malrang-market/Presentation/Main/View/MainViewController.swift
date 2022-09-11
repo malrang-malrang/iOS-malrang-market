@@ -24,7 +24,7 @@ private enum Image {
     )
 }
 
-final class MainViewController: UIViewController, AlertProtocol {
+final class MainViewController: UIViewController {
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = Const.searchBarPlaceholder
@@ -105,8 +105,7 @@ final class MainViewController: UIViewController, AlertProtocol {
         self.viewModel.error?
             .withUnretained(self)
             .subscribe(onNext: { mainView, error in
-                let alert = mainView.makeAlert(title: error.localizedDescription)
-                mainView.coordinator.showAlert(alert: alert)
+                mainView.coordinator.showAlert(title: error.localizedDescription)
             })
             .disposed(by: self.disposeBag)
     }

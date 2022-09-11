@@ -63,6 +63,8 @@ final class RandomProductListCell: UICollectionViewCell {
         return label
     }()
 
+    private(set) var constructedProduct : ProductDetail?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupContentView()
@@ -113,6 +115,7 @@ final class RandomProductListCell: UICollectionViewCell {
     }
 
     func configure(product: ProductDetail) {
+        self.constructedProduct = product
         self.imageView.image = product.thumbnail?.image()
         self.nameLabel.text = product.name
         self.discriptionlabel.text = product.description
