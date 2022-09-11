@@ -9,7 +9,7 @@ import UIKit
 
 protocol MainViewCoordinatorProtocol {
     func showDetailView(product: ProductDetail)
-    func showRegistrationView()
+    func showProductRegistrationView()
     func showAlert(title: String)
     func showActivity(product: ProductDetail)
 }
@@ -44,8 +44,24 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         detailCoordinator.start(product: product)
     }
 
-    func showRegistrationView() {
+    func showProductRegistrationView() {
+        let menegementCoordinator = MenegementCoordinator(
+            navigationController: self.navigationController,
+            parentCoordinators: self,
+            useCase: self.useCase
+        )
+        self.childCoordinators.append(menegementCoordinator)
+        menegementCoordinator.showRegistrationView()
+    }
 
+    func showProductEditView(_ product: ProductDetail) {
+        let menegementCoordinator = MenegementCoordinator(
+            navigationController: self.navigationController,
+            parentCoordinators: self,
+            useCase: self.useCase
+        )
+        self.childCoordinators.append(menegementCoordinator)
+        menegementCoordinator.showEditView(product)
     }
 
     func showAlert(title: String) {

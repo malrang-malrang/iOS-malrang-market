@@ -98,7 +98,7 @@ final class MainViewController: UIViewController {
         self.addButton.rx.tap
             .withUnretained(self)
             .subscribe(onNext: { mainView, _ in
-                mainView.coordinator.showRegistrationView()
+                mainView.coordinator.showProductRegistrationView()
             })
             .disposed(by: self.disposeBag)
 

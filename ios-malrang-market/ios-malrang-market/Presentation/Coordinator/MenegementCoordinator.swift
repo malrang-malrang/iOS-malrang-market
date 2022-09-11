@@ -10,6 +10,7 @@ import UIKit
 protocol MenegementCoordinatorProtocol {
     func showRegistrationView()
     func showEditView(_ product: ProductDetail)
+    func popMenegementView()
     func showPhotoLibrary(_ imagePicker: UIImagePickerController)
     func dismissPhotoLibrary(_ imagePicker: UIImagePickerController)
 }
