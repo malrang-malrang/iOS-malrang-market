@@ -139,7 +139,7 @@ final class RandomProductListCell: UICollectionViewCell {
             return NSMutableAttributedString()
         }
 
-        let stockLabel = "재고 수량 \(stock)개."
+        let stockLabel = "재고 수량 \(stock)개"
 
         return NSMutableAttributedString(
             text: stockLabel,
