@@ -13,6 +13,7 @@ protocol MenegementCoordinatorProtocol {
     func popMenegementView()
     func showPhotoLibrary(_ imagePicker: UIImagePickerController)
     func dismissPhotoLibrary(_ imagePicker: UIImagePickerController)
+    func showAlert(title: String)
 }
 
 final class MenegementCoordinator: Coordinator, MenegementCoordinatorProtocol {
@@ -32,7 +33,9 @@ final class MenegementCoordinator: Coordinator, MenegementCoordinatorProtocol {
     }
 
     func showRegistrationView() {
+        let viewModel = ManagementViewModel(useCase: self.useCase)
         let registrationView = RegistrationViewController(
+            viewModel: viewModel,
             coordinator: self
         )
         self.navigationController.pushViewController(registrationView, animated: true)
@@ -53,5 +56,14 @@ final class MenegementCoordinator: Coordinator, MenegementCoordinatorProtocol {
     func popMenegementView() {
         self.navigationController.popViewController(animated: true)
         self.parentCoordinators?.removeChild(self)
+    }
+
+    func showAlert(title: String) {
+        let alert = AlertBuilder.shared
+            .setType(.alert)
+            .setTitle(title)
+            .build()
+
+        self.navigationController.present(alert, animated: true)
     }
 }

@@ -57,9 +57,12 @@ final class RegistrationViewController: UIViewController {
     private let menegementView: ManagementView
     private let disposeBag = DisposeBag()
 
-    init(coordinator: MenegementCoordinatorProtocol) {
+    init(viewModel: ManagementViewModelable, coordinator: MenegementCoordinatorProtocol) {
         self.coordinator = coordinator
-        self.menegementView = ManagementView(coordinator: coordinator)
+        self.menegementView = ManagementView(
+            coordinator: coordinator,
+            viewModel: viewModel
+        )
         super.init(nibName: nil, bundle: nil)
     }
 

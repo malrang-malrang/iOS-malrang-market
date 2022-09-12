@@ -74,10 +74,12 @@ final class ManagementView: UIViewController {
     }()
 
     private let descriptionTextView = UITextView()
+    private let viewModel: ManagementViewModelable
     private let coordinator: MenegementCoordinatorProtocol
     private let disposeBag = DisposeBag()
 
-    init(coordinator: MenegementCoordinatorProtocol) {
+    init(coordinator: MenegementCoordinatorProtocol, viewModel: ManagementViewModelable) {
+        self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
@@ -132,6 +134,30 @@ final class ManagementView: UIViewController {
     }
 
     private func bind() {
+        self.viewModel.error?
+            .withUnretained(self)
+            .subscribe { managementView, error in
+                managementView.coordinator.showAlert(title: error.localizedDescription)
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.productInfomation
+            .withUnretained(self)
+            .subscribe { managementView, product in
+                managementView.nameTextField.text = product.name
+                managementView.priceTextField.text = product.price?.description
+                managementView.stockTextField.text = product.stock?.description
+                managementView.descriptionTextView.text = product.description
+            }
+            .disposed(by: self.disposeBag)
+
+        self.viewModel.productImageList
+            .withUnretained(self)
+            .subscribe { managementView, images in
+                images.forEach { managementView.addImage(data: $0.data) }
+            }
+            .disposed(by: self.disposeBag)
+
         self.addButton.rx.tap
             .subscribe { _ in
                 self.coordinator.showPhotoLibrary(self.imagepicker)
@@ -139,17 +165,26 @@ final class ManagementView: UIViewController {
             .disposed(by: self.disposeBag)
     }
 
-    private func addImage(_ image: UIImage) {
+    func extractData() -> ProductRequest {
+        return ProductRequest(
+            name: self.nameTextField.text,
+            descriptions: self.descriptionTextView.text,
+            price: Double(self.priceTextField.text ?? "0"),
+            stock: Int(self.stockTextField.text ?? "0"),
+            secret: UserInfomation.secret,
+            imageInfos: self.viewModel.imageList()
+        )
+    }
+
+    private func addImage(data: Data) {
         let imageView: UIImageView = {
+            let image = UIImage(data: data)
             let imageView = UIImageView(image: image)
-            imageView.contentMode = .scaleAspectFit
+            imageView.layer.cornerRadius = 10
             return imageView
         }()
 
-        self.imageStackView.insertArrangedSubview(
-            imageView,
-            at: self.imageStackView.arrangedSubviews.count
-        )
+        self.imageStackView.addArrangedSubview(imageView)
 
         imageView.snp.makeConstraints {
             $0.width.equalTo(self.imageScrollView.snp.height).multipliedBy(0.8)
@@ -167,7 +202,10 @@ extension ManagementView: UINavigationControllerDelegate, UIImagePickerControlle
             return
         }
 
-        self.addImage(image)
+        guard let imageData = image.jpegData(compressionQuality: 1) else {
+            return self.coordinator.showAlert(title: InputError.productImage.errorDescription)
+        }
+        self.viewModel.insert(imageData: imageData)
         self.coordinator.dismissPhotoLibrary(picker)
     }
 }
