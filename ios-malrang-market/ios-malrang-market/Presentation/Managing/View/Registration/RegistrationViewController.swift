@@ -54,12 +54,12 @@ final class RegistrationViewController: UIViewController {
     }()
 
     private let coordinator: MenegementCoordinatorProtocol
-    private let menegementView: ManagementView
+    private let managementView: ManagementView
     private let disposeBag = DisposeBag()
 
     init(viewModel: ManagementViewModelable, coordinator: MenegementCoordinatorProtocol) {
         self.coordinator = coordinator
-        self.menegementView = ManagementView(
+        self.managementView = ManagementView(
             coordinator: coordinator,
             viewModel: viewModel
         )
@@ -86,11 +86,11 @@ final class RegistrationViewController: UIViewController {
 
     private func setupView() {
         self.view.backgroundColor = .systemBackground
-        self.view.addSubview(self.menegementView.view)
+        self.view.addSubview(self.managementView.view)
     }
 
     private func setupConstraint() {
-        self.menegementView.view.snp.makeConstraints {
+        self.managementView.view.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
@@ -98,8 +98,11 @@ final class RegistrationViewController: UIViewController {
 
     private func bind() {
         self.backBarButton.rx.tap
-            .subscribe { _ in
-                self.coordinator.popMenegementView()
+            .withUnretained(self)
+            .subscribe { registrationView, _ in
+                registrationView.coordinator.popMenegementView()
+            }
+            .disposed(by: self.disposeBag)
             }
             .disposed(by: self.disposeBag)
     }
