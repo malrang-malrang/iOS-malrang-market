@@ -45,7 +45,6 @@ final class NetworkProvider: Provider {
                 single(.failure(error))
                 return Disposables.create()
             }
-
             let task = self.urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
                 guard let result = self?.checkError(with: data, response, error) else {
                     return

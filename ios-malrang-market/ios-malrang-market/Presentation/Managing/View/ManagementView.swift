@@ -32,6 +32,7 @@ final class ManagementView: UIViewController {
     private let imagepicker: UIImagePickerController = {
         let imagepicker = UIImagePickerController()
         imagepicker.sourceType = .photoLibrary
+        imagepicker.allowsEditing = true
         return imagepicker
     }()
 
@@ -136,11 +137,6 @@ final class ManagementView: UIViewController {
                 self.coordinator.showPhotoLibrary(self.imagepicker)
             }
             .disposed(by: self.disposeBag)
-
-        guard let image = UIImage(systemName: "swift") else {
-            return
-        }
-        self.addImage(image)
     }
 
     private func addImage(_ image: UIImage) {
@@ -154,6 +150,11 @@ final class ManagementView: UIViewController {
             imageView,
             at: self.imageStackView.arrangedSubviews.count
         )
+
+        imageView.snp.makeConstraints {
+            $0.width.equalTo(self.imageScrollView.snp.height).multipliedBy(0.8)
+            $0.height.equalTo(imageView.snp.width)
+        }
     }
 }
 

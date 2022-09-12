@@ -8,6 +8,10 @@
 import RxSwift
 import RxCocoa
 
+private enum Const {
+    static let registrationProduct = "상품 등록"
+}
+
 private enum Image {
     enum Atribute {
         static let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
@@ -17,6 +21,11 @@ private enum Image {
         systemName: "arrowshape.turn.up.backward.fill",
         withConfiguration: Atribute.configuration
     )
+
+    static let check = UIImage(
+        systemName: "checkmark.diamond.fill",
+        withConfiguration: Atribute.configuration
+    )
 }
 
 final class RegistrationViewController: UIViewController {
@@ -24,6 +33,18 @@ final class RegistrationViewController: UIViewController {
         let bookMarkImage = Image.back
         let barButtonItem = UIBarButtonItem(
             image: bookMarkImage,
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
+        return barButtonItem
+    }()
+
+    private let postBarButton: UIBarButtonItem = {
+        let checkImage = Image.check
+        let barButtonItem = UIBarButtonItem(
+            image: checkImage,
             style: .plain,
             target: nil,
             action: nil
@@ -56,10 +77,12 @@ final class RegistrationViewController: UIViewController {
 
     private func setupNavigationItem() {
         self.navigationItem.leftBarButtonItem = self.backBarButton
-        self.navigationController?.title = "상품 등록"
+        self.navigationItem.rightBarButtonItem = self.postBarButton
+        self.navigationItem.title = Const.registrationProduct
     }
 
     private func setupView() {
+        self.view.backgroundColor = .systemBackground
         self.view.addSubview(self.menegementView.view)
     }
 
