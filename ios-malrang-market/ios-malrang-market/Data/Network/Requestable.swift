@@ -47,7 +47,7 @@ extension Requestable {
             }
         }
 
-        urlRequest.httpMethod = method.rawValue
+        urlRequest.httpMethod = self.method.rawValue
         headers?.forEach { urlRequest.setValue($1, forHTTPHeaderField: $0) }
 
         return .success(urlRequest)
@@ -64,13 +64,13 @@ extension Requestable {
             return .failure(error)
         }
 
-        if let productsPost = bodyParameters as? ProductRequest,
-           let body = generateBody(productsPost) {
+        if let productsPost = self.bodyParameters as? ProductRequest,
+           let body = self.generateBody(productsPost) {
             urlRequest.httpBody = body
         }
 
-        urlRequest.httpMethod = method.rawValue
-        headers?.forEach { urlRequest.setValue($1, forHTTPHeaderField: $0) }
+        urlRequest.httpMethod = self.method.rawValue
+        self.headers?.forEach { urlRequest.setValue($1, forHTTPHeaderField: $0) }
         return .success(urlRequest)
     }
 
