@@ -71,7 +71,6 @@ extension Requestable {
 
         urlRequest.httpMethod = method.rawValue
         headers?.forEach { urlRequest.setValue($1, forHTTPHeaderField: $0) }
-
         return .success(urlRequest)
     }
 

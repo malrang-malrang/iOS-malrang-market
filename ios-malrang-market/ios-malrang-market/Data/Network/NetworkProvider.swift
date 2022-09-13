@@ -9,6 +9,7 @@ import RxSwift
 
 protocol Provider {
     func request(endPoint: EndPoint) -> Observable<Data>
+    func requestMultiPartFormData(endPoint: EndPoint) -> Observable<Data>
 }
 
 protocol URLSessionProtocol {
@@ -59,15 +60,45 @@ final class NetworkProvider: Provider {
             }
             task.resume()
             return Disposables.create()
-        }.asObservable()
+        }
+        .asObservable()
+    }
+
+    func requestMultiPartFormData(endPoint: EndPoint) -> Observable<Data> {
+        return Single<Data>.create { single in
+            let urlRequest: URLRequest
+
+            switch endPoint.generateUrlRequestMultiPartFormData() {
+            case .success(let request):
+                urlRequest = request
+            case .failure(let error):
+                single(.failure(error))
+                return Disposables.create()
+            }
+            let task = self.urlSession.dataTask(with: urlRequest) { [weak self] data, response, error in
+                guard let result = self?.checkError(with: data, response, error) else {
+                    return
+                }
+
+                switch result {
+                case .success(let data):
+                    single(.success(data))
+                case .failure(let error):
+                    single(.failure(error))
+                }
+            }
+            task.resume()
+            return Disposables.create()
+        }
+        .asObservable()
     }
 
     private func checkError(
         with data: Data?,
         _ response: URLResponse?,
         _ error: Error?
-    ) -> Result<Data, Error> {
-        if let error = error {
+    ) -> Result<Data, NetworkError> {
+        if let error = error as? NetworkError {
             return .failure(error)
         }
 

@@ -9,4 +9,5 @@ import RxSwift
 
 protocol ProductDetailRepositoryProtocol {
     func fetch(id: Int) -> Observable<ProductDetail>
+    func post(_ productRequest: ProductRequest)
 }

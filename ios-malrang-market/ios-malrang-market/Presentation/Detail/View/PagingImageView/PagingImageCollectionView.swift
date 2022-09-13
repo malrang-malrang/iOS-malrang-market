@@ -36,7 +36,7 @@ final class PagingImageCollectionView: UICollectionView {
     }
 
     private func bind() {
-        self.viewModel.imageString
+        self.viewModel.imagesString
             .bind(to: self.rx.items(
                 cellIdentifier: ProductImageCell.identifier,
                 cellType: ProductImageCell.self

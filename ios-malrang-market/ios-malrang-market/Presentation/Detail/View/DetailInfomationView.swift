@@ -102,12 +102,41 @@ final class DetailInfomationView: UIView {
     }
 
     private func bind() {
-        let productInfomation = self.viewModel.productInfomation()
+        self.viewModel.productInfomation
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .subscribe { infomationView, product in
+                infomationView.nameLabel.text = product.name
+                infomationView.createdAtLabel.text = infomationView.createdAtInfomation(at: product)
+                infomationView.descriptionTextView.text = product.description
+                infomationView.priceLabel.text = infomationView.priceInfomation(at: product)
+                infomationView.stockLabel.attributedText = infomationView.stockInfomation(at: product)
+            }
+            .disposed(by: self.disposeBag)
+    }
 
-        self.nameLabel.text = productInfomation.name
-        self.createdAtLabel.text = productInfomation.createdAt
-        self.descriptionTextView.text = productInfomation.description
-        self.priceLabel.text = productInfomation.price
-        self.stockLabel.attributedText = productInfomation.stock
+    private func createdAtInfomation(at product: ProductDetail) -> String? {
+        return product.createdAt?.date()?.formatterString()
+    }
+
+    private func priceInfomation(at product: ProductDetail) -> String? {
+        guard let price = product.price?.formatterString() else {
+            return ""
+        }
+        return "\(price)원"
+    }
+
+    private func stockInfomation(at product: ProductDetail) -> NSMutableAttributedString {
+        guard let stock = product.stock?.formatterString() else {
+            return NSMutableAttributedString()
+        }
+
+        let stockLabel = "현재 재고는 \(stock)개 남아있습니다."
+
+        return NSMutableAttributedString(
+            text: stockLabel,
+            fontWeight: .bold,
+            letter: "\(stock)개"
+        )
     }
 }

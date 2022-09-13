@@ -16,6 +16,7 @@ private enum Const {
 protocol ManagementViewModelInput {
     func insert(imageData: Data)
     func imageList() -> [ImageInfo]
+    func requestPost(_ product: ProductRequest, completion: @escaping () -> Void)
 }
 
 protocol ManagementViewModelOutput {
@@ -47,12 +48,12 @@ final class ManagementViewModel: ManagementViewModelable {
     ) {
         self.productId = productId
         self.useCase = useCase
-        self.fetchProduct()
+        self.fetchProductDetail(id: self.productId)
     }
 
-    private func fetchProduct() {
-        guard let id = self.productId else {
-            return
+    private func fetchProductDetail(id: Int?) {
+        guard let id = id else {
+            return 
         }
 
         _ = self.useCase.fetchProductDetail(id: id)
@@ -82,6 +83,15 @@ final class ManagementViewModel: ManagementViewModelable {
 
     func imageList() -> [ImageInfo] {
         return self.imageRelay.value
+    }
+
+    func requestPost(_ product: ProductRequest, completion: @escaping () -> Void) {
+        _ = self.useCase.post(product)
+            .subscribe(onError: { error in
+                self.error = .just(error)
+            }, onCompleted: {
+                completion()
+            })
     }
 }
 

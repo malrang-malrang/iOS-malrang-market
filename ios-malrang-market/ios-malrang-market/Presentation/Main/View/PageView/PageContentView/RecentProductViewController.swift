@@ -69,7 +69,7 @@ final class RecentProductViewController: UIViewController {
         self.tableView.rx.modelSelected(ProductDetail.self)
             .withUnretained(self)
             .subscribe(onNext: { recentView, product in
-                recentView.coordinator.showDetailView(product: product)
+                recentView.coordinator.showDetailView(productId: product.id)
             })
             .disposed(by: self.disposeBag)
 

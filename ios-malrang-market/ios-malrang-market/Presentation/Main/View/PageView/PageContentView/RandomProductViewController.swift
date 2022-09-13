@@ -82,7 +82,7 @@ final class RandomProductViewController: UIViewController {
         self.collectionView.rx.modelSelected(ProductDetail.self)
             .withUnretained(self)
             .subscribe(onNext: { randomView, product in
-                randomView.coordinator.showDetailView(product: product)
+                randomView.coordinator.showDetailView(productId: product.id)
             })
             .disposed(by: self.disposeBag)
 

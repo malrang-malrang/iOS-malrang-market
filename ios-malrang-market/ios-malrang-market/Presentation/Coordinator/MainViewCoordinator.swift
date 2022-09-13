@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainViewCoordinatorProtocol {
-    func showDetailView(product: ProductDetail)
+    func showDetailView(productId: Int?)
     func showProductRegistrationView()
     func showAlert(title: String)
     func showActivity(product: ProductDetail)
@@ -19,9 +19,7 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
     private let useCase: Usecase = DefaultUsecase(
-        listRepository: ProductListRepository(),
-        detailRepository: ProductDetailRepository(),
-        imagesRepository: ProductImagesRepository()
+        malrangMarketRepository: MalrangMarketRepository()
     )
 
     init(navigationController: UINavigationController) {
@@ -34,14 +32,14 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         self.navigationController.pushViewController(mainView, animated: true)
     }
 
-    func showDetailView(product: ProductDetail) {
+    func showDetailView(productId: Int?) {
         let detailCoordinator = DetailViewCoordinator(
             navigationController: self.navigationController,
             parentCoordinators: self,
             useCase: self.useCase
         )
         self.childCoordinators.append(detailCoordinator)
-        detailCoordinator.start(product: product)
+        detailCoordinator.start(productId: productId)
     }
 
     func showProductRegistrationView() {

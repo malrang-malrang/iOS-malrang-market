@@ -53,11 +53,13 @@ final class RegistrationViewController: UIViewController {
         return barButtonItem
     }()
 
+    private let viewModel: ManagementViewModelable
     private let coordinator: MenegementCoordinatorProtocol
     private let managementView: ManagementView
     private let disposeBag = DisposeBag()
 
     init(viewModel: ManagementViewModelable, coordinator: MenegementCoordinatorProtocol) {
+        self.viewModel = viewModel
         self.coordinator = coordinator
         self.managementView = ManagementView(
             coordinator: coordinator,
@@ -103,6 +105,14 @@ final class RegistrationViewController: UIViewController {
                 registrationView.coordinator.popMenegementView()
             }
             .disposed(by: self.disposeBag)
+
+        self.postBarButton.rx.tap
+            .withUnretained(self)
+            .subscribe { registrationView, _ in
+                let product = registrationView.managementView.extractData()
+                registrationView.viewModel.requestPost(product) {
+                    registrationView.coordinator.popMenegementView()
+                }
             }
             .disposed(by: self.disposeBag)
     }
