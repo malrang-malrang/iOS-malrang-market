@@ -17,6 +17,7 @@
 		304511CC28CDDC3F006D4658 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304511CB28CDDC3F006D4658 /* RegistrationViewController.swift */; };
 		304754C328D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C228D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift */; };
 		304754C528D0B04400D88CB7 /* UIImage+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C428D0B04400D88CB7 /* UIImage+Sugar.swift */; };
+		304754C828D0E10300D88CB7 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C728D0E10300D88CB7 /* EditViewController.swift */; };
 		3049244628BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */; };
 		3049244A28BFCF850026F5BC /* ProductInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244928BFCF850026F5BC /* ProductInfomation.swift */; };
 		3049244C28C0A58B0026F5BC /* DetailInfomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */; };
@@ -107,6 +108,7 @@
 		304511CB28CDDC3F006D4658 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		304754C228D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalrangMarketRepositoryProtocol.swift; sourceTree = "<group>"; };
 		304754C428D0B04400D88CB7 /* UIImage+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Sugar.swift"; sourceTree = "<group>"; };
+		304754C728D0E10300D88CB7 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Sugar.swift"; sourceTree = "<group>"; };
 		3049244928BFCF850026F5BC /* ProductInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfomation.swift; sourceTree = "<group>"; };
 		3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfomationView.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			children = (
 				304511C428CDB362006D4658 /* ManagementView.swift */,
 				304511CA28CDDC21006D4658 /* Registration */,
+				304754C628D0E0E300D88CB7 /* Edit */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -238,6 +241,14 @@
 				304511CB28CDDC3F006D4658 /* RegistrationViewController.swift */,
 			);
 			path = Registration;
+			sourceTree = "<group>";
+		};
+		304754C628D0E0E300D88CB7 /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				304754C728D0E10300D88CB7 /* EditViewController.swift */,
+			);
+			path = Edit;
 			sourceTree = "<group>";
 		};
 		3049243C28B7A9E60026F5BC /* Component */ = {
@@ -918,6 +929,7 @@
 				30E7A31428B69DAC00396255 /* DetailViewModel.swift in Sources */,
 				30C958FD28C25E2400C802DA /* AlertBuilder.swift in Sources */,
 				30F6904528A58C0D0056C7FC /* PageViewController.swift in Sources */,
+				304754C828D0E10300D88CB7 /* EditViewController.swift in Sources */,
 				30C9590828C657A200C802DA /* InputError.swift in Sources */,
 				3049244E28C20B660026F5BC /* PagingImageCollectionView.swift in Sources */,
 				30F6903828A3EFEA0056C7FC /* UnderlineSegmentControl.swift in Sources */,
