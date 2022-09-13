@@ -59,9 +59,11 @@ final class MenegementCoordinator: Coordinator, MenegementCoordinatorProtocol {
     }
 
     func showAlert(title: String) {
+        let checkAction = UIAlertAction(title: "확인", style: .default)
         let alert = AlertBuilder.shared
             .setType(.alert)
             .setTitle(title)
+            .setActions([checkAction])
             .build()
 
         self.navigationController.present(alert, animated: true)
