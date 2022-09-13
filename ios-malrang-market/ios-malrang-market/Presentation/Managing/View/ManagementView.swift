@@ -202,8 +202,11 @@ extension ManagementView: UINavigationControllerDelegate, UIImagePickerControlle
             return
         }
 
-        guard let imageData = image.jpegData(compressionQuality: 1) else {
-            return self.coordinator.showAlert(title: InputError.productImage.errorDescription)
+        let resizeImage = image.convertSize(size: self.addButton.frame.size.width)
+        guard let imageData = resizeImage.jpegData(compressionQuality: 1) else {
+            self.coordinator.dismissPhotoLibrary(picker)
+            self.coordinator.showAlert(title: InputError.productImage.errorDescription)
+            return
         }
         self.viewModel.insert(imageData: imageData)
         self.coordinator.dismissPhotoLibrary(picker)

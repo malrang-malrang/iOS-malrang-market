@@ -53,7 +53,7 @@ final class ManagementViewModel: ManagementViewModelable {
 
     private func fetchProductDetail(id: Int?) {
         guard let id = id else {
-            return 
+            return
         }
 
         _ = self.useCase.fetchProductDetail(id: id)
@@ -87,9 +87,10 @@ final class ManagementViewModel: ManagementViewModelable {
 
     func requestPost(_ product: ProductRequest, completion: @escaping () -> Void) {
         _ = self.useCase.post(product)
-            .subscribe(onError: { error in
-                self.error = .just(error)
-            }, onCompleted: {
+            .observe(on: MainScheduler.instance)
+            .subscribe(onError: { [weak self] error in
+                self?.error = .just(error)
+            }, onDisposed: {
                 completion()
             })
     }
