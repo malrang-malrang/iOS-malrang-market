@@ -30,9 +30,9 @@ final class MalrangMarketRepository: MalrangMarketRepositoryProtocol {
             .decode(type: ProductDetail.self, decoder: Json.decoder)
     }
 
-    func post(product: ProductRequest) -> Observable<ProductDetail> {
+    func post(product: ProductRequest) -> Observable<Void> {
         let endPoint = EndPointStorage.productPost(body: product).endPoint
         return self.service.requestMultiPartFormData(endPoint: endPoint)
-            .decode(type: ProductDetail.self, decoder: Json.decoder)
+            .map { _ in }
     }
 }

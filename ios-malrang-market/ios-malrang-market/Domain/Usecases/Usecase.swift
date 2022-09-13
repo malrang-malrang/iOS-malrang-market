@@ -10,7 +10,7 @@ import RxSwift
 protocol Usecase {
     func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductList>
     func fetchProductDetail(id: Int) -> Observable<ProductDetail>
-    func post(_ productRequest: ProductRequest) -> Observable<ProductDetail>
+    func post(_ productRequest: ProductRequest) -> Observable<Void>
 }
 
 struct DefaultUsecase: Usecase {
@@ -31,7 +31,7 @@ struct DefaultUsecase: Usecase {
         return self.malrangMarketRepository.fetchProductDetail(id: id)
     }
 
-    func post(_ productRequest: ProductRequest) -> Observable<ProductDetail> {
+    func post(_ productRequest: ProductRequest) -> Observable<Void> {
         return self.malrangMarketRepository.post(product: productRequest)
     }
 }

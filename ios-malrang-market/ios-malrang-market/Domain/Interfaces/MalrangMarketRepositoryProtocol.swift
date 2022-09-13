@@ -10,5 +10,5 @@ import RxSwift
 protocol MalrangMarketRepositoryProtocol {
     func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductList>
     func fetchProductDetail(id: Int) -> Observable<ProductDetail>
-    func post(product: ProductRequest) -> Observable<ProductDetail>
+    func post(product: ProductRequest) -> Observable<Void>
 }

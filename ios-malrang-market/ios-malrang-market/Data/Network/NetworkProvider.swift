@@ -79,7 +79,7 @@ final class NetworkProvider: Provider {
                 guard let result = self?.checkError(with: data, response, error) else {
                     return
                 }
-
+                
                 switch result {
                 case .success(let data):
                     single(.success(data))
