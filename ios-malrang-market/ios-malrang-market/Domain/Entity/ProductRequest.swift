@@ -16,6 +16,8 @@ struct ProductRequest: Encodable {
     var price: Double?
     var stock: Int?
     var secret: String?
+    var currency = "KRW"
+    var discountedPrice = 0
     var imageInfos: [ImageInfo]?
 }
 
