@@ -26,14 +26,14 @@ final class MainViewModel: MainViewModelable {
     private var currentPage = 1
     private var hasNext: Bool?
     private let useCase: Usecase
-    private let pageState = BehaviorRelay<Page>(value: .recentProduct)
-    private let productPage = BehaviorRelay<[ProductDetail]>(value: [])
-
     var error: Observable<Error>?
+
+    private let pageState = BehaviorRelay<Page>(value: .recentProduct)
     var currentPageState: Observable<Page> {
         self.pageState.asObservable()
     }
 
+    private let productPage = BehaviorRelay<[ProductDetail]>(value: [])
     var productList: Observable<[ProductDetail]> {
         productPage.distinctUntilChanged().asObservable()
     }
@@ -60,7 +60,7 @@ final class MainViewModel: MainViewModelable {
 
     func fetchNextPage() {
         guard self.hasNext == true else {
-            return self.error = .just(ProductError.hasNextPage)
+            return self.error = .just(InputError.hasNextPage)
         }
         self.currentPage += 1
         let previous = self.productPage.value

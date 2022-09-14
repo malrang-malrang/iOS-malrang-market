@@ -69,7 +69,7 @@ final class RecentProductViewController: UIViewController {
         self.tableView.rx.modelSelected(ProductDetail.self)
             .withUnretained(self)
             .subscribe(onNext: { recentView, product in
-                recentView.coordinator.showDetailView(product: product)
+                recentView.coordinator.showDetailView(productId: product.id)
             })
             .disposed(by: self.disposeBag)
 
@@ -116,7 +116,12 @@ extension RecentProductViewController: UITableViewDelegate {
                     title: "상품 정보 수정하기",
                     image: UIImage(systemName: "square.and.pencil")
                 ) { _ in
-//                    self.coordinator.showEditView()
+                    guard UserInfomation.vendotId == product.vendorId else {
+                        return self.coordinator.showAlert(
+                            title: InputError.productAuthority.errorDescription
+                        )
+                    }
+                    self.coordinator.showProductEditView(at: product.id ?? 0)
                 }
 
                 let deleteAction = UIAction(
@@ -124,7 +129,11 @@ extension RecentProductViewController: UITableViewDelegate {
                     image: UIImage(systemName: "trash"),
                     attributes: .destructive
                 ) { _ in
-//                    self.coordinator.delete
+                    guard UserInfomation.vendotId == product.vendorId else {
+                        return self.coordinator.showAlert(
+                            title: InputError.productAuthority.errorDescription
+                        )
+                    }
                 }
 
                 return UIMenu(children: [shareAction, editAction, deleteAction])

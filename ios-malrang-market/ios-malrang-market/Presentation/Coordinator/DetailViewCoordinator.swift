@@ -9,7 +9,7 @@ import UIKit
 
 protocol DetailViewCoordinatorProtocol {
     func popDetailView()
-    func showActionSheet(_ productInfomation: ProductInfomation)
+    func showActionSheet(_ product: ProductDetail)
     func showAlert(title: String)
 }
 
@@ -29,9 +29,9 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
         self.useCase = useCase
     }
 
-    func start(product: ProductDetail) {
+    func start(productId: Int?) {
         let viewModel: DetailViewModelable = DetailViewModel(
-            product: product,
+            productId: productId,
             useCase: self.useCase
         )
         let detailView = DetailViewController(viewModel: viewModel, coordinator: self)
@@ -44,27 +44,44 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     }
 
     func showAlert(title: String) {
+        let checkAction = UIAlertAction(title: "확인", style: .default)
         let alert = AlertBuilder.shared
             .setType(.alert)
             .setTitle(title)
+            .setActions([checkAction])
             .build()
 
         self.navigationController.present(alert, animated: true)
     }
 
-    func showActionSheet(_ productInfomation: ProductInfomation) {
+    func showActionSheet(_ product: ProductDetail) {
         let cancelAction = UIAlertAction(title: "확인", style: .cancel)
         let editAction = UIAlertAction(
             title: "상품 정보 수정하기",
             style: .default) { _ in
+                guard UserInfomation.vendotId == product.vendorId else {
+                    return self.showAlert(
+                        title: InputError.productAuthority.errorDescription
+                    )
+                }
+                self.showProductEditView(at: product.id ?? 0)
+            }
 
+        let deleteAction = UIAlertAction(
+            title: "상품 정보 제거하기",
+            style: .default) { _ in
+                guard UserInfomation.vendotId == product.vendorId else {
+                    return self.showAlert(
+                        title: InputError.productAuthority.errorDescription
+                    )
+                }
             }
 
         let activityAction = UIAlertAction(
             title: "상품 정보 공유하기",
             style: .default) { _ in
                 let activity = UIActivityViewController(
-                    activityItems: [productInfomation.name, productInfomation.price],
+                    activityItems: [product.name ?? "", product.price ?? ""],
                     applicationActivities: nil
                 )
                 self.navigationController.present(activity, animated: true)
@@ -72,9 +89,19 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
 
         let actionSheet = AlertBuilder.shared
             .setType(.actionSheet)
-            .setActions([cancelAction, editAction, activityAction])
+            .setActions([cancelAction, editAction, deleteAction, activityAction])
             .build()
 
         self.navigationController.present(actionSheet, animated: true)
+    }
+
+    private func showProductEditView(at productId: Int) {
+        let managementCoordinator = MenegementCoordinator(
+            navigationController: self.navigationController,
+            parentCoordinators: self,
+            useCase: self.useCase
+        )
+        self.childCoordinators.append(managementCoordinator)
+        managementCoordinator.showEditView(at: productId)
     }
 }

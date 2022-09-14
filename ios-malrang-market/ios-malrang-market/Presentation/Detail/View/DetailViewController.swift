@@ -139,8 +139,8 @@ final class DetailViewController: UIViewController {
         self.moreBarButton.rx.tap
             .withUnretained(self)
             .subscribe(onNext: { detailView, _ in
-                let productInfomation = detailView.viewModel.productInfomation()
-                detailView.coordinator.showActionSheet(productInfomation)
+                guard let product = detailView.viewModel.productDetail() else { return }
+                detailView.coordinator.showActionSheet(product)
             })
             .disposed(by: self.disposeBag)
     }

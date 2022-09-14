@@ -14,10 +14,10 @@ struct ProductRequest: Encodable {
     var name: String?
     var descriptions: String?
     var price: Double?
-    var currency: String?
-    var discountedPrice: Double?
     var stock: Int?
     var secret: String?
+    var currency = "KRW"
+    var discountedPrice = 0
     var imageInfos: [ImageInfo]?
 }
 

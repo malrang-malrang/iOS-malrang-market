@@ -15,7 +15,7 @@ final class RandomProductViewController: UIViewController {
         flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         flowLayout.itemSize = CGSize(
             width: self.view.bounds.width * 0.46,
-            height: self.view.bounds.height * 0.41
+            height: self.view.bounds.height * 0.3
         )
 
         let collectionView = UICollectionView(
@@ -82,7 +82,7 @@ final class RandomProductViewController: UIViewController {
         self.collectionView.rx.modelSelected(ProductDetail.self)
             .withUnretained(self)
             .subscribe(onNext: { randomView, product in
-                randomView.coordinator.showDetailView(product: product)
+                randomView.coordinator.showDetailView(productId: product.id)
             })
             .disposed(by: self.disposeBag)
 
@@ -123,7 +123,12 @@ extension RandomProductViewController: UICollectionViewDelegate {
                     title: "상품 정보 수정하기",
                     image: UIImage(systemName: "square.and.pencil")
                 ) { _ in
-//                    self.coordinator.showEditView()
+                    guard UserInfomation.vendotId == product.vendorId else {
+                        return self.coordinator.showAlert(
+                            title: InputError.productAuthority.errorDescription
+                        )
+                    }
+                        self.coordinator.showProductEditView(at: product.id ?? 0)
                 }
 
                 let deleteAction = UIAction(
@@ -131,7 +136,11 @@ extension RandomProductViewController: UICollectionViewDelegate {
                     image: UIImage(systemName: "trash"),
                     attributes: .destructive
                 ) { _ in
-//                    self.coordinator.delete
+                    guard UserInfomation.vendotId == product.vendorId else {
+                        return self.coordinator.showAlert(
+                            title: InputError.productAuthority.errorDescription
+                        )
+                    }
                 }
 
                 return UIMenu(children: [shareAction, editAction, deleteAction])

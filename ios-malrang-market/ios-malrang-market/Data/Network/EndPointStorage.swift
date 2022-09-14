@@ -57,8 +57,8 @@ extension EndPointStorage {
 
     private func productPost(_ body: ProductRequest) -> EndPoint {
         let headers: [String: String] = [
-            Const.identifier: Const.identifierSerialNumber,
-            Const.contentType: "multipart/form-data; boundary=\"\(body.boundary ?? "")\""
+            Const.contentType: "multipart/form-data; boundary=\"\(body.boundary ?? "")\"",
+            Const.identifier: Const.identifierSerialNumber
         ]
         let endPoint = EndPoint(
             path: Const.basePath,

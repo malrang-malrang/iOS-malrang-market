@@ -10,33 +10,28 @@ import RxSwift
 protocol Usecase {
     func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductList>
     func fetchProductDetail(id: Int) -> Observable<ProductDetail>
-    func fetchProductImages(id: Int) -> Observable<[ProductImages]>
+    func post(_ productRequest: ProductRequest) -> Observable<Void>
 }
 
 struct DefaultUsecase: Usecase {
-    private let productListRepository: ProductListRepositoryProtocol
-    private let productDetailRepository: ProductDetailRepositoryProtocol
-    private let productImagesRepository: ProductImagesRepositoryProtocol
+    private let malrangMarketRepository: MalrangMarketRepositoryProtocol
 
-    init(
-        listRepository: ProductListRepositoryProtocol,
-        detailRepository: ProductDetailRepositoryProtocol,
-        imagesRepository: ProductImagesRepositoryProtocol
-    ) {
-        self.productListRepository = listRepository
-        self.productDetailRepository = detailRepository
-        self.productImagesRepository = imagesRepository
+    init(malrangMarketRepository: MalrangMarketRepositoryProtocol) {
+        self.malrangMarketRepository = malrangMarketRepository
     }
 
     func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductList> {
-        return self.productListRepository.fetch(pageNumber: pageNumber, perPages: perPages)
+        return self.malrangMarketRepository.fetchProductList(
+            pageNumber: pageNumber,
+            perPages: perPages
+        )
     }
 
     func fetchProductDetail(id: Int) -> Observable<ProductDetail> {
-        return self.productDetailRepository.fetch(id: id)
+        return self.malrangMarketRepository.fetchProductDetail(id: id)
     }
 
-    func fetchProductImages(id: Int) -> Observable<[ProductImages]> {
-        return self.productImagesRepository.fetch(id: id)
+    func post(_ productRequest: ProductRequest) -> Observable<Void> {
+        return self.malrangMarketRepository.post(product: productRequest)
     }
 }

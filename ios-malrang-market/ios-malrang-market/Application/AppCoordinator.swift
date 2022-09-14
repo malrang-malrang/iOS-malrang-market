@@ -21,7 +21,6 @@ extension Coordinator {
 
 final class AppCoordinator: Coordinator {
     var navigationController: UINavigationController
-
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
 
