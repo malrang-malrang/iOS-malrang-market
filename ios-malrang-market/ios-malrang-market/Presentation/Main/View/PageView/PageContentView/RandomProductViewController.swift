@@ -130,48 +130,10 @@ extension RandomProductViewController: UICollectionViewDelegate {
         contextMenuConfigurationForItemAt indexPath: IndexPath,
         point: CGPoint
     ) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(
-            identifier: nil,
-            previewProvider: nil
-        ) { _ -> UIMenu? in
-
-            let currentCell = self.collectionView.cellForItem(at: indexPath) as? RandomProductListCell
-            guard let product = currentCell?.constructedProduct else {
-                return nil
-            }
-
-                let shareAction = UIAction(
-                    title: "상품 정보 공유하기",
-                    image: UIImage(systemName: "square.and.arrow.up")
-                ) { _ in
-                    self.coordinator.showActivity(product: product)
-                }
-
-                let editAction = UIAction(
-                    title: "상품 정보 수정하기",
-                    image: UIImage(systemName: "square.and.pencil")
-                ) { _ in
-                    guard UserInfomation.vendotId == product.vendorId else {
-                        return self.coordinator.showAlert(
-                            title: InputError.productAuthority.errorDescription
-                        )
-                    }
-                        self.coordinator.showProductEditView(at: product.id ?? 0)
-                }
-
-                let deleteAction = UIAction(
-                    title: "상품 정보 제거하기",
-                    image: UIImage(systemName: "trash"),
-                    attributes: .destructive
-                ) { _ in
-                    guard UserInfomation.vendotId == product.vendorId else {
-                        return self.coordinator.showAlert(
-                            title: InputError.productAuthority.errorDescription
-                        )
-                    }
-                }
-
-                return UIMenu(children: [shareAction, editAction, deleteAction])
-            }
+        let currentCell = self.collectionView.cellForItem(at: indexPath) as? RandomProductListCell
+        guard let product = currentCell?.constructedProduct else {
+            return nil
+        }
+        return self.coordinator.contextMenu(at: product)
     }
 }

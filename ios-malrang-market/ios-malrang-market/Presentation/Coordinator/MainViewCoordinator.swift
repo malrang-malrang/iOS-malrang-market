@@ -12,7 +12,7 @@ protocol MainViewCoordinatorProtocol {
     func showProductRegistrationView()
     func showProductEditView(at productId: Int)
     func showAlert(title: String)
-    func showActivity(product: ProductDetail)
+    func contextMenu(at product: ProductDetail) -> UIContextMenuConfiguration?
 }
 
 final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
@@ -74,7 +74,48 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         self.navigationController.present(alert, animated: true)
     }
 
-    func showActivity(product: ProductDetail) {
+    func contextMenu(at product: ProductDetail) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil
+        ) { _ in
+
+            let shareAction = UIAction(
+                title: "상품 정보 공유하기",
+                image: UIImage(systemName: "square.and.arrow.up")
+            ) { _ in
+                self.showActivity(product: product)
+            }
+
+            let editAction = UIAction(
+                title: "상품 정보 수정하기",
+                image: UIImage(systemName: "square.and.pencil")
+            ) { _ in
+                guard UserInfomation.vendotId == product.vendorId else {
+                    return self.showAlert(
+                        title: InputError.productAuthority.errorDescription
+                    )
+                }
+                self.showProductEditView(at: product.id ?? 0)
+            }
+
+            let deleteAction = UIAction(
+                title: "상품 정보 제거하기",
+                image: UIImage(systemName: "trash"),
+                attributes: .destructive
+            ) { _ in
+                guard UserInfomation.vendotId == product.vendorId else {
+                    return self.showAlert(
+                        title: InputError.productAuthority.errorDescription
+                    )
+                }
+            }
+
+            return UIMenu(children: [shareAction, editAction, deleteAction])
+        }
+    }
+
+    private func showActivity(product: ProductDetail) {
         let activity = UIActivityViewController(
             activityItems: [product.name ?? "", product.price ?? ""],
             applicationActivities: nil
