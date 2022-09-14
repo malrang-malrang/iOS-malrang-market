@@ -11,7 +11,7 @@
 
 ---
 ## 🔎 프로젝트 소개
-**🎁 당신의 상품을 판매해보세요. 온라인 마켓 iPhone앱 입니다.**
+<img src="https://i.imgur.com/SvAapwx.jpg" width="830">
 
 ---
 ## 📺 프로젝트 실행화면
@@ -23,7 +23,7 @@
 |--|--|--|
 |<img src="https://i.imgur.com/BhrbhpW.gif" width="250">|<img src="https://i.imgur.com/8EB772I.gif" width="250">|<img src="https://i.imgur.com/drwUmGp.gif" width="250">|
 
-|ContextMenu|ContextMenu를 통한 화면 전환|paging|
+|ContextMenu|ContextMenu를 통한 화면 전환|Paging|
 |--|--|--|
 |<img src="https://i.imgur.com/ie9iGgm.gif" width="250">|<img src="https://i.imgur.com/riKkFpc.gif" width="250">|<img src="https://i.imgur.com/I2c5lHq.gif" width="250">|
 
