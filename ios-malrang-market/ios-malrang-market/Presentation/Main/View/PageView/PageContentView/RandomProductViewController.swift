@@ -26,6 +26,12 @@ final class RandomProductViewController: UIViewController {
         return collectionView
     }()
 
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
+        return refreshControl
+    }()
+
     private let viewModel: MainViewModelable
     private let coordinator: MainViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
@@ -54,6 +60,8 @@ final class RandomProductViewController: UIViewController {
             forCellWithReuseIdentifier: RandomProductListCell.identifier
         )
         self.collectionView.delegate = self
+        self.collectionView.refreshControl = self.refreshControl
+
     }
 
     private func setupConstraint() {
@@ -93,6 +101,18 @@ final class RandomProductViewController: UIViewController {
                 randomView.viewModel.fetchNextPage()
             })
             .disposed(by: self.disposeBag)
+
+        self.refreshControl.rx.controlEvent(.valueChanged)
+            .withUnretained(self)
+            .subscribe { recentView, _ in
+                recentView.pullToRefresh()
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func pullToRefresh() {
+        self.viewModel.fetchFirstPage()
+        self.collectionView.refreshControl?.endRefreshing()
     }
 }
 
