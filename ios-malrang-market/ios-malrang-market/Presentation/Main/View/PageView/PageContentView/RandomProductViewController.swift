@@ -29,6 +29,10 @@ final class RandomProductViewController: UIViewController {
     private let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
+        refreshControl.attributedTitle = NSAttributedString(
+            string: "Loading Data",
+            attributes: [.foregroundColor: #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)]
+        )
         return refreshControl
     }()
 
