@@ -8,6 +8,10 @@
 import RxSwift
 import SnapKit
 
+private enum Const {
+    static let loadingData = "Loading Data"
+}
+
 final class RandomProductViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -30,7 +34,7 @@ final class RandomProductViewController: UIViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
         refreshControl.attributedTitle = NSAttributedString(
-            string: "Loading Data",
+            string: Const.loadingData,
             attributes: [.foregroundColor: #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)]
         )
         return refreshControl

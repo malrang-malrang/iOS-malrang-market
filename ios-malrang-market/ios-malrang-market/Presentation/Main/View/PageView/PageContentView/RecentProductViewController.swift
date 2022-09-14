@@ -9,6 +9,10 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
+private enum Const {
+    static let loadingData = "Loading Data"
+}
+
 final class RecentProductViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -23,7 +27,7 @@ final class RecentProductViewController: UIViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
         refreshControl.attributedTitle = NSAttributedString(
-            string: "Loading Data",
+            string: Const.loadingData,
             attributes: [.foregroundColor: #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)]
         )
         return refreshControl
