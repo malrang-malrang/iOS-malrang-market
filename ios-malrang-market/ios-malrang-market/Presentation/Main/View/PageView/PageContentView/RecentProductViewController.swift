@@ -19,6 +19,12 @@ final class RecentProductViewController: UIViewController {
         return tableView
     }()
 
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
+        return refreshControl
+    }()
+    
     private let viewModel: MainViewModelable
     private let coordinator: MainViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
@@ -43,6 +49,7 @@ final class RecentProductViewController: UIViewController {
     private func setupView() {
         self.view.addSubviews(self.tableView)
         self.tableView.delegate = self
+        self.tableView.refreshControl = self.refreshControl
     }
 
     private func setupConstraint() {
@@ -87,6 +94,18 @@ final class RecentProductViewController: UIViewController {
                 recentView.viewModel.fetchNextPage()
             })
             .disposed(by: self.disposeBag)
+
+        self.refreshControl.rx.controlEvent(.valueChanged)
+            .withUnretained(self)
+            .subscribe { recentView, _ in
+                recentView.pullToRefresh()
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func pullToRefresh() {
+        self.viewModel.fetchFirstPage()
+        self.tableView.refreshControl?.endRefreshing()
     }
 }
 

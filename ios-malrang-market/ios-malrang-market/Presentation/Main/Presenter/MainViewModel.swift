@@ -10,6 +10,8 @@ import RxSwift
 import RxRelay
 
 protocol MainViewModelInput {
+    func fetchFirstPage()
+    func fetchNextPage()
     func didTapSegmentControl(selected index: Int)
 }
 
@@ -17,7 +19,6 @@ protocol MainViewModelOutput {
     var error: Observable<Error>? { get }
     var currentPageState: Observable<Page> { get }
     var productList: Observable<[ProductDetail]> { get }
-    func fetchNextPage()
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
@@ -45,7 +46,7 @@ final class MainViewModel: MainViewModelable {
         self.fetchFirstPage()
     }
 
-    private func fetchFirstPage() {
+    func fetchFirstPage() {
         self.currentPage = 1
         _ = self.useCase.fetchProductList(pageNumber: self.currentPage, perPages: 20)
             .withUnretained(self)
