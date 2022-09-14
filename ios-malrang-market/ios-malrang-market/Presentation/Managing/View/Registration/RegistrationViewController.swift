@@ -41,7 +41,7 @@ final class RegistrationViewController: UIViewController {
         return barButtonItem
     }()
 
-    private let postBarButton: UIBarButtonItem = {
+    private let checkBarButton: UIBarButtonItem = {
         let checkImage = Image.check
         let barButtonItem = UIBarButtonItem(
             image: checkImage,
@@ -82,7 +82,7 @@ final class RegistrationViewController: UIViewController {
 
     private func setupNavigationItem() {
         self.navigationItem.leftBarButtonItem = self.backBarButton
-        self.navigationItem.rightBarButtonItem = self.postBarButton
+        self.navigationItem.rightBarButtonItem = self.checkBarButton
         self.navigationItem.title = Const.registrationProduct
     }
 
@@ -106,7 +106,7 @@ final class RegistrationViewController: UIViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.postBarButton.rx.tap
+        self.checkBarButton.rx.tap
             .withUnretained(self)
             .subscribe { registrationView, _ in
                 let product = registrationView.managementView.extractData()

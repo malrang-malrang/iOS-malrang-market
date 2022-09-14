@@ -9,7 +9,7 @@ import UIKit
 
 protocol MenegementCoordinatorProtocol {
     func showRegistrationView()
-    func showEditView(_ product: ProductDetail)
+    func showEditView(at productId: Int)
     func popMenegementView()
     func showPhotoLibrary(_ imagePicker: UIImagePickerController)
     func dismissPhotoLibrary(_ imagePicker: UIImagePickerController)
@@ -41,8 +41,13 @@ final class MenegementCoordinator: Coordinator, MenegementCoordinatorProtocol {
         self.navigationController.pushViewController(registrationView, animated: true)
     }
 
-    func showEditView(_ product: ProductDetail) {
-
+    func showEditView(at productId: Int) {
+        let viewModel = ManagementViewModel(productId: productId, useCase: self.useCase)
+        let editView = EditViewController(
+            viewModel: viewModel,
+            coordinator: self
+        )
+        self.navigationController.pushViewController(editView, animated: true)
     }
 
     func showPhotoLibrary(_ imagePicker: UIImagePickerController) {

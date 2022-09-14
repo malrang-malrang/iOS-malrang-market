@@ -26,11 +26,7 @@ private enum Image {
         systemName: "square.and.pencil",
         withConfiguration: Atribute.configuration
     )
-
-    static let trash = UIImage(
-        systemName: "trash",
-        withConfiguration: Atribute.configuration
-    )}
+}
 
 final class EditViewController: UIViewController {
     private let backBarButton: UIBarButtonItem = {
@@ -49,18 +45,6 @@ final class EditViewController: UIViewController {
         let editImage = Image.edit
         let barButtonItem = UIBarButtonItem(
             image: editImage,
-            style: .plain,
-            target: nil,
-            action: nil
-        )
-        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
-        return barButtonItem
-    }()
-
-    private let deleteBarButton: UIBarButtonItem = {
-        let trashImage = Image.trash
-        let barButtonItem = UIBarButtonItem(
-            image: trashImage,
             style: .plain,
             target: nil,
             action: nil
@@ -98,7 +82,7 @@ final class EditViewController: UIViewController {
 
     private func setupNavigationItem() {
         self.navigationItem.leftBarButtonItem = self.backBarButton
-        self.navigationItem.rightBarButtonItems = [self.editBarButton, self.deleteBarButton]
+        self.navigationItem.rightBarButtonItem = self.editBarButton
         self.navigationItem.title = Const.editProduct
     }
 

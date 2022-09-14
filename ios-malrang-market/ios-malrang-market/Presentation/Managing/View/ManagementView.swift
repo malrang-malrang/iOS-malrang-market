@@ -143,6 +143,7 @@ final class ManagementView: UIViewController {
 
         self.viewModel.productInfomation
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { managementView, product in
                 managementView.nameTextField.text = product.name
                 managementView.priceTextField.text = product.price?.description
@@ -153,6 +154,7 @@ final class ManagementView: UIViewController {
 
         self.viewModel.productImageList
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { managementView, images in
                 images.forEach { managementView.addImage(data: $0.data) }
             }
