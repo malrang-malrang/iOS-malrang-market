@@ -23,15 +23,21 @@ final class AppCoordinator: Coordinator {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
+    private let useCase: Usecase = DefaultUsecase(
+        malrangMarketRepository: MalrangMarketRepository()
+    )
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
     }
 
     func start() {
-        let mainCoordinator = MainViewCoordinator(navigationController: self.navigationController)
+        let mainCoordinator = MainViewCoordinator(
+            navigationController: self.navigationController,
+            parentCoordinators: self,
+            useCase: self.useCase
+        )
         self.childCoordinators.append(mainCoordinator)
-        mainCoordinator.parentCoordinators = self
         mainCoordinator.start()
     }
 }
