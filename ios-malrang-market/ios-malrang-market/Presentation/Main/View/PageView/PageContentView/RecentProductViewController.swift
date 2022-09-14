@@ -9,6 +9,10 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
+private enum Const {
+    static let loadingData = "Loading Data"
+}
+
 final class RecentProductViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -17,6 +21,16 @@ final class RecentProductViewController: UIViewController {
             forCellReuseIdentifier: RecentProductListCell.identifier
         )
         return tableView
+    }()
+
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
+        refreshControl.attributedTitle = NSAttributedString(
+            string: Const.loadingData,
+            attributes: [.foregroundColor: #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)]
+        )
+        return refreshControl
     }()
 
     private let viewModel: MainViewModelable
@@ -43,6 +57,7 @@ final class RecentProductViewController: UIViewController {
     private func setupView() {
         self.view.addSubviews(self.tableView)
         self.tableView.delegate = self
+        self.tableView.refreshControl = self.refreshControl
     }
 
     private func setupConstraint() {
@@ -87,6 +102,18 @@ final class RecentProductViewController: UIViewController {
                 recentView.viewModel.fetchNextPage()
             })
             .disposed(by: self.disposeBag)
+
+        self.refreshControl.rx.controlEvent(.valueChanged)
+            .withUnretained(self)
+            .subscribe { recentView, _ in
+                recentView.pullToRefresh()
+            }
+            .disposed(by: self.disposeBag)
+    }
+
+    private func pullToRefresh() {
+        self.viewModel.fetchFirstPage()
+        self.tableView.refreshControl?.endRefreshing()
     }
 }
 
@@ -96,47 +123,11 @@ extension RecentProductViewController: UITableViewDelegate {
         contextMenuConfigurationForRowAt indexPath: IndexPath,
         point: CGPoint
     ) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(
-            identifier: nil,
-            previewProvider: nil) { _ in
 
-                let currentCell = self.tableView.cellForRow(at: indexPath) as? RecentProductListCell
-                guard let product = currentCell?.constructedProduct else {
-                    return nil
-                }
-
-                let shareAction = UIAction(
-                    title: "상품 정보 공유하기",
-                    image: UIImage(systemName: "square.and.arrow.up")
-                ) { _ in
-                    self.coordinator.showActivity(product: product)
-                }
-
-                let editAction = UIAction(
-                    title: "상품 정보 수정하기",
-                    image: UIImage(systemName: "square.and.pencil")
-                ) { _ in
-                    guard UserInfomation.vendotId == product.vendorId else {
-                        return self.coordinator.showAlert(
-                            title: InputError.productAuthority.errorDescription
-                        )
-                    }
-                    self.coordinator.showProductEditView(at: product.id ?? 0)
-                }
-
-                let deleteAction = UIAction(
-                    title: "상품 정보 제거하기",
-                    image: UIImage(systemName: "trash"),
-                    attributes: .destructive
-                ) { _ in
-                    guard UserInfomation.vendotId == product.vendorId else {
-                        return self.coordinator.showAlert(
-                            title: InputError.productAuthority.errorDescription
-                        )
-                    }
-                }
-
-                return UIMenu(children: [shareAction, editAction, deleteAction])
-            }
+        let currentCell = self.tableView.cellForRow(at: indexPath) as? RecentProductListCell
+        guard let product = currentCell?.constructedProduct else {
+            return nil
+        }
+        return self.coordinator.contextMenu(at: product)
     }
 }
