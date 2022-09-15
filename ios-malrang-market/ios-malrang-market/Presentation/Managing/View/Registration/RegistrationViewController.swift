@@ -110,7 +110,7 @@ final class RegistrationViewController: UIViewController {
             .withUnretained(self)
             .subscribe { registrationView, _ in
                 let product = registrationView.managementView.extractData()
-                registrationView.viewModel.requestPost(product) {
+                registrationView.viewModel.productPost(product) {
                     registrationView.coordinator.popMenegementView()
                 }
             }

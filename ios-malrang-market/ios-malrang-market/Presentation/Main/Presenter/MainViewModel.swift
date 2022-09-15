@@ -24,7 +24,7 @@ protocol MainViewModelOutput {
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
-    private var currentPage = 1
+    private var currentPage = 0
     private var hasNext: Bool?
     private let useCase: Usecase
     var error: Observable<Error>?

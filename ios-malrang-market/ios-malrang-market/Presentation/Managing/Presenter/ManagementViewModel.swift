@@ -16,7 +16,7 @@ private enum Const {
 protocol ManagementViewModelInput {
     func insert(imageData: Data)
     func imageList() -> [ImageInfo]
-    func requestPost(_ product: ProductRequest, completion: @escaping () -> Void)
+    func productPost(_ product: ProductRequest, completion: @escaping () -> Void)
 }
 
 protocol ManagementViewModelOutput {
@@ -85,12 +85,12 @@ final class ManagementViewModel: ManagementViewModelable {
         return self.imageRelay.value
     }
 
-    func requestPost(_ product: ProductRequest, completion: @escaping () -> Void) {
+    func productPost(_ product: ProductRequest, completion: @escaping () -> Void) {
         _ = self.useCase.post(product)
             .observe(on: MainScheduler.instance)
             .subscribe(onError: { [weak self] error in
                 self?.error = .just(error)
-            }, onDisposed: {
+            }, onCompleted: {
                 completion()
             })
     }
