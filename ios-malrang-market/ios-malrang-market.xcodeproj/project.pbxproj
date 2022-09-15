@@ -20,6 +20,7 @@
 		304754C828D0E10300D88CB7 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C728D0E10300D88CB7 /* EditViewController.swift */; };
 		304754CB28D322E500D88CB7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754CA28D322E500D88CB7 /* Notification.swift */; };
 		304754D128D32CEB00D88CB7 /* ProductSearchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754D028D32CEB00D88CB7 /* ProductSearchControl.swift */; };
+		304754D428D348F400D88CB7 /* SearchedProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754D328D348F300D88CB7 /* SearchedProductCell.swift */; };
 		3049244628BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */; };
 		3049244A28BFCF850026F5BC /* ProductInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244928BFCF850026F5BC /* ProductInfomation.swift */; };
 		3049244C28C0A58B0026F5BC /* DetailInfomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */; };
@@ -113,6 +114,7 @@
 		304754C728D0E10300D88CB7 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		304754CA28D322E500D88CB7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		304754D028D32CEB00D88CB7 /* ProductSearchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchControl.swift; sourceTree = "<group>"; };
+		304754D328D348F300D88CB7 /* SearchedProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedProductCell.swift; sourceTree = "<group>"; };
 		3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Sugar.swift"; sourceTree = "<group>"; };
 		3049244928BFCF850026F5BC /* ProductInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfomation.swift; sourceTree = "<group>"; };
 		3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfomationView.swift; sourceTree = "<group>"; };
@@ -267,8 +269,17 @@
 			isa = PBXGroup;
 			children = (
 				304754D028D32CEB00D88CB7 /* ProductSearchControl.swift */,
+				304754D228D348CE00D88CB7 /* Cell */,
 			);
 			path = SearchControl;
+			sourceTree = "<group>";
+		};
+		304754D228D348CE00D88CB7 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				304754D328D348F300D88CB7 /* SearchedProductCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		3049243C28B7A9E60026F5BC /* Component */ = {
@@ -942,6 +953,7 @@
 				30E7A2C428AC23C400396255 /* Json.swift in Sources */,
 				30E7A30228B403A200396255 /* UIStackView+Sugar.swift in Sources */,
 				30E7A2EF28B271E000396255 /* MalrangMarketRepository.swift in Sources */,
+				304754D428D348F400D88CB7 /* SearchedProductCell.swift in Sources */,
 				30F6904828A678840056C7FC /* MainViewModel.swift in Sources */,
 				3049245228C21AD40026F5BC /* ProductImageCell.swift in Sources */,
 				30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */,
