@@ -21,6 +21,7 @@
 		304754CB28D322E500D88CB7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754CA28D322E500D88CB7 /* Notification.swift */; };
 		304754D128D32CEB00D88CB7 /* ProductSearchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754D028D32CEB00D88CB7 /* ProductSearchControl.swift */; };
 		304754D428D348F400D88CB7 /* SearchedProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754D328D348F300D88CB7 /* SearchedProductCell.swift */; };
+		304754D628D3502F00D88CB7 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754D528D3502F00D88CB7 /* SearchResultViewController.swift */; };
 		3049244628BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */; };
 		3049244A28BFCF850026F5BC /* ProductInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244928BFCF850026F5BC /* ProductInfomation.swift */; };
 		3049244C28C0A58B0026F5BC /* DetailInfomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */; };
@@ -115,6 +116,7 @@
 		304754CA28D322E500D88CB7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		304754D028D32CEB00D88CB7 /* ProductSearchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchControl.swift; sourceTree = "<group>"; };
 		304754D328D348F300D88CB7 /* SearchedProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedProductCell.swift; sourceTree = "<group>"; };
+		304754D528D3502F00D88CB7 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Sugar.swift"; sourceTree = "<group>"; };
 		3049244928BFCF850026F5BC /* ProductInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfomation.swift; sourceTree = "<group>"; };
 		3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfomationView.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				304754D028D32CEB00D88CB7 /* ProductSearchControl.swift */,
+				304754D528D3502F00D88CB7 /* SearchResultViewController.swift */,
 				304754D228D348CE00D88CB7 /* Cell */,
 			);
 			path = SearchControl;
@@ -937,6 +940,7 @@
 				30E7A30028B39BBE00396255 /* RecentProductListCell.swift in Sources */,
 				304511C928CDCBFD006D4658 /* MenegementCoordinator.swift in Sources */,
 				30E7A30828B6847E00396255 /* String+Sugar.swift in Sources */,
+				304754D628D3502F00D88CB7 /* SearchResultViewController.swift in Sources */,
 				30E7A2FB28B3736200396255 /* Page.swift in Sources */,
 				304754C328D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift in Sources */,
 				30E7A30628B6832C00396255 /* Int+Sugar.swift in Sources */,
