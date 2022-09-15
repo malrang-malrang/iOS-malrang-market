@@ -28,7 +28,7 @@ private enum Image {
     )
 }
 
-final class RegistrationViewController: UIViewController {
+final class RegistrationViewController: UIViewController, NotificationObservable {
     private let backBarButton: UIBarButtonItem = {
         let bookMarkImage = Image.back
         let barButtonItem = UIBarButtonItem(

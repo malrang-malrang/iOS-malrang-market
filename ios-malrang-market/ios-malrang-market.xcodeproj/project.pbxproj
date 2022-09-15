@@ -18,6 +18,7 @@
 		304754C328D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C228D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift */; };
 		304754C528D0B04400D88CB7 /* UIImage+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C428D0B04400D88CB7 /* UIImage+Sugar.swift */; };
 		304754C828D0E10300D88CB7 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C728D0E10300D88CB7 /* EditViewController.swift */; };
+		304754CB28D322E500D88CB7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754CA28D322E500D88CB7 /* Notification.swift */; };
 		3049244628BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */; };
 		3049244A28BFCF850026F5BC /* ProductInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244928BFCF850026F5BC /* ProductInfomation.swift */; };
 		3049244C28C0A58B0026F5BC /* DetailInfomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */; };
@@ -109,6 +110,7 @@
 		304754C228D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalrangMarketRepositoryProtocol.swift; sourceTree = "<group>"; };
 		304754C428D0B04400D88CB7 /* UIImage+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Sugar.swift"; sourceTree = "<group>"; };
 		304754C728D0E10300D88CB7 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		304754CA28D322E500D88CB7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Sugar.swift"; sourceTree = "<group>"; };
 		3049244928BFCF850026F5BC /* ProductInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfomation.swift; sourceTree = "<group>"; };
 		3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfomationView.swift; sourceTree = "<group>"; };
@@ -249,6 +251,14 @@
 				304754C728D0E10300D88CB7 /* EditViewController.swift */,
 			);
 			path = Edit;
+			sourceTree = "<group>";
+		};
+		304754C928D322CF00D88CB7 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				304754CA28D322E500D88CB7 /* Notification.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		3049243C28B7A9E60026F5BC /* Component */ = {
@@ -556,6 +566,7 @@
 		30F6903928A3FC110056C7FC /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				304754C928D322CF00D88CB7 /* Protocol */,
 				30E7A2C228AC239E00396255 /* Singleton */,
 				30F6903D28A442EA0056C7FC /* Extension */,
 			);
@@ -931,6 +942,7 @@
 				30F6904528A58C0D0056C7FC /* PageViewController.swift in Sources */,
 				304754C828D0E10300D88CB7 /* EditViewController.swift in Sources */,
 				30C9590828C657A200C802DA /* InputError.swift in Sources */,
+				304754CB28D322E500D88CB7 /* Notification.swift in Sources */,
 				3049244E28C20B660026F5BC /* PagingImageCollectionView.swift in Sources */,
 				30F6903828A3EFEA0056C7FC /* UnderlineSegmentControl.swift in Sources */,
 				30E7A2ED28B2333800396255 /* UserInfomation.swift in Sources */,

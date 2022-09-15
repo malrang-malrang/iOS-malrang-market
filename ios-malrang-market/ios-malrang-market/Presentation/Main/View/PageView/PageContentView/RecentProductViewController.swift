@@ -13,7 +13,7 @@ private enum Const {
     static let loadingData = "Loading Data"
 }
 
-final class RecentProductViewController: UIViewController {
+final class RecentProductViewController: UIViewController, NotificationObservable {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(
@@ -51,6 +51,7 @@ final class RecentProductViewController: UIViewController {
         super.viewDidLoad()
         self.setupView()
         self.setupConstraint()
+        self.setupNotification()
         self.bind()
     }
 
@@ -63,6 +64,12 @@ final class RecentProductViewController: UIViewController {
     private func setupConstraint() {
         self.tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+    }
+
+    private func setupNotification() {
+        self.registerNotification {
+            self.pullToRefresh()
         }
     }
 

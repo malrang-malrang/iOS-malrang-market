@@ -27,7 +27,7 @@ protocol ManagementViewModelOutput {
 
 protocol ManagementViewModelable: ManagementViewModelInput, ManagementViewModelOutput {}
 
-final class ManagementViewModel: ManagementViewModelable {
+final class ManagementViewModel: ManagementViewModelable, NotificationPostable {
     private let productId: Int?
     private let useCase: Usecase
     var error: Observable<Error>?
@@ -91,6 +91,7 @@ final class ManagementViewModel: ManagementViewModelable {
             .subscribe(onError: { [weak self] error in
                 self?.error = .just(error)
             }, onCompleted: {
+                self.postNotification()
                 completion()
             })
     }
