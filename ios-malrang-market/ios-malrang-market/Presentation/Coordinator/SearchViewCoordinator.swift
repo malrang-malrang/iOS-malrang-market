@@ -7,6 +7,14 @@
 
 import UIKit
 
+private enum Const {
+    static let check = "확인"
+    static let emptyString = ""
+    static let productInfomationShare = "상품 정보 공유하기"
+    static let productInfomationEdit = "상품 정보 수정하기"
+    static let productInfomationDelete = "상품 정보 제거하기"
+}
+
 protocol SearchViewCoordinatorProtocol {
     func popSearchView()
     func showDetailView(productId: Int?)
@@ -68,15 +76,15 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
         ) { _ in
 
             let shareAction = UIAction(
-                title: "상품 정보 공유하기",
-                image: UIImage(systemName: "square.and.arrow.up")
+                title: Const.productInfomationShare,
+                image: SystemImage.share
             ) { _ in
                 self.showActivity(product: product)
             }
 
             let editAction = UIAction(
-                title: "상품 정보 수정하기",
-                image: UIImage(systemName: "square.and.pencil")
+                title: Const.productInfomationEdit,
+                image: SystemImage.edit
             ) { _ in
                 guard UserInfomation.vendotId == product.vendorId else {
                     return self.showAlert(
@@ -87,8 +95,8 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
             }
 
             let deleteAction = UIAction(
-                title: "상품 정보 제거하기",
-                image: UIImage(systemName: "trash"),
+                title: Const.productInfomationDelete,
+                image: SystemImage.trash,
                 attributes: .destructive
             ) { _ in
                 guard UserInfomation.vendotId == product.vendorId else {
@@ -103,7 +111,7 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
     }
 
     private func showAlert(title: String) {
-        let checkAction = UIAlertAction(title: "확인", style: .default)
+        let checkAction = UIAlertAction(title: Const.check, style: .default)
         let alert = AlertBuilder.shared
             .setType(.alert)
             .setTitle(title)
@@ -115,7 +123,7 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
 
     private func showActivity(product: ProductDetail) {
         let activity = UIActivityViewController(
-            activityItems: [product.name ?? "", product.price ?? ""],
+            activityItems: [product.name ?? Const.emptyString, product.price ?? Const.emptyString],
             applicationActivities: nil
         )
         self.navigationController.present(activity, animated: true)
