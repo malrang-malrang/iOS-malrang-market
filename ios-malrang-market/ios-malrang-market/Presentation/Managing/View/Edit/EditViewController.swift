@@ -12,25 +12,9 @@ private enum Const {
     static let editProduct = "상품 수정"
 }
 
-private enum Image {
-    enum Atribute {
-        static let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
-    }
-
-    static let back = UIImage(
-        systemName: "arrowshape.turn.up.backward.fill",
-        withConfiguration: Atribute.configuration
-    )
-
-    static let edit = UIImage(
-        systemName: "square.and.pencil",
-        withConfiguration: Atribute.configuration
-    )
-}
-
 final class EditViewController: UIViewController {
     private let backBarButton: UIBarButtonItem = {
-        let bookMarkImage = Image.back
+        let bookMarkImage = SystemImage.back
         let barButtonItem = UIBarButtonItem(
             image: bookMarkImage,
             style: .plain,
@@ -42,7 +26,7 @@ final class EditViewController: UIViewController {
     }()
 
     private let editBarButton: UIBarButtonItem = {
-        let editImage = Image.edit
+        let editImage = SystemImage.edit
         let barButtonItem = UIBarButtonItem(
             image: editImage,
             style: .plain,

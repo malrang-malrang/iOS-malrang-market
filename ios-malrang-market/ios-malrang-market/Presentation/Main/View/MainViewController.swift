@@ -13,17 +13,6 @@ private enum Const {
     static let searchProduct = "말랑마켓 상품검색"
 }
 
-private enum Image {
-    enum Atribute {
-        static let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
-    }
-
-    static let bookmark = UIImage(
-        systemName: "bookmark",
-        withConfiguration: Atribute.configuration
-    )
-}
-
 final class MainViewController: UIViewController {
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()

@@ -7,10 +7,14 @@
 
 import RxSwift
 
+private enum Const {
+    static let searchProduct = "상품을 검색해주세요."
+}
+
 final class SearchViewController: UIViewController {
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.placeholder = "상품을 검색해주세요."
+        searchBar.placeholder = Const.searchProduct
         return searchBar
     }()
 

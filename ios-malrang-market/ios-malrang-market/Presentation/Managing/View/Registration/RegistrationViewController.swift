@@ -12,25 +12,9 @@ private enum Const {
     static let registrationProduct = "상품 등록"
 }
 
-private enum Image {
-    enum Atribute {
-        static let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
-    }
-
-    static let back = UIImage(
-        systemName: "arrowshape.turn.up.backward.fill",
-        withConfiguration: Atribute.configuration
-    )
-
-    static let check = UIImage(
-        systemName: "checkmark.diamond.fill",
-        withConfiguration: Atribute.configuration
-    )
-}
-
 final class RegistrationViewController: UIViewController, NotificationObservable {
     private let backBarButton: UIBarButtonItem = {
-        let bookMarkImage = Image.back
+        let bookMarkImage = SystemImage.back
         let barButtonItem = UIBarButtonItem(
             image: bookMarkImage,
             style: .plain,
@@ -42,7 +26,7 @@ final class RegistrationViewController: UIViewController, NotificationObservable
     }()
 
     private let checkBarButton: UIBarButtonItem = {
-        let checkImage = Image.check
+        let checkImage = SystemImage.check
         let barButtonItem = UIBarButtonItem(
             image: checkImage,
             style: .plain,

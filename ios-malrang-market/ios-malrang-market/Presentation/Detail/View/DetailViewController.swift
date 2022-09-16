@@ -9,22 +9,6 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-private enum Image {
-    enum Atribute {
-        static let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
-    }
-
-    static let back = UIImage(
-        systemName: "arrowshape.turn.up.backward.fill",
-        withConfiguration: Atribute.configuration
-    )
-
-    static let more = UIImage(
-        systemName: "ellipsis",
-        withConfiguration: Atribute.configuration
-    )
-}
-
 private enum Const {
     static let editTitle = "상품 정보 수정하기"
     static let activityTitle = "상품 정보 공유하기"
@@ -32,7 +16,7 @@ private enum Const {
 
 final class DetailViewController: UIViewController {
     private let backBarButton: UIBarButtonItem = {
-        let bookMarkImage = Image.back
+        let bookMarkImage = SystemImage.back
         let barButtonItem = UIBarButtonItem(
             image: bookMarkImage,
             style: .plain,
@@ -44,7 +28,7 @@ final class DetailViewController: UIViewController {
     }()
 
     private let moreBarButton: UIBarButtonItem = {
-        let moreImage = Image.more
+        let moreImage = SystemImage.more
         let barButtonItem = UIBarButtonItem(
             image: moreImage,
             style: .plain,
