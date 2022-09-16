@@ -31,4 +31,11 @@ enum SystemImage {
         systemName: "square.and.pencil",
         withConfiguration: Atribute.configuration
     )
+
+    static let share = UIImage(
+        systemName: "square.and.arrow.up",
+        withConfiguration: Atribute.configuration
+    )
+
+    static let trash = UIImage(systemName: "trash")
 }
