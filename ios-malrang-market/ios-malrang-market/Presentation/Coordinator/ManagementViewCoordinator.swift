@@ -7,6 +7,10 @@
 
 import UIKit
 
+private enum Const {
+    static let check = "확인"
+}
+
 protocol ManagementViewCoordinatorProtocol {
     func showRegistrationView()
     func showEditView(at productId: Int)
@@ -64,7 +68,7 @@ final class ManagementViewCoordinator: Coordinator, ManagementViewCoordinatorPro
     }
 
     func showAlert(title: String) {
-        let checkAction = UIAlertAction(title: "확인", style: .default)
+        let checkAction = UIAlertAction(title: Const.check, style: .default)
         let alert = AlertBuilder.shared
             .setType(.alert)
             .setTitle(title)
