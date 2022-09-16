@@ -54,11 +54,11 @@ final class EditViewController: UIViewController {
     }()
 
     private let viewModel: ManagementViewModelable
-    private let coordinator: MenegementCoordinatorProtocol
+    private let coordinator: ManagementViewCoordinatorProtocol
     private let managementView: ManagementView
     private let disposeBag = DisposeBag()
 
-    init(viewModel: ManagementViewModelable, coordinator: MenegementCoordinatorProtocol) {
+    init(viewModel: ManagementViewModelable, coordinator: ManagementViewCoordinatorProtocol) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         self.managementView = ManagementView(

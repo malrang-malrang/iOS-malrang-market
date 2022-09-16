@@ -75,10 +75,10 @@ final class ManagementView: UIViewController {
 
     private let descriptionTextView = UITextView()
     private let viewModel: ManagementViewModelable
-    private let coordinator: MenegementCoordinatorProtocol
+    private let coordinator: ManagementViewCoordinatorProtocol
     private let disposeBag = DisposeBag()
 
-    init(coordinator: MenegementCoordinatorProtocol, viewModel: ManagementViewModelable) {
+    init(coordinator: ManagementViewCoordinatorProtocol, viewModel: ManagementViewModelable) {
         self.viewModel = viewModel
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)

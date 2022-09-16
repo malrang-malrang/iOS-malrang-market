@@ -9,6 +9,10 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
+private enum Const {
+    static let searchProduct = "말랑마켓 상품검색"
+}
+
 private enum Image {
     enum Atribute {
         static let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
@@ -21,13 +25,18 @@ private enum Image {
 }
 
 final class MainViewController: UIViewController {
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = Const.searchProduct
+        return searchBar
+    }()
+
     private let addButton: AddButton = {
         let button = AddButton()
         button.layer.cornerRadius = 27
         return button
     }()
 
-    private let searchBarControl: ProductSearchControl
     private let segmentView: SegmentView
     private let pageView: PageViewController
     private let viewModel: MainViewModelable
@@ -35,10 +44,6 @@ final class MainViewController: UIViewController {
     private let disposeBag = DisposeBag()
 
     init(viewModel: MainViewModelable, coordinator: MainViewCoordinatorProtocol) {
-        self.searchBarControl = ProductSearchControl(
-            viewModel: viewModel,
-            coordinator: coordinator
-        )
         self.segmentView = SegmentView(viewModel: viewModel)
         self.pageView = PageViewController(viewModel: viewModel, coordinator: coordinator)
         self.viewModel = viewModel
@@ -59,7 +64,7 @@ final class MainViewController: UIViewController {
     }
 
     private func setupNavigationItem() {
-        self.navigationItem.searchController = self.searchBarControl
+        self.navigationItem.titleView = self.searchBar
     }
 
     private func setupView() {
@@ -102,6 +107,16 @@ final class MainViewController: UIViewController {
             .subscribe(onNext: { mainView, error in
                 mainView.coordinator.showAlert(title: error.localizedDescription)
             })
+            .disposed(by: self.disposeBag)
+
+        self.searchBar.rx.textDidBeginEditing
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .subscribe { mainView, _ in
+                mainView.searchBar.resignFirstResponder()
+                let productList = mainView.viewModel.productDetailList()
+                mainView.coordinator.showSearchView(productList: productList)
+            }
             .disposed(by: self.disposeBag)
     }
 }

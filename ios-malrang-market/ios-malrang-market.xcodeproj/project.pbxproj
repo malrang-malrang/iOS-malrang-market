@@ -13,20 +13,21 @@
 		300442D528ABCFBA007FF20B /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300442D428ABCFBA007FF20B /* HTTPMethod.swift */; };
 		300442D728ABCFCB007FF20B /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300442D628ABCFCB007FF20B /* EndPoint.swift */; };
 		304511C528CDB362006D4658 /* ManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304511C428CDB362006D4658 /* ManagementView.swift */; };
-		304511C928CDCBFD006D4658 /* MenegementCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304511C828CDCBFD006D4658 /* MenegementCoordinator.swift */; };
+		304511C928CDCBFD006D4658 /* ManagementViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304511C828CDCBFD006D4658 /* ManagementViewCoordinator.swift */; };
 		304511CC28CDDC3F006D4658 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304511CB28CDDC3F006D4658 /* RegistrationViewController.swift */; };
 		304754C328D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C228D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift */; };
 		304754C528D0B04400D88CB7 /* UIImage+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C428D0B04400D88CB7 /* UIImage+Sugar.swift */; };
 		304754C828D0E10300D88CB7 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754C728D0E10300D88CB7 /* EditViewController.swift */; };
 		304754CB28D322E500D88CB7 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754CA28D322E500D88CB7 /* Notification.swift */; };
-		304754D128D32CEB00D88CB7 /* ProductSearchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754D028D32CEB00D88CB7 /* ProductSearchControl.swift */; };
-		304754D428D348F400D88CB7 /* SearchedProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754D328D348F300D88CB7 /* SearchedProductCell.swift */; };
-		304754D628D3502F00D88CB7 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304754D528D3502F00D88CB7 /* SearchResultViewController.swift */; };
 		3049244628BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */; };
 		3049244A28BFCF850026F5BC /* ProductInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244928BFCF850026F5BC /* ProductInfomation.swift */; };
 		3049244C28C0A58B0026F5BC /* DetailInfomationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */; };
 		3049244E28C20B660026F5BC /* PagingImageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049244D28C20B660026F5BC /* PagingImageCollectionView.swift */; };
 		3049245228C21AD40026F5BC /* ProductImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3049245128C21AD40026F5BC /* ProductImageCell.swift */; };
+		3082ED0D28D4658B00C62663 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3082ED0C28D4658B00C62663 /* SearchViewController.swift */; };
+		3082ED1028D4659D00C62663 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3082ED0F28D4659D00C62663 /* SearchViewModel.swift */; };
+		3082ED1228D4661A00C62663 /* SearchedProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3082ED1128D4661A00C62663 /* SearchedProductCell.swift */; };
+		3082ED1428D468E100C62663 /* SearchViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3082ED1328D468E100C62663 /* SearchViewCoordinator.swift */; };
 		30BA5FBB28CF59FF00D109BC /* ManagementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BA5FBA28CF59FF00D109BC /* ManagementViewModel.swift */; };
 		30C958FB28C2333400C802DA /* PagingCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C958FA28C2333400C802DA /* PagingCollectionViewFlowLayout.swift */; };
 		30C958FD28C25E2400C802DA /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C958FC28C25E2400C802DA /* AlertBuilder.swift */; };
@@ -108,20 +109,21 @@
 		300442D428ABCFBA007FF20B /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		300442D628ABCFCB007FF20B /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		304511C428CDB362006D4658 /* ManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementView.swift; sourceTree = "<group>"; };
-		304511C828CDCBFD006D4658 /* MenegementCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenegementCoordinator.swift; sourceTree = "<group>"; };
+		304511C828CDCBFD006D4658 /* ManagementViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewCoordinator.swift; sourceTree = "<group>"; };
 		304511CB28CDDC3F006D4658 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		304754C228D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalrangMarketRepositoryProtocol.swift; sourceTree = "<group>"; };
 		304754C428D0B04400D88CB7 /* UIImage+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Sugar.swift"; sourceTree = "<group>"; };
 		304754C728D0E10300D88CB7 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		304754CA28D322E500D88CB7 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
-		304754D028D32CEB00D88CB7 /* ProductSearchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSearchControl.swift; sourceTree = "<group>"; };
-		304754D328D348F300D88CB7 /* SearchedProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedProductCell.swift; sourceTree = "<group>"; };
-		304754D528D3502F00D88CB7 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Sugar.swift"; sourceTree = "<group>"; };
 		3049244928BFCF850026F5BC /* ProductInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfomation.swift; sourceTree = "<group>"; };
 		3049244B28C0A58B0026F5BC /* DetailInfomationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfomationView.swift; sourceTree = "<group>"; };
 		3049244D28C20B660026F5BC /* PagingImageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingImageCollectionView.swift; sourceTree = "<group>"; };
 		3049245128C21AD40026F5BC /* ProductImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCell.swift; sourceTree = "<group>"; };
+		3082ED0C28D4658B00C62663 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		3082ED0F28D4659D00C62663 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		3082ED1128D4661A00C62663 /* SearchedProductCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedProductCell.swift; sourceTree = "<group>"; };
+		3082ED1328D468E100C62663 /* SearchViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewCoordinator.swift; sourceTree = "<group>"; };
 		30BA5FBA28CF59FF00D109BC /* ManagementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementViewModel.swift; sourceTree = "<group>"; };
 		30C958FA28C2333400C802DA /* PagingCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		30C958FC28C25E2400C802DA /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
@@ -267,24 +269,6 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		304754CF28D32CCD00D88CB7 /* SearchControl */ = {
-			isa = PBXGroup;
-			children = (
-				304754D028D32CEB00D88CB7 /* ProductSearchControl.swift */,
-				304754D528D3502F00D88CB7 /* SearchResultViewController.swift */,
-				304754D228D348CE00D88CB7 /* Cell */,
-			);
-			path = SearchControl;
-			sourceTree = "<group>";
-		};
-		304754D228D348CE00D88CB7 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				304754D328D348F300D88CB7 /* SearchedProductCell.swift */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
 		3049243C28B7A9E60026F5BC /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,6 +291,40 @@
 			isa = PBXGroup;
 			children = (
 				3049245128C21AD40026F5BC /* ProductImageCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		3082ED0928D4655200C62663 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				3082ED0A28D4656400C62663 /* Presenter */,
+				3082ED0B28D4656C00C62663 /* View */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		3082ED0A28D4656400C62663 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				3082ED0F28D4659D00C62663 /* SearchViewModel.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		3082ED0B28D4656C00C62663 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3082ED0C28D4658B00C62663 /* SearchViewController.swift */,
+				3082ED0E28D4658E00C62663 /* Cell */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		3082ED0E28D4658E00C62663 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				3082ED1128D4661A00C62663 /* SearchedProductCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -546,6 +564,7 @@
 				30F69026289E7FF70056C7FC /* Main */,
 				30E7A30E28B6946D00396255 /* Detail */,
 				304511C328CDB32E006D4658 /* Managing */,
+				3082ED0928D4655200C62663 /* Search */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -563,7 +582,6 @@
 			isa = PBXGroup;
 			children = (
 				30F68FE7289AB0AA0056C7FC /* MainViewController.swift */,
-				304754CF28D32CCD00D88CB7 /* SearchControl */,
 				30F6904228A583FA0056C7FC /* SegmentControl */,
 				30E7A2F928B3734A00396255 /* PageView */,
 			);
@@ -583,7 +601,8 @@
 			children = (
 				30F6902D289FCCB80056C7FC /* MainViewCoordinator.swift */,
 				30E7A30C28B6942400396255 /* DetailViewCoordinator.swift */,
-				304511C828CDCBFD006D4658 /* MenegementCoordinator.swift */,
+				304511C828CDCBFD006D4658 /* ManagementViewCoordinator.swift */,
+				3082ED1328D468E100C62663 /* SearchViewCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -917,6 +936,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3082ED0D28D4658B00C62663 /* SearchViewController.swift in Sources */,
 				30E7A2EB28B219D200396255 /* Encodable+Sugar.swift in Sources */,
 				30E7A2BF28ABDA8500396255 /* NetworkError.swift in Sources */,
 				30E7A30A28B6849500396255 /* Date+Sugar.swift in Sources */,
@@ -932,15 +952,16 @@
 				30E7A2FD28B3799D00396255 /* RandomProductViewController.swift in Sources */,
 				30F68FE8289AB0AA0056C7FC /* MainViewController.swift in Sources */,
 				30E7A2E528B0E05000396255 /* Requestable.swift in Sources */,
+				3082ED1228D4661A00C62663 /* SearchedProductCell.swift in Sources */,
 				30F6904F28A930930056C7FC /* AddButton.swift in Sources */,
 				304754C528D0B04400D88CB7 /* UIImage+Sugar.swift in Sources */,
 				30F6904128A578800056C7FC /* SegmentView.swift in Sources */,
 				304511CC28CDDC3F006D4658 /* RegistrationViewController.swift in Sources */,
 				30F69030289FCF9A0056C7FC /* AppCoordinator.swift in Sources */,
 				30E7A30028B39BBE00396255 /* RecentProductListCell.swift in Sources */,
-				304511C928CDCBFD006D4658 /* MenegementCoordinator.swift in Sources */,
+				304511C928CDCBFD006D4658 /* ManagementViewCoordinator.swift in Sources */,
 				30E7A30828B6847E00396255 /* String+Sugar.swift in Sources */,
-				304754D628D3502F00D88CB7 /* SearchResultViewController.swift in Sources */,
+				3082ED1028D4659D00C62663 /* SearchViewModel.swift in Sources */,
 				30E7A2FB28B3736200396255 /* Page.swift in Sources */,
 				304754C328D09E0900D88CB7 /* MalrangMarketRepositoryProtocol.swift in Sources */,
 				30E7A30628B6832C00396255 /* Int+Sugar.swift in Sources */,
@@ -957,7 +978,6 @@
 				30E7A2C428AC23C400396255 /* Json.swift in Sources */,
 				30E7A30228B403A200396255 /* UIStackView+Sugar.swift in Sources */,
 				30E7A2EF28B271E000396255 /* MalrangMarketRepository.swift in Sources */,
-				304754D428D348F400D88CB7 /* SearchedProductCell.swift in Sources */,
 				30F6904828A678840056C7FC /* MainViewModel.swift in Sources */,
 				3049245228C21AD40026F5BC /* ProductImageCell.swift in Sources */,
 				30F68FE4289AB0AA0056C7FC /* AppDelegate.swift in Sources */,
@@ -971,9 +991,9 @@
 				30C9590828C657A200C802DA /* InputError.swift in Sources */,
 				304754CB28D322E500D88CB7 /* Notification.swift in Sources */,
 				3049244E28C20B660026F5BC /* PagingImageCollectionView.swift in Sources */,
+				3082ED1428D468E100C62663 /* SearchViewCoordinator.swift in Sources */,
 				30F6903828A3EFEA0056C7FC /* UnderlineSegmentControl.swift in Sources */,
 				30E7A2ED28B2333800396255 /* UserInfomation.swift in Sources */,
-				304754D128D32CEB00D88CB7 /* ProductSearchControl.swift in Sources */,
 				3049244A28BFCF850026F5BC /* ProductInfomation.swift in Sources */,
 				30F68FE6289AB0AA0056C7FC /* SceneDelegate.swift in Sources */,
 				30C9590A28C65D1F00C802DA /* RandomProductListCell.swift in Sources */,

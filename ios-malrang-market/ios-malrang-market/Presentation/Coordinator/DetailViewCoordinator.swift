@@ -96,7 +96,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     }
 
     private func showProductEditView(at productId: Int) {
-        let managementCoordinator = MenegementCoordinator(
+        let managementCoordinator = ManagementViewCoordinator(
             navigationController: self.navigationController,
             parentCoordinators: self,
             useCase: self.useCase

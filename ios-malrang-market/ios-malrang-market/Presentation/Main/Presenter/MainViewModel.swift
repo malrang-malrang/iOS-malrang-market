@@ -13,14 +13,13 @@ protocol MainViewModelInput {
     func fetchFirstPage()
     func fetchNextPage()
     func didTapSegmentControl(selected index: Int)
-    func searchProduct(_ text: String)
 }
 
 protocol MainViewModelOutput {
     var error: Observable<Error>? { get }
     var currentPageState: Observable<Page> { get }
     var productList: Observable<[ProductDetail]> { get }
-    var searchedProduct: Observable<[ProductDetail]> { get }
+    func productDetailList() -> [ProductDetail]
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
@@ -39,11 +38,6 @@ final class MainViewModel: MainViewModelable {
     private let productPage = BehaviorRelay<[ProductDetail]>(value: [])
     var productList: Observable<[ProductDetail]> {
         return productPage.distinctUntilChanged().asObservable()
-    }
-
-    private let searchRelay = BehaviorRelay<[ProductDetail]>(value: [])
-    var searchedProduct: Observable<[ProductDetail]> {
-        return self.searchRelay.asObservable()
     }
 
     init(useCase: Usecase) {
@@ -86,9 +80,7 @@ final class MainViewModel: MainViewModelable {
         self.pageState.accept(index)
     }
 
-    func searchProduct(_ text: String) {
-        let filteringProductList = self.productPage.value
-            .filter { $0.name?.localizedCaseInsensitiveContains(text) == true }
-        self.searchRelay.accept(filteringProductList)
+    func productDetailList() -> [ProductDetail] {
+        return self.productPage.value
     }
 }

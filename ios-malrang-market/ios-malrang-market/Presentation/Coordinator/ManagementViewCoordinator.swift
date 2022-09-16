@@ -1,5 +1,5 @@
 //
-//  MenegementCoordinator.swift
+//  ManagementViewCoordinator.swift
 //  ios-malrang-market
 //
 //  Created by 김동욱 on 2022/09/11.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol MenegementCoordinatorProtocol {
+protocol ManagementViewCoordinatorProtocol {
     func showRegistrationView()
     func showEditView(at productId: Int)
     func popMenegementView()
@@ -16,7 +16,7 @@ protocol MenegementCoordinatorProtocol {
     func showAlert(title: String)
 }
 
-final class MenegementCoordinator: Coordinator, MenegementCoordinatorProtocol {
+final class ManagementViewCoordinator: Coordinator, ManagementViewCoordinatorProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []

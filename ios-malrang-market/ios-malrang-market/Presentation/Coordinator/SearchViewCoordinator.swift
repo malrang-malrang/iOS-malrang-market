@@ -1,22 +1,20 @@
 //
-//  MainViewCoordinator.swift
+//  SearchViewCoordinator.swift
 //  ios-malrang-market
 //
-//  Created by 김동욱 on 2022/08/07.
+//  Created by 김동욱 on 2022/09/16.
 //
 
 import UIKit
 
-protocol MainViewCoordinatorProtocol {
+protocol SearchViewCoordinatorProtocol {
+    func popSearchView()
     func showDetailView(productId: Int?)
-    func showProductRegistrationView()
     func showProductEditView(at productId: Int)
-    func showSearchView(productList: [ProductDetail])
-    func showAlert(title: String)
     func contextMenu(at product: ProductDetail) -> UIContextMenuConfiguration?
 }
 
-final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
+final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
@@ -32,10 +30,15 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         self.useCase = useCase
     }
 
-    func start() {
-        let mainViewModel = MainViewModel(useCase: self.useCase)
-        let mainView = MainViewController(viewModel: mainViewModel, coordinator: self)
-        self.navigationController.pushViewController(mainView, animated: true)
+    func start(productList: [ProductDetail]) {
+        let searchViewModel = SearchViewModel(productList: productList)
+        let searchView = SearchViewController(viewModel: searchViewModel, coordinator: self)
+        self.navigationController.pushViewController(searchView, animated: true)
+    }
+
+    func popSearchView() {
+        self.navigationController.popViewController(animated: true)
+        self.parentCoordinators?.removeChild(self)
     }
 
     func showDetailView(productId: Int?) {
@@ -48,16 +51,6 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         detailCoordinator.start(productId: productId)
     }
 
-    func showProductRegistrationView() {
-        let menegementCoordinator = ManagementViewCoordinator(
-            navigationController: self.navigationController,
-            parentCoordinators: self,
-            useCase: self.useCase
-        )
-        self.childCoordinators.append(menegementCoordinator)
-        menegementCoordinator.showRegistrationView()
-    }
-
     func showProductEditView(at productId: Int) {
         let menegementCoordinator = ManagementViewCoordinator(
             navigationController: self.navigationController,
@@ -66,27 +59,6 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         )
         self.childCoordinators.append(menegementCoordinator)
         menegementCoordinator.showEditView(at: productId)
-    }
-
-    func showSearchView(productList: [ProductDetail]) {
-        let searchCoordinator = SearchViewCoordinator(
-            navigationController: self.navigationController,
-            parentCoordinators: self,
-            useCase: self.useCase
-        )
-        self.childCoordinators.append(searchCoordinator)
-        searchCoordinator.start(productList: productList)
-    }
-
-    func showAlert(title: String) {
-        let checkAction = UIAlertAction(title: "확인", style: .default)
-        let alert = AlertBuilder.shared
-            .setType(.alert)
-            .setTitle(title)
-            .setActions([checkAction])
-            .build()
-
-        self.navigationController.present(alert, animated: true)
     }
 
     func contextMenu(at product: ProductDetail) -> UIContextMenuConfiguration? {
@@ -128,6 +100,17 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
 
             return UIMenu(children: [shareAction, editAction, deleteAction])
         }
+    }
+
+    private func showAlert(title: String) {
+        let checkAction = UIAlertAction(title: "확인", style: .default)
+        let alert = AlertBuilder.shared
+            .setType(.alert)
+            .setTitle(title)
+            .setActions([checkAction])
+            .build()
+
+        self.navigationController.present(alert, animated: true)
     }
 
     private func showActivity(product: ProductDetail) {
