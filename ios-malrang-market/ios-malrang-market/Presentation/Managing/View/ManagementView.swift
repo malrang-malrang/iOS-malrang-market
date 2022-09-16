@@ -8,6 +8,14 @@
 import RxSwift
 import SnapKit
 
+private enum Const {
+    static let emptyString = ""
+    static let zerroString = "0"
+    static let productName = "0"
+    static let productPrice = "0"
+    static let productStock = "0"
+}
+
 final class ManagementView: UIViewController {
     private let imageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -46,7 +54,7 @@ final class ManagementView: UIViewController {
 
     private let nameTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "상품명"
+        textField.placeholder = Const.productName
         textField.clearButtonMode = .whileEditing
         textField.borderStyle = .roundedRect
         textField.setContentHuggingPriority(.required, for: .vertical)
@@ -55,7 +63,7 @@ final class ManagementView: UIViewController {
 
     private let priceTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "상품가격"
+        textField.placeholder = Const.productPrice
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
@@ -65,7 +73,7 @@ final class ManagementView: UIViewController {
 
     private let stockTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "재고수량"
+        textField.placeholder = Const.productStock
         textField.clearButtonMode = .whileEditing
         textField.keyboardType = .numberPad
         textField.borderStyle = .roundedRect
@@ -171,8 +179,8 @@ final class ManagementView: UIViewController {
         return ProductRequest(
             name: self.nameTextField.text,
             descriptions: self.descriptionTextView.text,
-            price: Double(self.priceTextField.text ?? "0"),
-            stock: Int(self.stockTextField.text ?? "0"),
+            price: Double(self.priceTextField.text ?? Const.zerroString),
+            stock: Int(self.stockTextField.text ?? Const.zerroString),
             secret: UserInfomation.secret,
             imageInfos: self.viewModel.imageList()
         )

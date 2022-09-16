@@ -8,6 +8,13 @@
 import RxSwift
 import SnapKit
 
+private enum Const {
+    static let emptyString = ""
+    static let priceInfomation = "%d원"
+    static let stockLabelText = "재고수량 %d개"
+    static let stockInfomation = "%d개"
+}
+
 final class DetailInfomationView: UIView {
     private let nameLabel: UILabel = {
         let label = UILabel()
@@ -121,9 +128,9 @@ final class DetailInfomationView: UIView {
 
     private func priceInfomation(at product: ProductDetail) -> String? {
         guard let price = product.price?.formatterString() else {
-            return ""
+            return Const.emptyString
         }
-        return "\(price)원"
+        return String(format: Const.priceInfomation, price)
     }
 
     private func stockInfomation(at product: ProductDetail) -> NSMutableAttributedString {
@@ -131,12 +138,12 @@ final class DetailInfomationView: UIView {
             return NSMutableAttributedString()
         }
 
-        let stockLabel = "현재 재고는 \(stock)개 남아있습니다."
+        let stockLabel = String(format: Const.stockLabelText, stock)
 
         return NSMutableAttributedString(
             text: stockLabel,
             fontWeight: .bold,
-            letter: "\(stock)개"
+            letter: String(format: Const.stockInfomation, stock)
         )
     }
 }

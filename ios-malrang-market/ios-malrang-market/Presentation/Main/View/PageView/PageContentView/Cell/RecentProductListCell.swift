@@ -9,6 +9,7 @@ import RxSwift
 
 private enum Const {
     static let emptyString = ""
+    static let priceInfomation = "%d원"
 }
 
 final class RecentProductListCell: UITableViewCell {
@@ -109,8 +110,8 @@ final class RecentProductListCell: UITableViewCell {
 
     private func priceInfomation(from: ProductDetail) -> String? {
         guard let price = from.price?.formatterString() else {
-            return ""
+            return Const.emptyString
         }
-        return "\(price)원"
+        return String(format: Const.priceInfomation, price)
     }
 }
