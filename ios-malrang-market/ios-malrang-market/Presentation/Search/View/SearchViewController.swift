@@ -12,6 +12,18 @@ private enum Const {
 }
 
 final class SearchViewController: UIViewController {
+    private let backBarButton: UIBarButtonItem = {
+        let bookMarkImage = SystemImage.back
+        let barButtonItem = UIBarButtonItem(
+            image: bookMarkImage,
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+        barButtonItem.tintColor = #colorLiteral(red: 1, green: 0.7698566914, blue: 0.8562441468, alpha: 1)
+        return barButtonItem
+    }()
+
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = Const.searchProduct
@@ -50,6 +62,7 @@ final class SearchViewController: UIViewController {
     }
 
     private func setupNavigationItem() {
+        self.navigationItem.leftBarButtonItem = self.backBarButton
         self.navigationItem.titleView = self.searchBar
     }
 
@@ -69,6 +82,13 @@ final class SearchViewController: UIViewController {
     }
 
     private func bind() {
+        self.backBarButton.rx.tap
+            .withUnretained(self)
+            .subscribe { searchView, _ in
+                searchView.coordinator.popSearchView()
+            }
+            .disposed(by: self.disposeBag)
+
         self.viewModel.searchedProduct
             .bind(to: self.tableView.rx.items) { tableView, row, element in
                 guard let cell = tableView.dequeueReusableCell(
