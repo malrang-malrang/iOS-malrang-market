@@ -105,7 +105,6 @@
 		1EEBBD002A56C92B9C130640 /* Pods-ios-malrang-market-ios-malrang-marketUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-malrang-market-ios-malrang-marketUITests.release.xcconfig"; path = "Target Support Files/Pods-ios-malrang-market-ios-malrang-marketUITests/Pods-ios-malrang-market-ios-malrang-marketUITests.release.xcconfig"; sourceTree = "<group>"; };
 		300442CB28A99CC5007FF20B /* RecentProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentProductViewController.swift; sourceTree = "<group>"; };
 		300442CE28AB81A6007FF20B /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
-		300442D028ABC98C007FF20B /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		300442D428ABCFBA007FF20B /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		300442D628ABCFCB007FF20B /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		304511C428CDB362006D4658 /* ManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagementView.swift; sourceTree = "<group>"; };
@@ -628,7 +627,6 @@
 				304754C428D0B04400D88CB7 /* UIImage+Sugar.swift */,
 				30F6903E28A443040056C7FC /* UIView+Sugar.swift */,
 				30E7A30128B403A200396255 /* UIStackView+Sugar.swift */,
-				300442D028ABC98C007FF20B /* URLSession.swift */,
 				30E7A30728B6847E00396255 /* String+Sugar.swift */,
 				3049244528BF741B0026F5BC /* NSMutableAttributedString+Sugar.swift */,
 			);
@@ -972,7 +970,6 @@
 				304511C528CDB362006D4658 /* ManagementView.swift in Sources */,
 				300442D528ABCFBA007FF20B /* HTTPMethod.swift in Sources */,
 				30BA5FBB28CF59FF00D109BC /* ManagementViewModel.swift in Sources */,
-				300442D128ABC98C007FF20B /* URLSession.swift in Sources */,
 				300442D728ABCFCB007FF20B /* EndPoint.swift in Sources */,
 				30E7A2E728B0F59600396255 /* ProductRequest.swift in Sources */,
 				30E7A2C428AC23C400396255 /* Json.swift in Sources */,
