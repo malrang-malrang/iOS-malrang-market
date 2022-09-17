@@ -372,13 +372,13 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
-		30E7A2CF28ACEBCE00396255 /* URLSessionTest */ = {
+		30E7A2CF28ACEBCE00396255 /* NetworkTest */ = {
 			isa = PBXGroup;
 			children = (
 				30E7A2D028ACEBE500396255 /* MockURLProtocol.swift */,
 				30E7A2CD28ACEBC700396255 /* MockURLSessionTest.swift */,
 			);
-			path = URLSessionTest;
+			path = NetworkTest;
 			sourceTree = "<group>";
 		};
 		30E7A2D428AD4DD700396255 /* Data */ = {
@@ -512,7 +512,7 @@
 			isa = PBXGroup;
 			children = (
 				30F68FFA289AB0AA0056C7FC /* ios_malrang_marketTests.swift */,
-				30E7A2CF28ACEBCE00396255 /* URLSessionTest */,
+				30E7A2CF28ACEBCE00396255 /* NetworkTest */,
 			);
 			path = "ios-malrang-marketTests";
 			sourceTree = "<group>";
