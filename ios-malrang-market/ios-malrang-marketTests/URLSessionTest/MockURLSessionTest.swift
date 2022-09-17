@@ -9,12 +9,12 @@
 //@testable import ios_malrang_market
 //
 //class MockURLSessionTest: XCTestCase {
-//    var sut: ProductListRepository!
+//    var sut: MalrangMarketRepository!
 //
 //    override func setUpWithError() throws {
 //        let session = MockURLSession(isRequestSuccess: true)
 //        let provider = NetworkProvider(urlSession: session)
-//        self.sut = ProductListRepository(networkProvider: provider)
+//        self.sut = MalrangMarketRepository(networkProvider: provider)
 //    }
 //
 //    override func tearDownWithError() throws {
@@ -26,7 +26,7 @@
 //        let promise = expectation(description: "The Value of items per page 20")
 //
 //        // when
-//        let endPoint = EndPoint(baseURL: "Test", method: .get)
+//        let endPoint = EndPoint(baseURL: , path: "api/products", method: .get)
 //        _ = self.sut.fetch(endPoint: endPoint)
 //            .subscribe { data in
 //                XCTAssertEqual(data.itemsPerPage, 20)

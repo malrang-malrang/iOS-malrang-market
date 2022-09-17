@@ -10,24 +10,13 @@ import RxSwift
 import SnapKit
 
 private enum Const {
-    static let searchBarPlaceholder = "말랑마켓 통합검색"
-}
-
-private enum Image {
-    enum Atribute {
-        static let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .heavy)
-    }
-
-    static let bookmark = UIImage(
-        systemName: "bookmark",
-        withConfiguration: Atribute.configuration
-    )
+    static let searchProduct = "말랑마켓 상품검색"
 }
 
 final class MainViewController: UIViewController {
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.placeholder = Const.searchBarPlaceholder
+        searchBar.placeholder = Const.searchProduct
         return searchBar
     }()
 
@@ -107,6 +96,16 @@ final class MainViewController: UIViewController {
             .subscribe(onNext: { mainView, error in
                 mainView.coordinator.showAlert(title: error.localizedDescription)
             })
+            .disposed(by: self.disposeBag)
+
+        self.searchBar.rx.textDidBeginEditing
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .subscribe { mainView, _ in
+                mainView.searchBar.resignFirstResponder()
+                let productList = mainView.viewModel.productDetailList()
+                mainView.coordinator.showSearchView(productList: productList)
+            }
             .disposed(by: self.disposeBag)
     }
 }

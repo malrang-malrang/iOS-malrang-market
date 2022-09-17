@@ -7,6 +7,13 @@
 
 import UIKit
 
+private enum Const {
+    static let emptyString = ""
+    static let priceInfomation = "%d원"
+    static let stockLabelText = "재고수량 %d개"
+    static let stockInfomation = "%d개"
+}
+
 final class RandomProductListCell: UICollectionViewCell {
     static var identifier: String {
         String(describing: Self.self)
@@ -129,9 +136,9 @@ final class RandomProductListCell: UICollectionViewCell {
 
     private func priceInfomation(from: ProductDetail) -> String? {
         guard let price = from.price?.formatterString() else {
-            return ""
+            return Const.emptyString
         }
-        return "\(price)원"
+        return String(format: Const.priceInfomation, price)
     }
 
     private func stockInfomation(from: ProductDetail) -> NSMutableAttributedString {
@@ -139,12 +146,12 @@ final class RandomProductListCell: UICollectionViewCell {
             return NSMutableAttributedString()
         }
 
-        let stockLabel = "재고 수량 \(stock)개"
+        let stockLabelText = String(format: Const.stockLabelText, stock)
 
         return NSMutableAttributedString(
-            text: stockLabel,
+            text: stockLabelText,
             fontWeight: .bold,
-            letter: "\(stock)개"
+            letter: String(format: Const.stockInfomation, stock)
         )
     }
 }

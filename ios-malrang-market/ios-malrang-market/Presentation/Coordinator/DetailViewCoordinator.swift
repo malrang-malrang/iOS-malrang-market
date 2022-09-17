@@ -7,6 +7,14 @@
 
 import UIKit
 
+private enum Const {
+    static let check = "확인"
+    static let emptyString = ""
+    static let productInfomationShare = "상품 정보 공유하기"
+    static let productInfomationEdit = "상품 정보 수정하기"
+    static let productInfomationDelete = "상품 정보 제거하기"
+}
+
 protocol DetailViewCoordinatorProtocol {
     func popDetailView()
     func showActionSheet(_ product: ProductDetail)
@@ -44,7 +52,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     }
 
     func showAlert(title: String) {
-        let checkAction = UIAlertAction(title: "확인", style: .default)
+        let checkAction = UIAlertAction(title: Const.check, style: .default)
         let alert = AlertBuilder.shared
             .setType(.alert)
             .setTitle(title)
@@ -55,9 +63,9 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     }
 
     func showActionSheet(_ product: ProductDetail) {
-        let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+        let cancelAction = UIAlertAction(title: Const.check, style: .cancel)
         let editAction = UIAlertAction(
-            title: "상품 정보 수정하기",
+            title: Const.productInfomationEdit,
             style: .default) { _ in
                 guard UserInfomation.vendotId == product.vendorId else {
                     return self.showAlert(
@@ -68,7 +76,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
             }
 
         let deleteAction = UIAlertAction(
-            title: "상품 정보 제거하기",
+            title: Const.productInfomationDelete,
             style: .default) { _ in
                 guard UserInfomation.vendotId == product.vendorId else {
                     return self.showAlert(
@@ -78,10 +86,10 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
             }
 
         let activityAction = UIAlertAction(
-            title: "상품 정보 공유하기",
+            title: Const.productInfomationShare,
             style: .default) { _ in
                 let activity = UIActivityViewController(
-                    activityItems: [product.name ?? "", product.price ?? ""],
+                    activityItems: [product.name ?? Const.emptyString, product.price ?? Const.emptyString],
                     applicationActivities: nil
                 )
                 self.navigationController.present(activity, animated: true)
@@ -96,7 +104,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     }
 
     private func showProductEditView(at productId: Int) {
-        let managementCoordinator = MenegementCoordinator(
+        let managementCoordinator = ManagementViewCoordinator(
             navigationController: self.navigationController,
             parentCoordinators: self,
             useCase: self.useCase

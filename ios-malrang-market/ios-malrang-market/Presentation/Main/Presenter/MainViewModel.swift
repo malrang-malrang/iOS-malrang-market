@@ -19,30 +19,30 @@ protocol MainViewModelOutput {
     var error: Observable<Error>? { get }
     var currentPageState: Observable<Page> { get }
     var productList: Observable<[ProductDetail]> { get }
+    func productDetailList() -> [ProductDetail]
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
-    private var currentPage = 1
+    private var currentPage = 0
     private var hasNext: Bool?
     private let useCase: Usecase
     var error: Observable<Error>?
 
     private let pageState = BehaviorRelay<Page>(value: .recentProduct)
     var currentPageState: Observable<Page> {
-        self.pageState.asObservable()
+        return self.pageState.asObservable()
     }
 
     private let productPage = BehaviorRelay<[ProductDetail]>(value: [])
     var productList: Observable<[ProductDetail]> {
-        productPage.distinctUntilChanged().asObservable()
+        return productPage.distinctUntilChanged().asObservable()
     }
 
     init(useCase: Usecase) {
         self.useCase = useCase
         self.hasNext = true
-
         self.fetchFirstPage()
     }
 
@@ -78,5 +78,9 @@ final class MainViewModel: MainViewModelable {
         guard let index = Page(rawValue: index) else { return }
 
         self.pageState.accept(index)
+    }
+
+    func productDetailList() -> [ProductDetail] {
+        return self.productPage.value
     }
 }

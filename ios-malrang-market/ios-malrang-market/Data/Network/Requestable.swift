@@ -82,7 +82,7 @@ extension Requestable {
             return nil
         }
 
-        let multiPartFormData = self.convertDataToMultiPartForm(data: data, boundary: boundary)
+        let multiPartFormData = self.convertDataToMultiPartForm(jsonData: data, boundary: boundary)
         body.append(multiPartFormData)
 
         productInfomation.imageInfos?.forEach { imageInfo in
@@ -94,15 +94,16 @@ extension Requestable {
         return body
     }
 
-    private func convertDataToMultiPartForm(data: Data, boundary: String) -> Data {
+    private func convertDataToMultiPartForm(jsonData: Data, boundary: String) -> Data {
         var data = Data()
         data.appendString("--\(boundary)\r\n")
         data.appendString("Content-Disposition: form-data; name=\"params\"")
         data.appendString("\r\n")
+        data.appendString("Content-Type: application/json")
         data.appendString("\r\n")
-        data.append(data)
         data.appendString("\r\n")
-
+        data.append(jsonData)
+        data.appendString("\r\n")
         return data
     }
 
@@ -111,12 +112,11 @@ extension Requestable {
         data.appendString("--\(boundary)\r\n")
         data.appendString("Content-Disposition: form-data; name=\"images\"; filename=\"\(imageInfo.fileName)\"")
         data.appendString("\r\n")
-        data.appendString("Content-Type: image/\(imageInfo.type.description)")
+        data.appendString("Content-Type: \(imageInfo.type.description)")
         data.appendString("\r\n")
         data.appendString("\r\n")
         data.append(imageInfo.data)
         data.appendString("\r\n")
-
         return data
     }
 

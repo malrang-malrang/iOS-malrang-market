@@ -1,8 +1,8 @@
 //
-//  RecentProductListCell.swift
+//  SearchedProductCell.swift
 //  ios-malrang-market
 //
-//  Created by 김동욱 on 2022/08/22.
+//  Created by 김동욱 on 2022/09/15.
 //
 
 import RxSwift
@@ -12,7 +12,7 @@ private enum Const {
     static let priceInfomation = "%d원"
 }
 
-final class RecentProductListCell: UITableViewCell {
+final class SearchedProductCell: UITableViewCell {
     static var identifier: String {
         String(describing: Self.self)
     }

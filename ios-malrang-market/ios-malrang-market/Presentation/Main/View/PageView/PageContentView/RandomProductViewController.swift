@@ -12,7 +12,7 @@ private enum Const {
     static let loadingData = "Loading Data"
 }
 
-final class RandomProductViewController: UIViewController {
+final class RandomProductViewController: UIViewController, NotificationObservable {
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
@@ -58,6 +58,7 @@ final class RandomProductViewController: UIViewController {
         super.viewDidLoad()
         self.setupView()
         self.setupConstraint()
+        self.setupNotification()
         self.bind()
     }
 
@@ -76,6 +77,12 @@ final class RandomProductViewController: UIViewController {
         self.collectionView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(10)
             $0.top.bottom.equalToSuperview()
+        }
+    }
+
+    private func setupNotification() {
+        self.registerNotification {
+            self.pullToRefresh()
         }
     }
 
