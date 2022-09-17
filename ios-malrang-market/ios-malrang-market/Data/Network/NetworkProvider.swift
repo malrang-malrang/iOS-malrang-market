@@ -12,26 +12,10 @@ protocol Provider {
     func requestMultiPartFormData(endPoint: EndPoint) -> Observable<Data>
 }
 
-protocol URLSessionProtocol {
-    func dataTask(
-        with url: URL,
-        completionHandler: @escaping(Data?, URLResponse?, Error?) -> Void
-    ) -> URLSessionDataTaskProtocol
-
-    func dataTask(
-        with urlRequest: URLRequest,
-        completionHandler: @escaping(Data?, URLResponse?, Error?) -> Void
-    ) -> URLSessionDataTaskProtocol
-}
-
-protocol URLSessionDataTaskProtocol {
-    func resume()
-}
-
 final class NetworkProvider: Provider {
-    private let urlSession: URLSessionProtocol
+    private let urlSession: URLSession
 
-    init(urlSession: URLSessionProtocol = URLSession.shared) {
+    init(urlSession: URLSession = URLSession.shared) {
         self.urlSession = urlSession
     }
 
