@@ -8,7 +8,7 @@
 import RxSwift
 
 protocol Usecase {
-    func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductList>
+    func fetchProductCatalog(pageNumber: Int, perPages: Int) -> Observable<([ProductDetail], Bool)>
     func fetchProductDetail(id: Int) -> Observable<ProductDetail>
     func post(_ productRequest: ProductRequest) -> Observable<Void>
 }
@@ -20,11 +20,12 @@ struct DefaultUsecase: Usecase {
         self.malrangMarketRepository = malrangMarketRepository
     }
 
-    func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductList> {
+    func fetchProductCatalog(pageNumber: Int, perPages: Int) -> Observable<([ProductDetail], Bool)> {
         return self.malrangMarketRepository.fetchProductList(
             pageNumber: pageNumber,
             perPages: perPages
         )
+        .map { ($0.pages ?? [], $0.hasNext ?? false) }
     }
 
     func fetchProductDetail(id: Int) -> Observable<ProductDetail> {

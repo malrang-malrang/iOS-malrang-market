@@ -48,14 +48,13 @@ final class MainViewModel: MainViewModelable {
 
     func fetchFirstPage() {
         self.currentPage = 1
-        _ = self.useCase.fetchProductList(pageNumber: self.currentPage, perPages: 20)
+        _ = self.useCase.fetchProductCatalog(pageNumber: self.currentPage, perPages: 20)
             .withUnretained(self)
-            .subscribe(onNext: { viewModel, productList in
-                viewModel.hasNext = productList.hasNext
-                guard let list = productList.pages else { return }
-                viewModel.productPage.accept(list)
-            }, onError: { [weak self] error in
-                self?.error = .just(error)
+            .subscribe(onNext: { viewModel, catalog in
+                viewModel.productPage.accept(catalog.0)
+                viewModel.hasNext = catalog.1
+            }, onError: { error in
+                self.error = .just(error)
             })
     }
 
@@ -64,13 +63,15 @@ final class MainViewModel: MainViewModelable {
             return self.error = .just(InputError.hasNextPage)
         }
         self.currentPage += 1
-        let previous = self.productPage.value
+        let previousList = self.productPage.value
 
-        _ = self.useCase.fetchProductList(pageNumber: self.currentPage, perPages: 20)
-            .compactMap { $0.pages }
+        _ = self.useCase.fetchProductCatalog(pageNumber: self.currentPage, perPages: 20)
             .withUnretained(self)
-            .subscribe(onNext: { viewModel, productList in
-                viewModel.productPage.accept(previous + productList)
+            .subscribe(onNext: { viewModel, catalog in
+                viewModel.productPage.accept(previousList + catalog.0)
+                viewModel.hasNext = catalog.1
+            }, onError: { [weak self] error in
+                self?.error = .just(error)
             })
     }
 
