@@ -24,12 +24,12 @@ final class ManagementViewCoordinator: Coordinator, ManagementViewCoordinatorPro
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
-    private let useCase: Usecase
+    private let useCase: UsecaseProtocol
 
     init(
         navigationController: UINavigationController,
         parentCoordinators: Coordinator,
-        useCase: Usecase
+        useCase: UsecaseProtocol
     ) {
         self.navigationController = navigationController
         self.parentCoordinators = parentCoordinators

@@ -19,26 +19,26 @@ protocol SearchViewCoordinatorProtocol {
     func popSearchView()
     func showDetailView(productId: Int?)
     func showProductEditView(at productId: Int)
-    func contextMenu(at product: ProductDetail) -> UIContextMenuConfiguration?
+    func contextMenu(at product: ProductInfomation) -> UIContextMenuConfiguration?
 }
 
 final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
-    private let useCase: Usecase
+    private let useCase: UsecaseProtocol
 
     init(
         navigationController: UINavigationController,
         parentCoordinators: Coordinator,
-        useCase: Usecase
+        useCase: UsecaseProtocol
     ) {
         self.navigationController = navigationController
         self.parentCoordinators = parentCoordinators
         self.useCase = useCase
     }
 
-    func start(productList: [ProductDetail]) {
+    func start(productList: [ProductInfomation]) {
         let searchViewModel = SearchViewModel(productList: productList)
         let searchView = SearchViewController(viewModel: searchViewModel, coordinator: self)
         self.navigationController.pushViewController(searchView, animated: true)
@@ -69,7 +69,7 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
         menegementCoordinator.showEditView(at: productId)
     }
 
-    func contextMenu(at product: ProductDetail) -> UIContextMenuConfiguration? {
+    func contextMenu(at product: ProductInfomation) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(
             identifier: nil,
             previewProvider: nil
@@ -91,7 +91,7 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
                         title: InputError.productAuthority.errorDescription
                     )
                 }
-                self.showProductEditView(at: product.id ?? 0)
+                self.showProductEditView(at: product.id)
             }
 
             let deleteAction = UIAction(
@@ -121,9 +121,9 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
         self.navigationController.present(alert, animated: true)
     }
 
-    private func showActivity(product: ProductDetail) {
+    private func showActivity(product: ProductInfomation) {
         let activity = UIActivityViewController(
-            activityItems: [product.name ?? Const.emptyString, product.price ?? Const.emptyString],
+            activityItems: [product.name, product.price],
             applicationActivities: nil
         )
         self.navigationController.present(activity, animated: true)

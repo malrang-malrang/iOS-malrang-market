@@ -16,10 +16,10 @@ protocol MainViewModelInput {
 }
 
 protocol MainViewModelOutput {
-    var error: Observable<Error>? { get }
+    var error: Observable<Error> { get }
     var currentPageState: Observable<Page> { get }
-    var productList: Observable<[ProductDetail]> { get }
-    func productDetailList() -> [ProductDetail]
+    var productList: Observable<[ProductInfomation]> { get }
+    func productInfomationList() -> [ProductInfomation]
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
@@ -27,61 +27,61 @@ protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 final class MainViewModel: MainViewModelable {
     private var currentPage = 0
     private var hasNext: Bool?
-    private let useCase: Usecase
-    var error: Observable<Error>?
+    private let useCase: UsecaseProtocol
+
+    private let errorRelay = PublishRelay<Error>()
+    var error: Observable<Error> {
+        return self.errorRelay.asObservable()
+    }
 
     private let pageState = BehaviorRelay<Page>(value: .recentProduct)
     var currentPageState: Observable<Page> {
         return self.pageState.asObservable()
     }
 
-    private let productPage = BehaviorRelay<[ProductDetail]>(value: [])
-    var productList: Observable<[ProductDetail]> {
+    private let productPage = BehaviorRelay<[ProductInfomation]>(value: [])
+    var productList: Observable<[ProductInfomation]> {
         return productPage.distinctUntilChanged().asObservable()
     }
 
-    init(useCase: Usecase) {
+    init(useCase: UsecaseProtocol) {
         self.useCase = useCase
         self.hasNext = true
-        self.fetchFirstPage()
     }
 
     func fetchFirstPage() {
         self.currentPage = 1
         _ = self.useCase.fetchProductCatalog(pageNumber: self.currentPage, perPages: 20)
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, catalog in
-                viewModel.productPage.accept(catalog.0)
-                viewModel.hasNext = catalog.1
+            .subscribe(onNext: { catalog in
+                self.productPage.accept(catalog.items)
+                self.hasNext = catalog.hasNextPage
             }, onError: { error in
-                self.error = .just(error)
+                self.errorRelay.accept(error)
             })
     }
 
     func fetchNextPage() {
         guard self.hasNext == true else {
-            return self.error = .just(InputError.hasNextPage)
+            return self.errorRelay.accept(InputError.hasNextPage)
         }
         self.currentPage += 1
-        let previousList = self.productPage.value
+        let previousPageItems = self.productPage.value
 
         _ = self.useCase.fetchProductCatalog(pageNumber: self.currentPage, perPages: 20)
-            .withUnretained(self)
-            .subscribe(onNext: { viewModel, catalog in
-                viewModel.productPage.accept(previousList + catalog.0)
-                viewModel.hasNext = catalog.1
-            }, onError: { [weak self] error in
-                self?.error = .just(error)
+            .subscribe(onNext: { catalog in
+                self.productPage.accept(previousPageItems + catalog.items)
+                self.hasNext = catalog.hasNextPage
+            }, onError: { error in
+                self.errorRelay.accept(error)
             })
     }
 
     func didTapSegmentControl(selected index: Int) {
         guard let index = Page(rawValue: index) else { return }
-
         self.pageState.accept(index)
     }
 
-    func productDetailList() -> [ProductDetail] {
+    func productInfomationList() -> [ProductInfomation] {
         return self.productPage.value
     }
 }

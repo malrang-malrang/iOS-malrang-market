@@ -41,7 +41,7 @@ final class ProductImageCell: UICollectionViewCell {
         }
     }
 
-    func configure(image: UIImage) {
-        self.imageView.image = image
+    func configure(imageURLString: String) {
+        self.imageView.setImage(with: imageURLString)
     }
 }

@@ -10,24 +10,28 @@ import RxSwift
 import RxRelay
 
 protocol DetailViewModelInput {
-    func productDetail() -> ProductDetail?
+    func productDetail() -> ProductInfomation?
 }
 
 protocol DetailViewModelOutput {
-    var productInfomation: Observable<ProductDetail> { get }
+    var productInfomation: Observable<ProductInfomation> { get }
     var imagesString: Observable<[String]> { get }
-    var error: Observable<Error>? { get }
+    var error: Observable<Error> { get }
 }
 
 protocol DetailViewModelable: DetailViewModelInput, DetailViewModelOutput {}
 
 final class DetailViewModel: DetailViewModelable {
     private let productId: Int?
-    private let useCase: Usecase
-    var error: Observable<Error>?
+    private let useCase: UsecaseProtocol
 
-    private var productRelay = BehaviorRelay<[ProductDetail]>(value: [])
-    var productInfomation: Observable<ProductDetail> {
+    private let errorRelay = PublishRelay<Error>()
+    var error: Observable<Error> {
+        return self.errorRelay.asObservable()
+    }
+
+    private var productRelay = BehaviorRelay<[ProductInfomation]>(value: [])
+    var productInfomation: Observable<ProductInfomation> {
         return self.productRelay.compactMap { $0.last }.asObservable()
     }
 
@@ -38,7 +42,7 @@ final class DetailViewModel: DetailViewModelable {
 
     init(
         productId: Int?,
-        useCase: Usecase
+        useCase: UsecaseProtocol
     ) {
         self.productId = productId
         self.useCase = useCase
@@ -47,23 +51,21 @@ final class DetailViewModel: DetailViewModelable {
 
     private func fetchProductDetail(id: Int?) {
         guard let id = id else {
-            return self.error = .just(InputError.productId)
+            return self.errorRelay.accept(InputError.productId)
         }
 
         _ = self.useCase.fetchProductDetail(id: id)
             .withUnretained(self)
             .subscribe(onNext: { viewModel, product in
                 viewModel.productRelay.accept([product])
-                let imageStringList = product.images?.compactMap { $0.url }
-                if let imageStringList = imageStringList {
-                    return viewModel.imageRelay.accept(imageStringList)
-                }
+                let imageURLList = product.images.compactMap { $0.url.description }
+                return viewModel.imageRelay.accept(imageURLList)
             }, onError: { error in
-                self.error = .just(error)
+                self.errorRelay.accept(error)
             })
     }
 
-    func productDetail() -> ProductDetail? {
+    func productDetail() -> ProductInfomation? {
         return self.productRelay.value.last
     }
 }

@@ -17,7 +17,7 @@ private enum Const {
 
 protocol DetailViewCoordinatorProtocol {
     func popDetailView()
-    func showActionSheet(_ product: ProductDetail)
+    func showActionSheet(_ product: ProductInfomation)
     func showAlert(title: String)
 }
 
@@ -25,12 +25,12 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
-    private let useCase: Usecase
+    private let useCase: UsecaseProtocol
 
     init(
         navigationController: UINavigationController,
         parentCoordinators: Coordinator,
-        useCase: Usecase
+        useCase: UsecaseProtocol
     ) {
         self.navigationController = navigationController
         self.parentCoordinators = parentCoordinators
@@ -62,7 +62,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
         self.navigationController.present(alert, animated: true)
     }
 
-    func showActionSheet(_ product: ProductDetail) {
+    func showActionSheet(_ product: ProductInfomation) {
         let cancelAction = UIAlertAction(title: Const.check, style: .cancel)
         let editAction = UIAlertAction(
             title: Const.productInfomationEdit,
@@ -72,7 +72,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
                         title: InputError.productAuthority.errorDescription
                     )
                 }
-                self.showProductEditView(at: product.id ?? 0)
+                self.showProductEditView(at: product.id)
             }
 
         let deleteAction = UIAlertAction(
@@ -89,7 +89,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
             title: Const.productInfomationShare,
             style: .default) { _ in
                 let activity = UIActivityViewController(
-                    activityItems: [product.name ?? Const.emptyString, product.price ?? Const.emptyString],
+                    activityItems: [product.name, product.price],
                     applicationActivities: nil
                 )
                 self.navigationController.present(activity, animated: true)

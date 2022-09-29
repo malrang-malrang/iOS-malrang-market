@@ -41,7 +41,7 @@ final class PagingImageCollectionView: UICollectionView {
                 cellIdentifier: ProductImageCell.identifier,
                 cellType: ProductImageCell.self
             )) {  _, urlString, cell in
-                cell.configure(image: urlString.image())
+                cell.configure(imageURLString: urlString)
             }
             .disposed(by: self.disposeBag)
     }

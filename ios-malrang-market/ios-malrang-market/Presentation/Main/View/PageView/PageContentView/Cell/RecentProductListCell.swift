@@ -58,7 +58,7 @@ final class RecentProductListCell: UITableViewCell {
         return label
     }()
 
-    private(set) var constructedProduct : ProductDetail?
+    private(set) var constructedProduct : ProductInfomation?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -96,20 +96,20 @@ final class RecentProductListCell: UITableViewCell {
         }
     }
 
-    func configure(product: ProductDetail) {
+    func configure(product: ProductInfomation) {
         self.constructedProduct = product
-        self.productImageView.image = product.thumbnail?.image()
         self.nameLabel.text = product.name
         self.createdAtLabel.text = self.createdAtInfomation(from: product)
         self.priceLabel.text = self.priceInfomation(from: product)
+        self.productImageView.setImage(with: product.thumbnailImageURLString)
     }
 
-    private func createdAtInfomation(from: ProductDetail) -> String? {
-        return from.createdAt?.date()?.formatterString()
+    private func createdAtInfomation(from: ProductInfomation) -> String? {
+        return from.createdAt.date()?.formatterString()
     }
 
-    private func priceInfomation(from: ProductDetail) -> String? {
-        guard let price = from.price?.formatterString() else {
+    private func priceInfomation(from: ProductInfomation) -> String? {
+        guard let price = from.price.formatterString() else {
             return Const.emptyString
         }
         return String(format: Const.priceInfomation, price)

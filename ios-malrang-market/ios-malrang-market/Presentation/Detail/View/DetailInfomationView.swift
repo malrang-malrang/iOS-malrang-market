@@ -122,19 +122,19 @@ final class DetailInfomationView: UIView {
             .disposed(by: self.disposeBag)
     }
 
-    private func createdAtInfomation(at product: ProductDetail) -> String? {
-        return product.createdAt?.date()?.formatterString()
+    private func createdAtInfomation(at product: ProductInfomation) -> String? {
+        return product.createdAt.date()?.formatterString()
     }
 
-    private func priceInfomation(at product: ProductDetail) -> String? {
-        guard let price = product.price?.formatterString() else {
+    private func priceInfomation(at product: ProductInfomation) -> String? {
+        guard let price = product.price.formatterString() else {
             return Const.emptyString
         }
         return String(format: Const.priceInfomation, price)
     }
 
-    private func stockInfomation(at product: ProductDetail) -> NSMutableAttributedString {
-        guard let stock = product.stock?.formatterString() else {
+    private func stockInfomation(at product: ProductInfomation) -> NSMutableAttributedString {
+        guard let stock = product.stock.formatterString() else {
             return NSMutableAttributedString()
         }
 

@@ -14,20 +14,20 @@ final class MalrangMarketRepository: MalrangMarketRepositoryProtocol {
         self.service = networkProvider
     }
 
-    func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductList> {
+    func fetchProductList(pageNumber: Int, perPages: Int) -> Observable<ProductCatalogDTO> {
         let endPoint = EndPointStorage.productList(
             pageNumber: pageNumber,
             perPages: perPages
         ).endPoint
 
         return self.service.request(endPoint: endPoint)
-            .decode(type: ProductList.self, decoder: Json.decoder)
+            .decode(type: ProductCatalogDTO.self, decoder: Json.decoder)
     }
 
-    func fetchProductDetail(id: Int) -> Observable<ProductDetail> {
+    func fetchProductDetail(id: Int) -> Observable<ProductInfomationDTO> {
         let endPoint = EndPointStorage.productDetail(id: id).endPoint
         return self.service.request(endPoint: endPoint)
-            .decode(type: ProductDetail.self, decoder: Json.decoder)
+            .decode(type: ProductInfomationDTO.self, decoder: Json.decoder)
     }
 
     func post(product: ProductRequest) -> Observable<Void> {

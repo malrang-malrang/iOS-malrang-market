@@ -106,7 +106,7 @@ final class DetailViewController: UIViewController {
     }
 
     private func bind() {
-        self.viewModel.error?
+        self.viewModel.error
             .withUnretained(self)
             .subscribe(onNext: { detailView, error in
                 detailView.coordinator.showAlert(title: error.localizedDescription)

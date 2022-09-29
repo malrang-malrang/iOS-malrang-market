@@ -23,7 +23,7 @@ final class AppCoordinator: Coordinator {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
-    private let useCase: Usecase = DefaultUsecase(
+    private let useCase: UsecaseProtocol = DefaultUsecase(
         malrangMarketRepository: MalrangMarketRepository()
     )
 

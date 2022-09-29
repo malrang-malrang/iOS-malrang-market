@@ -28,7 +28,7 @@ class NetworkProviderTest: XCTestCase {
 
         // when
         _ = self.sut.request(endPoint: endPoint)
-            .decode(type: ProductList.self, decoder: Json.decoder)
+            .decode(type: ProductCatalogDTO.self, decoder: Json.decoder)
             .subscribe { productList in
                 let result = productList.itemsPerPage
                 let expected = 20

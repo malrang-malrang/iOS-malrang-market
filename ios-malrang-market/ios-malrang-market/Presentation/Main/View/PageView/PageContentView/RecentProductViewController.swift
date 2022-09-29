@@ -88,7 +88,7 @@ final class RecentProductViewController: UIViewController, NotificationObservabl
             }
             .disposed(by: self.disposeBag)
 
-        self.tableView.rx.modelSelected(ProductDetail.self)
+        self.tableView.rx.modelSelected(ProductInfomation.self)
             .withUnretained(self)
             .subscribe(onNext: { recentView, product in
                 recentView.coordinator.showDetailView(productId: product.id)

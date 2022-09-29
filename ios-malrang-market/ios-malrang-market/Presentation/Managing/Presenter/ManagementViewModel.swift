@@ -20,20 +20,24 @@ protocol ManagementViewModelInput {
 }
 
 protocol ManagementViewModelOutput {
-    var productInfomation: Observable<ProductDetail> { get }
+    var productInfomation: Observable<ProductInfomation> { get }
     var productImageList: Observable<[ImageInfo]> { get }
-    var error: Observable<Error>? { get }
+    var error: Observable<Error> { get }
 }
 
 protocol ManagementViewModelable: ManagementViewModelInput, ManagementViewModelOutput {}
 
 final class ManagementViewModel: ManagementViewModelable, NotificationPostable {
     private let productId: Int?
-    private let useCase: Usecase
-    var error: Observable<Error>?
+    private let useCase: UsecaseProtocol
 
-    private var productRelay = BehaviorRelay<[ProductDetail]>(value: [])
-    var productInfomation: Observable<ProductDetail> {
+    private let errorRelay = PublishRelay<Error>()
+    var error: Observable<Error> {
+        return self.errorRelay.asObservable()
+    }
+
+    private var productRelay = BehaviorRelay<[ProductInfomation]>(value: [])
+    var productInfomation: Observable<ProductInfomation> {
         return self.productRelay.compactMap { $0.last }.asObservable()
     }
 
@@ -44,7 +48,7 @@ final class ManagementViewModel: ManagementViewModelable, NotificationPostable {
 
     init(
         productId: Int? = nil,
-        useCase: Usecase
+        useCase: UsecaseProtocol
     ) {
         self.productId = productId
         self.useCase = useCase
@@ -60,15 +64,21 @@ final class ManagementViewModel: ManagementViewModelable, NotificationPostable {
             .withUnretained(self)
             .subscribe(onNext: { viewModel, product in
                 viewModel.productRelay.accept([product])
-                product.images?.forEach {
-                    let image = $0.url?.image()
-                    guard let imageData = image?.jpegData(compressionQuality: 1) else {
-                        return
+                product.images.forEach {
+                    ImageDownloader.default.download(with: $0.url) { result in
+                        switch result {
+                        case .success(let image):
+                            guard let imageData = image.jpegData(compressionQuality: 1) else {
+                                return
+                            }
+                            viewModel.insert(imageData: imageData)
+                        case .failure(let error):
+                            viewModel.errorRelay.accept(error)
+                        }
                     }
-                    self.insert(imageData: imageData)
                 }
             }, onError: { error in
-                self.error = .just(error)
+                self.errorRelay.accept(error)
             })
     }
 
@@ -89,7 +99,7 @@ final class ManagementViewModel: ManagementViewModelable, NotificationPostable {
         _ = self.useCase.post(product)
             .observe(on: MainScheduler.instance)
             .subscribe(onError: { [weak self] error in
-                self?.error = .just(error)
+                self?.errorRelay.accept(error)
             }, onCompleted: {
                 self.postNotification()
                 completion()
