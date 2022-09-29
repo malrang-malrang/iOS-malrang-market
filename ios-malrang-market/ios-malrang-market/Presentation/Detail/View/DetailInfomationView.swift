@@ -109,16 +109,15 @@ final class DetailInfomationView: UIView {
     }
 
     private func bind() {
-        self.viewModel.productInfomation
+        self.viewModel.productInfomation?
             .withUnretained(self)
-            .observe(on: MainScheduler.instance)
-            .subscribe { infomationView, product in
-                infomationView.nameLabel.text = product.name
-                infomationView.createdAtLabel.text = infomationView.createdAtInfomation(at: product)
-                infomationView.descriptionTextView.text = product.description
-                infomationView.priceLabel.text = infomationView.priceInfomation(at: product)
-                infomationView.stockLabel.attributedText = infomationView.stockInfomation(at: product)
-            }
+            .subscribe(onNext: { infomationView, productInfomation in
+                infomationView.nameLabel.text = productInfomation.name
+                infomationView.createdAtLabel.text = infomationView.createdAtInfomation(at: productInfomation)
+                infomationView.descriptionTextView.text = productInfomation.description
+                infomationView.priceLabel.text = infomationView.priceInfomation(at: productInfomation)
+                infomationView.stockLabel.attributedText = infomationView.stockInfomation(at: productInfomation)
+            })
             .disposed(by: self.disposeBag)
     }
 

@@ -9,63 +9,38 @@ import RxCocoa
 import RxSwift
 import RxRelay
 
-protocol DetailViewModelInput {
-    func productDetail() -> ProductInfomation?
-}
-
 protocol DetailViewModelOutput {
-    var productInfomation: Observable<ProductInfomation> { get }
-    var imagesString: Observable<[String]> { get }
-    var error: Observable<Error> { get }
+    var productInfomation: Observable<ProductInfomation>? { get }
+    var productImagesURLString: Observable<[String]>? { get }
+    var error: Observable<Error>? { get }
+    var product: ProductInfomation? { get }
 }
 
-protocol DetailViewModelable: DetailViewModelInput, DetailViewModelOutput {}
+protocol DetailViewModelable: DetailViewModelOutput {}
 
 final class DetailViewModel: DetailViewModelable {
-    private let productId: Int?
-    private let useCase: UsecaseProtocol
-
-    private let errorRelay = PublishRelay<Error>()
-    var error: Observable<Error> {
-        return self.errorRelay.asObservable()
-    }
-
-    private var productRelay = BehaviorRelay<[ProductInfomation]>(value: [])
-    var productInfomation: Observable<ProductInfomation> {
-        return self.productRelay.compactMap { $0.last }.asObservable()
-    }
-
-    private let imageRelay = BehaviorRelay<[String]>(value: [])
-    var imagesString: Observable<[String]> {
-        self.imageRelay.asObservable()
-    }
+    private let disposeBag = DisposeBag()
 
     init(
-        productId: Int?,
+        productId: Int,
         useCase: UsecaseProtocol
     ) {
-        self.productId = productId
-        self.useCase = useCase
-        self.fetchProductDetail(id: self.productId)
-    }
-
-    private func fetchProductDetail(id: Int?) {
-        guard let id = id else {
-            return self.errorRelay.accept(InputError.productId)
-        }
-
-        _ = self.useCase.fetchProductDetail(id: id)
+        useCase.fetchProductDetail(id: productId)
             .withUnretained(self)
             .subscribe(onNext: { viewModel, product in
-                viewModel.productRelay.accept([product])
-                let imageURLList = product.images.compactMap { $0.url.description }
-                return viewModel.imageRelay.accept(imageURLList)
+                viewModel.productInfomation = .just(product)
+                viewModel.productImagesURLString = .just(product.images.map { $0.url })
+                viewModel.product = product
             }, onError: { error in
-                self.errorRelay.accept(error)
+                self.error = .just(error)
             })
+            .disposed(by: self.disposeBag)
     }
 
-    func productDetail() -> ProductInfomation? {
-        return self.productRelay.value.last
-    }
+    // MARK: - Output
+
+    var productInfomation: Observable<ProductInfomation>?
+    var productImagesURLString: Observable<[String]>?
+    var error: Observable<Error>?
+    var product: ProductInfomation?
 }

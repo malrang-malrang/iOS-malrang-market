@@ -59,7 +59,6 @@ final class ManagementViewModel: ManagementViewModelable, NotificationPostable {
         guard let id = id else {
             return
         }
-
         _ = self.useCase.fetchProductDetail(id: id)
             .withUnretained(self)
             .subscribe(onNext: { viewModel, product in

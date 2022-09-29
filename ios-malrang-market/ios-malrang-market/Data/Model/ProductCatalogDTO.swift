@@ -34,7 +34,9 @@ struct ProductCatalogDTO: Decodable {
 extension ProductCatalogDTO {
     func toEntity() -> ProductCatalog {
         return ProductCatalog(
-            items: self.items?.compactMap { $0.toEntity() } ?? [] ,
+            pageNumber: self.pageNumber ?? .zero,
+            itemsPerPage: self.itemsPerPage ?? .zero,
+            items: self.items?.compactMap { $0.toEntity() } ?? [],
             hasNextPage: self.hasNext ?? false
         )
     }

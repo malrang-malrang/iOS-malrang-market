@@ -16,7 +16,7 @@ private enum Const {
 }
 
 protocol MainViewCoordinatorProtocol {
-    func showDetailView(productId: Int?)
+    func showDetailView(productId: Int)
     func showProductRegistrationView()
     func showProductEditView(at productId: Int)
     func showSearchView(productList: [ProductInfomation])
@@ -46,7 +46,7 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         self.navigationController.pushViewController(mainView, animated: true)
     }
 
-    func showDetailView(productId: Int?) {
+    func showDetailView(productId: Int) {
         let detailCoordinator = DetailViewCoordinator(
             navigationController: self.navigationController,
             parentCoordinators: self,

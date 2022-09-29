@@ -8,6 +8,8 @@
 import Foundation
 
 struct ProductCatalog: Decodable {
+    let pageNumber: Int
+    let itemsPerPage: Int
     let items: [ProductInfomation]
     let hasNextPage: Bool
 }

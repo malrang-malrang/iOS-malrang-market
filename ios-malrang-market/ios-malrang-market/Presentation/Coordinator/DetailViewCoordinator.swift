@@ -37,7 +37,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
         self.useCase = useCase
     }
 
-    func start(productId: Int?) {
+    func start(productId: Int) {
         let viewModel: DetailViewModelable = DetailViewModel(
             productId: productId,
             useCase: self.useCase
@@ -52,7 +52,12 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     }
 
     func showAlert(title: String) {
-        let checkAction = UIAlertAction(title: Const.check, style: .default)
+//        let checkAction = UIAlertAction(title: Const.check, style: .default)
+        let checkAction = UIAlertAction(
+            title: Const.check,
+            style: .default) { _ in
+                self.popDetailView()
+            }
         let alert = AlertBuilder.shared
             .setType(.alert)
             .setTitle(title)

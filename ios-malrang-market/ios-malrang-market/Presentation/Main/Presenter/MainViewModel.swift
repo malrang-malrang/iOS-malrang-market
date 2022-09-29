@@ -17,7 +17,7 @@ protocol MainViewModelInput {
 
 protocol MainViewModelOutput {
     var error: Observable<Error> { get }
-    var currentPageState: Observable<Page> { get }
+    var pageState: Observable<Page> { get }
     var productList: Observable<[ProductInfomation]> { get }
     func productInfomationList() -> [ProductInfomation]
 }
@@ -26,62 +26,69 @@ protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
     private var currentPage = 0
-    private var hasNext: Bool?
+    private var hasNext = false
     private let useCase: UsecaseProtocol
-
-    private let errorRelay = PublishRelay<Error>()
-    var error: Observable<Error> {
-        return self.errorRelay.asObservable()
-    }
-
-    private let pageState = BehaviorRelay<Page>(value: .recentProduct)
-    var currentPageState: Observable<Page> {
-        return self.pageState.asObservable()
-    }
-
-    private let productPage = BehaviorRelay<[ProductInfomation]>(value: [])
-    var productList: Observable<[ProductInfomation]> {
-        return productPage.distinctUntilChanged().asObservable()
-    }
+    private let disposeBag = DisposeBag()
 
     init(useCase: UsecaseProtocol) {
         self.useCase = useCase
-        self.hasNext = true
     }
 
+    // MARK: - Input
+
     func fetchFirstPage() {
-        self.currentPage = 1
-        _ = self.useCase.fetchProductCatalog(pageNumber: self.currentPage, perPages: 20)
-            .subscribe(onNext: { catalog in
-                self.productPage.accept(catalog.items)
-                self.hasNext = catalog.hasNextPage
+        self.useCase.fetchProductCatalog(pageNumber: self.currentPage, perPages: 20)
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, catalog in
+                viewModel.currentPage = catalog.pageNumber
+                viewModel.productListRelay.accept(catalog.items)
+                viewModel.hasNext = catalog.hasNextPage
             }, onError: { error in
                 self.errorRelay.accept(error)
             })
+            .disposed(by: self.disposeBag)
     }
 
     func fetchNextPage() {
         guard self.hasNext == true else {
             return self.errorRelay.accept(InputError.hasNextPage)
         }
-        self.currentPage += 1
-        let previousPageItems = self.productPage.value
 
-        _ = self.useCase.fetchProductCatalog(pageNumber: self.currentPage, perPages: 20)
-            .subscribe(onNext: { catalog in
-                self.productPage.accept(previousPageItems + catalog.items)
-                self.hasNext = catalog.hasNextPage
+        self.useCase.fetchProductCatalog(pageNumber: self.currentPage + 1, perPages: 20)
+            .withUnretained(self)
+            .subscribe(onNext: { viewModel, catalog in
+                viewModel.currentPage = catalog.pageNumber
+                viewModel.productListRelay.accept(self.productListRelay.value + catalog.items)
+                viewModel.hasNext = catalog.hasNextPage
             }, onError: { error in
                 self.errorRelay.accept(error)
             })
+            .disposed(by: self.disposeBag)
     }
 
     func didTapSegmentControl(selected index: Int) {
         guard let index = Page(rawValue: index) else { return }
-        self.pageState.accept(index)
+        self.pageStateRelay.accept(index)
     }
 
     func productInfomationList() -> [ProductInfomation] {
-        return self.productPage.value
+        return self.productListRelay.value
+    }
+
+    // MARK: - Output
+
+    private let errorRelay = PublishRelay<Error>()
+    var error: Observable<Error> {
+        return self.errorRelay.asObservable()
+    }
+
+    private let pageStateRelay = BehaviorRelay<Page>(value: .recentProduct)
+    var pageState: Observable<Page> {
+        return self.pageStateRelay.asObservable()
+    }
+
+    private let productListRelay = BehaviorRelay<[ProductInfomation]>(value: [])
+    var productList: Observable<[ProductInfomation]> {
+        return productListRelay.distinctUntilChanged().asObservable()
     }
 }

@@ -17,7 +17,7 @@ private enum Const {
 
 protocol SearchViewCoordinatorProtocol {
     func popSearchView()
-    func showDetailView(productId: Int?)
+    func showDetailView(productId: Int)
     func showProductEditView(at productId: Int)
     func contextMenu(at product: ProductInfomation) -> UIContextMenuConfiguration?
 }
@@ -49,7 +49,7 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
         self.parentCoordinators?.removeChild(self)
     }
 
-    func showDetailView(productId: Int?) {
+    func showDetailView(productId: Int) {
         let detailCoordinator = DetailViewCoordinator(
             navigationController: self.navigationController,
             parentCoordinators: self,
