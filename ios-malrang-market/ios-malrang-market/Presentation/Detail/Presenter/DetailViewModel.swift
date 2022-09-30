@@ -5,9 +5,7 @@
 //  Created by 김동욱 on 2022/08/25.
 //
 
-import RxCocoa
 import RxSwift
-import RxRelay
 
 protocol DetailViewModelOutput {
     var productInfomation: Observable<ProductInfomation>? { get }
@@ -39,8 +37,8 @@ final class DetailViewModel: DetailViewModelable {
 
     // MARK: - Output
 
+    var error: Observable<Error>?
     var productInfomation: Observable<ProductInfomation>?
     var productImagesURLString: Observable<[String]>?
-    var error: Observable<Error>?
     var product: ProductInfomation?
 }

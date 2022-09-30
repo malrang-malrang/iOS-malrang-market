@@ -5,7 +5,6 @@
 //  Created by 김동욱 on 2022/08/12.
 //
 
-import RxCocoa
 import RxSwift
 import RxRelay
 
@@ -25,6 +24,9 @@ protocol MainViewModelOutput {
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
 
 final class MainViewModel: MainViewModelable {
+    private let errorRelay = ReplayRelay<Error>.create(bufferSize: 1)
+    private let pageStateRelay = BehaviorRelay<Page>(value: .recentProduct)
+    private let productListRelay = BehaviorRelay<[ProductInfomation]>(value: [])
     private var currentPage = 0
     private var hasNext = false
     private let useCase: UsecaseProtocol
@@ -32,6 +34,7 @@ final class MainViewModel: MainViewModelable {
 
     init(useCase: UsecaseProtocol) {
         self.useCase = useCase
+        self.fetchFirstPage()
     }
 
     // MARK: - Input
@@ -67,28 +70,25 @@ final class MainViewModel: MainViewModelable {
     }
 
     func didTapSegmentControl(selected index: Int) {
-        guard let index = Page(rawValue: index) else { return }
-        self.pageStateRelay.accept(index)
-    }
-
-    func productInfomationList() -> [ProductInfomation] {
-        return self.productListRelay.value
+        guard let page = Page(rawValue: index) else { return }
+        self.pageStateRelay.accept(page)
     }
 
     // MARK: - Output
 
-    private let errorRelay = PublishRelay<Error>()
     var error: Observable<Error> {
         return self.errorRelay.asObservable()
     }
 
-    private let pageStateRelay = BehaviorRelay<Page>(value: .recentProduct)
     var pageState: Observable<Page> {
         return self.pageStateRelay.asObservable()
     }
 
-    private let productListRelay = BehaviorRelay<[ProductInfomation]>(value: [])
     var productList: Observable<[ProductInfomation]> {
         return productListRelay.distinctUntilChanged().asObservable()
+    }
+
+    func productInfomationList() -> [ProductInfomation] {
+        return self.productListRelay.value
     }
 }

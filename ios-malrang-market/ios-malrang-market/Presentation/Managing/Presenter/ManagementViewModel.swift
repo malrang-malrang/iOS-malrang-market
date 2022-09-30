@@ -15,7 +15,6 @@ private enum Const {
 
 protocol ManagementViewModelInput {
     func insert(imageData: Data)
-    func imageList() -> [ImageInfo]
     func productPost(_ product: ProductRequest, completion: @escaping () -> Void)
 }
 
@@ -23,90 +22,97 @@ protocol ManagementViewModelOutput {
     var productInfomation: Observable<ProductInfomation> { get }
     var productImageList: Observable<[ImageInfo]> { get }
     var error: Observable<Error> { get }
+    func imageList() -> [ImageInfo]
 }
 
 protocol ManagementViewModelable: ManagementViewModelInput, ManagementViewModelOutput {}
 
 final class ManagementViewModel: ManagementViewModelable, NotificationPostable {
-    private let productId: Int?
-    private let useCase: UsecaseProtocol
-
-    private let errorRelay = PublishRelay<Error>()
-    var error: Observable<Error> {
-        return self.errorRelay.asObservable()
-    }
-
-    private var productRelay = BehaviorRelay<[ProductInfomation]>(value: [])
-    var productInfomation: Observable<ProductInfomation> {
-        return self.productRelay.compactMap { $0.last }.asObservable()
-    }
-
+    private let errorRelay = ReplayRelay<Error>.create(bufferSize: 1)
+    private var productRelay = ReplayRelay<ProductInfomation>.create(bufferSize: 1)
     private let imageRelay = BehaviorRelay<[ImageInfo]>(value: [])
-    var productImageList: Observable<[ImageInfo]> {
-        return self.imageRelay.asObservable()
-    }
+    private let useCase: UsecaseProtocol
+    private let disposeBag = DisposeBag()
 
     init(
         productId: Int? = nil,
         useCase: UsecaseProtocol
     ) {
-        self.productId = productId
         self.useCase = useCase
-        self.fetchProductDetail(id: self.productId)
-    }
 
-    private func fetchProductDetail(id: Int?) {
-        guard let id = id else {
+        guard let id = productId else {
             return
         }
-        _ = self.useCase.fetchProductDetail(id: id)
+
+        useCase.fetchProductDetail(id: id)
             .withUnretained(self)
-            .subscribe(onNext: { viewModel, product in
-                viewModel.productRelay.accept([product])
-                product.images.forEach {
-                    ImageDownloader.default.download(with: $0.url) { result in
-                        switch result {
-                        case .success(let image):
-                            guard let imageData = image.jpegData(compressionQuality: 1) else {
-                                return
-                            }
-                            viewModel.insert(imageData: imageData)
-                        case .failure(let error):
-                            viewModel.errorRelay.accept(error)
-                        }
-                    }
-                }
-            }, onError: { error in
+            .subscribe { viewModel, product in
+                viewModel.productRelay.accept(product)
+                let imageURLList = product.images.map { $0.url }
+                viewModel.imageDownload(imageURLList: imageURLList)
+            } onError: { error in
                 self.errorRelay.accept(error)
-            })
+            }
+            .disposed(by: self.disposeBag)
     }
 
-    func insert(imageData: Data) {
-        let imageInfo = ImageInfo(
-            fileName: self.generateImageName(),
-            data: imageData,
-            type: Const.jpg
-        )
-        self.imageRelay.accept([imageInfo])
+        // MARK: - Input
+
+        func insert(imageData: Data) {
+            let imageInfo = ImageInfo(
+                fileName: self.generateImageName(),
+                data: imageData,
+                type: Const.jpg
+            )
+            self.imageRelay.accept([imageInfo])
+        }
+
+        func imageList() -> [ImageInfo] {
+            return self.imageRelay.value
+        }
+
+        func productPost(_ product: ProductRequest, completion: @escaping () -> Void) {
+            _ = self.useCase.post(product)
+                .subscribe(onError: { [weak self] error in
+                    self?.errorRelay.accept(error)
+                }, onCompleted: {
+                    self.postNotification()
+                    completion()
+                })
+        }
+
+        // MARK: - Output
+
+    var error: Observable<Error> {
+        return self.errorRelay.asObservable()
     }
 
-    func imageList() -> [ImageInfo] {
-        return self.imageRelay.value
+    var productInfomation: Observable<ProductInfomation> {
+        return self.productRelay.asObservable()
     }
 
-    func productPost(_ product: ProductRequest, completion: @escaping () -> Void) {
-        _ = self.useCase.post(product)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onError: { [weak self] error in
-                self?.errorRelay.accept(error)
-            }, onCompleted: {
-                self.postNotification()
-                completion()
-            })
+    var productImageList: Observable<[ImageInfo]> {
+        return self.imageRelay.asObservable()
     }
 }
 
 extension ManagementViewModel {
+    private func imageDownload(imageURLList: [String]) {
+        imageURLList.forEach { [weak self] urlString in
+            ImageDownloader.default.download(with: urlString) { result in
+                switch result {
+                case .success(let image):
+                    guard let imageData = image.jpegData(compressionQuality: 1) else {
+                        return
+                    }
+                    self?.insert(imageData: imageData)
+                case .failure(let error):
+                    self?.errorRelay.accept(error)
+                }
+            }
+        }
+    }
+
     private func generateImageName() -> String {
         return UUID().uuidString + Const.dotJPG
     }

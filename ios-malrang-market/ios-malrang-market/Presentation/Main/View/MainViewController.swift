@@ -50,7 +50,6 @@ final class MainViewController: UIViewController {
         self.setupView()
         self.setupConstraint()
         self.bind()
-        self.viewModel.fetchFirstPage()
     }
 
     private func setupNavigationItem() {
