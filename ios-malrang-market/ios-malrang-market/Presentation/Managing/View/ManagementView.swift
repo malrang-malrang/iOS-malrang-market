@@ -11,9 +11,9 @@ import SnapKit
 private enum Const {
     static let emptyString = ""
     static let zerroString = "0"
-    static let productName = "0"
-    static let productPrice = "0"
-    static let productStock = "0"
+    static let productName = "상품명"
+    static let productPrice = "상품가격"
+    static let productStock = "재고수량"
 }
 
 final class ManagementView: UIViewController {
@@ -142,10 +142,10 @@ final class ManagementView: UIViewController {
     }
 
     private func bind() {
-        self.viewModel.error?
+        self.viewModel.error
             .withUnretained(self)
             .subscribe { managementView, error in
-                managementView.coordinator.showAlert(title: error.localizedDescription)
+                managementView.coordinator.showAlert(title: error.discription)
             }
             .disposed(by: self.disposeBag)
 
@@ -154,8 +154,8 @@ final class ManagementView: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe { managementView, product in
                 managementView.nameTextField.text = product.name
-                managementView.priceTextField.text = product.price?.description
-                managementView.stockTextField.text = product.stock?.description
+                managementView.priceTextField.text = product.price.description
+                managementView.stockTextField.text = product.stock.description
                 managementView.descriptionTextView.text = product.description
             }
             .disposed(by: self.disposeBag)

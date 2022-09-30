@@ -70,7 +70,7 @@ final class RandomProductListCell: UICollectionViewCell {
         return label
     }()
 
-    private(set) var constructedProduct : ProductDetail?
+    private(set) var constructedProduct : ProductInfomation?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -121,28 +121,28 @@ final class RandomProductListCell: UICollectionViewCell {
         self.layer.addSublayer(border)
     }
 
-    func configure(product: ProductDetail) {
+    func configure(product: ProductInfomation) {
         self.constructedProduct = product
-        self.imageView.image = product.thumbnail?.image()
+//        self.imageView.image = product.thumbnail?.image()
         self.nameLabel.text = product.name
         self.discriptionlabel.text = product.description
         self.priceLabel.text = self.priceInfomation(from: product)
         self.stockLabel.attributedText = self.stockInfomation(from: product)
     }
 
-    private func createdAtInfomation(from: ProductDetail) -> String? {
-        return from.createdAt?.date()?.formatterString()
+    private func createdAtInfomation(from: ProductInfomation) -> String? {
+        return from.createdAt.date()?.formatterString()
     }
 
-    private func priceInfomation(from: ProductDetail) -> String? {
-        guard let price = from.price?.formatterString() else {
+    private func priceInfomation(from: ProductInfomation) -> String? {
+        guard let price = from.price.formatterString() else {
             return Const.emptyString
         }
         return String(format: Const.priceInfomation, price)
     }
 
-    private func stockInfomation(from: ProductDetail) -> NSMutableAttributedString {
-        guard let stock = from.stock?.formatterString() else {
+    private func stockInfomation(from: ProductInfomation) -> NSMutableAttributedString {
+        guard let stock = from.stock.formatterString() else {
             return NSMutableAttributedString()
         }
 

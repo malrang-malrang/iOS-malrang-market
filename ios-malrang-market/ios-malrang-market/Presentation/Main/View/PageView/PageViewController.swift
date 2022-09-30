@@ -41,7 +41,7 @@ final class PageViewController: UIPageViewController {
     }
 
     private func bind() {
-        self.viewModel.currentPageState
+        self.viewModel.pageState
             .withUnretained(self)
             .bind(onNext: { pageView, page in
                 pageView.currentPage = page

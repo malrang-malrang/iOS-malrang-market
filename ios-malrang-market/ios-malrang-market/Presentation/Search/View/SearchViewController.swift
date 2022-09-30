@@ -103,7 +103,7 @@ final class SearchViewController: UIViewController {
             }
             .disposed(by: self.disposeBag)
 
-        self.tableView.rx.modelSelected(ProductDetail.self)
+        self.tableView.rx.modelSelected(ProductInfomation.self)
             .withUnretained(self)
             .subscribe(onNext: { searchView, product in
                 searchView.coordinator.showDetailView(productId: product.id)

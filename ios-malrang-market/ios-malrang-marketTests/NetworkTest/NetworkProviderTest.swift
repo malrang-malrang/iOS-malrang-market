@@ -1,5 +1,5 @@
 //
-//  MockURLSessionTest.swift
+//  NetworkProviderTest.swift
 //  ios-malrang-marketTests
 //
 //  Created by 김동욱 on 2022/08/17.
@@ -8,13 +8,12 @@
 import XCTest
 @testable import ios_malrang_market
 
-class MockURLSessionTest: XCTestCase {
+class NetworkProviderTest: XCTestCase {
     var sut: NetworkProvider!
 
     override func setUpWithError() throws {
         let session = self.makeMockUrlSession()
         self.sut = NetworkProvider(urlSession: session)
-
     }
 
     override func tearDownWithError() throws {
@@ -29,7 +28,7 @@ class MockURLSessionTest: XCTestCase {
 
         // when
         _ = self.sut.request(endPoint: endPoint)
-            .decode(type: ProductList.self, decoder: Json.decoder)
+            .decode(type: ProductCatalogDTO.self, decoder: Json.decoder)
             .subscribe { productList in
                 let result = productList.itemsPerPage
                 let expected = 20
@@ -61,7 +60,7 @@ class MockURLSessionTest: XCTestCase {
     }
 }
 
-extension MockURLSessionTest {
+extension NetworkProviderTest {
     private func makeMockUrlSession() -> URLSession {
         let configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]

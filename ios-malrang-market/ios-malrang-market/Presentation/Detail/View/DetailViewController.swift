@@ -109,7 +109,7 @@ final class DetailViewController: UIViewController {
         self.viewModel.error?
             .withUnretained(self)
             .subscribe(onNext: { detailView, error in
-                detailView.coordinator.showAlert(title: error.localizedDescription)
+                detailView.coordinator.showAlert(title: error.discription)
             })
             .disposed(by: self.disposeBag)
 
@@ -123,7 +123,7 @@ final class DetailViewController: UIViewController {
         self.moreBarButton.rx.tap
             .withUnretained(self)
             .subscribe(onNext: { detailView, _ in
-                guard let product = detailView.viewModel.productDetail() else { return }
+                guard let product = detailView.viewModel.product else { return }
                 detailView.coordinator.showActionSheet(product)
             })
             .disposed(by: self.disposeBag)

@@ -91,10 +91,11 @@ final class MainViewController: UIViewController {
             })
             .disposed(by: self.disposeBag)
 
-        self.viewModel.error?
+        self.viewModel.error
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { mainView, error in
-                mainView.coordinator.showAlert(title: error.localizedDescription)
+                mainView.coordinator.showAlert(title: error.discription)
             })
             .disposed(by: self.disposeBag)
 
@@ -103,7 +104,7 @@ final class MainViewController: UIViewController {
             .withUnretained(self)
             .subscribe { mainView, _ in
                 mainView.searchBar.resignFirstResponder()
-                let productList = mainView.viewModel.productDetailList()
+                let productList = mainView.viewModel.productInfomationList()
                 mainView.coordinator.showSearchView(productList: productList)
             }
             .disposed(by: self.disposeBag)

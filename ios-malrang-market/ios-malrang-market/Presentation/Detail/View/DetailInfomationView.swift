@@ -109,32 +109,31 @@ final class DetailInfomationView: UIView {
     }
 
     private func bind() {
-        self.viewModel.productInfomation
+        self.viewModel.productInfomation?
             .withUnretained(self)
-            .observe(on: MainScheduler.instance)
-            .subscribe { infomationView, product in
-                infomationView.nameLabel.text = product.name
-                infomationView.createdAtLabel.text = infomationView.createdAtInfomation(at: product)
-                infomationView.descriptionTextView.text = product.description
-                infomationView.priceLabel.text = infomationView.priceInfomation(at: product)
-                infomationView.stockLabel.attributedText = infomationView.stockInfomation(at: product)
-            }
+            .subscribe(onNext: { infomationView, productInfomation in
+                infomationView.nameLabel.text = productInfomation.name
+                infomationView.createdAtLabel.text = infomationView.createdAtInfomation(at: productInfomation)
+                infomationView.descriptionTextView.text = productInfomation.description
+                infomationView.priceLabel.text = infomationView.priceInfomation(at: productInfomation)
+                infomationView.stockLabel.attributedText = infomationView.stockInfomation(at: productInfomation)
+            })
             .disposed(by: self.disposeBag)
     }
 
-    private func createdAtInfomation(at product: ProductDetail) -> String? {
-        return product.createdAt?.date()?.formatterString()
+    private func createdAtInfomation(at product: ProductInfomation) -> String? {
+        return product.createdAt.date()?.formatterString()
     }
 
-    private func priceInfomation(at product: ProductDetail) -> String? {
-        guard let price = product.price?.formatterString() else {
+    private func priceInfomation(at product: ProductInfomation) -> String? {
+        guard let price = product.price.formatterString() else {
             return Const.emptyString
         }
         return String(format: Const.priceInfomation, price)
     }
 
-    private func stockInfomation(at product: ProductDetail) -> NSMutableAttributedString {
-        guard let stock = product.stock?.formatterString() else {
+    private func stockInfomation(at product: ProductInfomation) -> NSMutableAttributedString {
+        guard let stock = product.stock.formatterString() else {
             return NSMutableAttributedString()
         }
 

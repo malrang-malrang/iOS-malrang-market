@@ -16,24 +16,24 @@ private enum Const {
 }
 
 protocol MainViewCoordinatorProtocol {
-    func showDetailView(productId: Int?)
+    func showDetailView(productId: Int)
     func showProductRegistrationView()
     func showProductEditView(at productId: Int)
-    func showSearchView(productList: [ProductDetail])
+    func showSearchView(productList: [ProductInfomation])
     func showAlert(title: String)
-    func contextMenu(at product: ProductDetail) -> UIContextMenuConfiguration?
+    func contextMenu(at product: ProductInfomation) -> UIContextMenuConfiguration?
 }
 
 final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
     var navigationController: UINavigationController
     var parentCoordinators: Coordinator?
     var childCoordinators: [Coordinator] = []
-    private let useCase: Usecase
+    private let useCase: UsecaseProtocol
 
     init(
         navigationController: UINavigationController,
         parentCoordinators: Coordinator,
-        useCase: Usecase
+        useCase: UsecaseProtocol
     ) {
         self.navigationController = navigationController
         self.parentCoordinators = parentCoordinators
@@ -46,7 +46,7 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         self.navigationController.pushViewController(mainView, animated: true)
     }
 
-    func showDetailView(productId: Int?) {
+    func showDetailView(productId: Int) {
         let detailCoordinator = DetailViewCoordinator(
             navigationController: self.navigationController,
             parentCoordinators: self,
@@ -76,7 +76,7 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         menegementCoordinator.showEditView(at: productId)
     }
 
-    func showSearchView(productList: [ProductDetail]) {
+    func showSearchView(productList: [ProductInfomation]) {
         let searchCoordinator = SearchViewCoordinator(
             navigationController: self.navigationController,
             parentCoordinators: self,
@@ -97,7 +97,7 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         self.navigationController.present(alert, animated: true)
     }
 
-    func contextMenu(at product: ProductDetail) -> UIContextMenuConfiguration? {
+    func contextMenu(at product: ProductInfomation) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(
             identifier: nil,
             previewProvider: nil
@@ -119,7 +119,7 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
                         title: InputError.productAuthority.errorDescription
                     )
                 }
-                self.showProductEditView(at: product.id ?? 0)
+                self.showProductEditView(at: product.id)
             }
 
             let deleteAction = UIAction(
@@ -138,9 +138,9 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
         }
     }
 
-    private func showActivity(product: ProductDetail) {
+    private func showActivity(product: ProductInfomation) {
         let activity = UIActivityViewController(
-            activityItems: [product.name ?? Const.emptyString, product.price ?? Const.emptyString],
+            activityItems: [product.name, product.price],
             applicationActivities: nil
         )
         self.navigationController.present(activity, animated: true)
