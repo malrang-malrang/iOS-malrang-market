@@ -1,5 +1,5 @@
 # 🎁 iOS-malrang-market 
-> 프로젝트 기간 2022.08.14 ~ 2022.    
+> 프로젝트 기간 2022.08.14 ~ 2022.09    
 개발자 : [malrang](https://github.com/malrang-malrang) 
 
 # 📋 목차
@@ -34,7 +34,7 @@
 ---
 ## 🗂 App 구조
 ### Coordinator
-<img src="https://i.imgur.com/Nlcuhiw.png" width="600">
+<img src="https://i.imgur.com/HX5fqKU.png" width="600">
 
 #### Coordinator 적용한 이유
 - 이전 프로젝트 에서 각각 다른 View 에서 동일한 View로 화면전환시 중복코드가 생겨나고, 각 다른 View에서 동일한 Class 인스턴스 를 주입받아야 하는 상황이 발생해 이를 해결하고자 Coordinator 패턴에 대해 공부하고 적용했습니다.
@@ -262,7 +262,7 @@ func changeUnderlinePosition() {
 
 앱에서 상품을 등록하기위해 상품등록 View로 전환하는 동그란 버튼을 구현했다.
 
-![](https://i.imgur.com/V9Zip3W.gif)
+<img src="https://i.imgur.com/V9Zip3W.gif" width="200"><img src="https://i.imgur.com/9etQMYq.gif" width="200">
 
 UIButton을 상속받도록 하고 draw메서드를 override하여 CoreGraphics 를 활용해 원하는 이미지를 그려주었다.
 
@@ -351,5 +351,115 @@ final class AddButton: UIButton {
 ```
 
 
-### 4️⃣ 빠르게 스크롤하면 메모리가 너무많이 사용되는데..!? 메모리 사용량을 줄일수 없을까? 🤔
+### 4️⃣ 빠르게 스크롤하면 메모리가 너무많이 사용되는데.. 메모리 사용량을 줄일수 없을까? 🤔
 
+**현재 API가 서버 이전 문제로 데이터를 가져올수가 없어서 메모리 사용량 전후 비교 사진은 추후에 기재할 예정입니다..!**
+
+앱의 메인뷰에는 서버에서 등록된 상품들의 정보가 List, Grid 형식으로 나열 되어있는데 스크롤을 위아래로 빠르게 움직이게될경우 메모리 사용량이 게속 증가하는 상황이 발생했다..!(500mb 넘게 사용되는걸 확인했는데 더빠르게 하면 더많이 사용할지도..!??🤔)
+
+무엇이 문제일까..! 스크롤을 빠르게 할수록 서버와 통신량이 많아지고 그중에도 이미지를 가져오는 작업이 메모리를 많이 사용할거라 추측했다.
+
+위와같은 상황에서 메모리 사용량을 줄일수 있는 방법을 찾게되었고 Cache를 활용해 해결하였다!
+
+Cache에대해서는 아래 블로그에 간단하게 정리해 두었다!
+[말랑블로그 Cache 간단 정리](https://marlangmarlang.tistory.com/104)
+
+
+```swift
+final class ImageCacheManager {
+    static let shared = ImageCacheManager()
+
+    let cache: NSCache<NSString, UIImage> = {
+        let cache = NSCache<NSString, UIImage>()
+        cache.countLimit = 100
+        return cache
+    }()
+
+    private init() {}
+}
+```
+다음과 같이 캐시에 이미지를 최대 100개 저장할수 있도록 Singletone 으로 구현해주었다!
+
+```swift
+@discardableResult
+    func download(
+        with urlString: String,
+        completion: @escaping (Result<UIImage, Error>) -> Void
+    ) -> URLSessionDataTask? {
+        guard let url = URL(string: urlString) else {
+            return nil
+        }
+
+        let task = session.dataTask(with: url) { data, response, error in
+
+            if let error = error as? ImageDownloadError {
+                return completion(.failure(error))
+            }
+
+            guard let response = response as? HTTPURLResponse else {
+                return completion(.failure(ImageDownloadError.responseError))
+            }
+
+            guard (200..<300).contains(response.statusCode) else {
+                return completion(.failure(ImageDownloadError.statusCodeError(statusCode: response.statusCode)))
+            }
+
+            guard let data = data else {
+                return completion(.failure(ImageDownloadError.emptyDataError))
+            }
+
+            guard let image = UIImage(data: data) else {
+                return completion(.failure(ImageDownloadError.imageConvertError))
+            }
+
+            completion(.success(image))
+        }
+        task.resume()
+        return task
+    }
+```
+
+그리고 URL String으로 통신해 이미지를 다운로드 하는 아래와 같은 메서드를 구현해 주었다.
+해당 프로젝트의 API에서 이미지를 String값으로 전달받기 때문에 String으로 서버와 통신해 이미지를 다운받을수 있도록 구현한 것이다!
+
+```swift
+extension UIImageView {
+    private var imageDownloadTask: URLSessionDataTask? {
+        get { objc_getAssociatedObject(self, "image") as? URLSessionDataTask }
+        set { objc_setAssociatedObject(self, "image", newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+
+    func setImage(with urlstring: String, placeholder: UIImage? = nil) {
+        self.imageDownloadTask?.suspend()
+        self.imageDownloadTask?.cancel()
+
+        let cache = ImageCacheManager.shared.cache
+
+        if let cacheImage = cache.object(forKey: urlstring as NSString) {
+            return self.image = cacheImage
+        }
+
+        self.imageDownloadTask = ImageDownloader.default.download(with: urlstring) { result in
+            switch result {
+            case .success(let image):
+                cache.setObject(image, forKey: urlstring as NSString)
+                DispatchQueue.main.async {
+                    self.image = image
+                }
+                return
+            case .failure:
+                guard let placeholder = placeholder else { return }
+                DispatchQueue.main.async {
+                    self.image = placeholder
+                }
+                return
+            }
+        }
+    }
+}
+```
+위에 구현한 캐시와 이미지 다운로더를 활용해 UIImageView를 extension하여 위와 같은 메서드를 만들어 주었다.
+
+인자로 전달받은 urlString값이 캐시에 저장된 키와 일치하는 것이 있다면 꺼내서 사용하도록 하였고, 일치하는 것이 없다면 네트워크 통신을 통해 이미지를 다운받고 캐시에 저장하도록 하였다.
+
+위의 setImage는 라이브러리 KingFisher를 참고해 구현했으며 동일한 ImageView가 이미 네트워크 통신을 하여 이미지를 다운로드 하는중이라면 기존의 통신을 취소하고 마지막으로 다운로드 요청한것만 수행하도록 하여 메모리 효율성을 높여줄수 있었다.
