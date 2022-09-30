@@ -21,19 +21,23 @@ protocol SearchViewModelable: SearchViewModelInput, SearchViewModelOutput {}
 
 final class SearchViewModel: SearchViewModelable {
     private let productList: [ProductInfomation]
-
-    private let searchRelay = BehaviorRelay<[ProductInfomation]>(value: [])
-    var searchedProduct: Observable<[ProductInfomation]> {
-        return self.searchRelay.asObservable()
-    }
+    private let searchRelay = PublishRelay<[ProductInfomation]>()
 
     init(productList: [ProductInfomation]) {
         self.productList = productList
     }
 
+    // MARK: - Input
+
     func searchProduct(_ text: String) {
         let filteringProductList = self.productList
             .filter { $0.name.localizedCaseInsensitiveContains(text) == true }
         self.searchRelay.accept(filteringProductList)
+    }
+
+    // MARK: - Output
+
+    var searchedProduct: Observable<[ProductInfomation]> {
+        return self.searchRelay.asObservable()
     }
 }

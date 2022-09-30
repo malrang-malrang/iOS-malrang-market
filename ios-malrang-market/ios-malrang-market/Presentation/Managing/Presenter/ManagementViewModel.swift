@@ -56,32 +56,28 @@ final class ManagementViewModel: ManagementViewModelable, NotificationPostable {
             .disposed(by: self.disposeBag)
     }
 
-        // MARK: - Input
+    // MARK: - Input
 
-        func insert(imageData: Data) {
-            let imageInfo = ImageInfo(
-                fileName: self.generateImageName(),
-                data: imageData,
-                type: Const.jpg
-            )
-            self.imageRelay.accept([imageInfo])
-        }
+    func insert(imageData: Data) {
+        let imageInfo = ImageInfo(
+            fileName: self.generateImageName(),
+            data: imageData,
+            type: Const.jpg
+        )
+        self.imageRelay.accept([imageInfo])
+    }
 
-        func imageList() -> [ImageInfo] {
-            return self.imageRelay.value
-        }
+    func productPost(_ product: ProductRequest, completion: @escaping () -> Void) {
+        _ = self.useCase.post(product)
+            .subscribe(onError: { [weak self] error in
+                self?.errorRelay.accept(error)
+            }, onCompleted: {
+                self.postNotification()
+                completion()
+            })
+    }
 
-        func productPost(_ product: ProductRequest, completion: @escaping () -> Void) {
-            _ = self.useCase.post(product)
-                .subscribe(onError: { [weak self] error in
-                    self?.errorRelay.accept(error)
-                }, onCompleted: {
-                    self.postNotification()
-                    completion()
-                })
-        }
-
-        // MARK: - Output
+    // MARK: - Output
 
     var error: Observable<Error> {
         return self.errorRelay.asObservable()
@@ -93,6 +89,10 @@ final class ManagementViewModel: ManagementViewModelable, NotificationPostable {
 
     var productImageList: Observable<[ImageInfo]> {
         return self.imageRelay.asObservable()
+    }
+
+    func imageList() -> [ImageInfo] {
+        return self.imageRelay.value
     }
 }
 
