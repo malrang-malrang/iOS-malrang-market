@@ -145,7 +145,7 @@ final class ManagementView: UIViewController {
         self.viewModel.error
             .withUnretained(self)
             .subscribe { managementView, error in
-                managementView.coordinator.showAlert(title: error.localizedDescription)
+                managementView.coordinator.showAlert(title: error.discription)
             }
             .disposed(by: self.disposeBag)
 

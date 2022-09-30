@@ -109,7 +109,7 @@ final class DetailViewController: UIViewController {
         self.viewModel.error?
             .withUnretained(self)
             .subscribe(onNext: { detailView, error in
-                detailView.coordinator.showAlert(title: error.localizedDescription)
+                detailView.coordinator.showAlert(title: error.discription)
             })
             .disposed(by: self.disposeBag)
 

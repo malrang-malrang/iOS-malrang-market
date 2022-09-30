@@ -95,7 +95,7 @@ final class MainViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { mainView, error in
-                mainView.coordinator.showAlert(title: error.localizedDescription)
+                mainView.coordinator.showAlert(title: error.discription)
             })
             .disposed(by: self.disposeBag)
 

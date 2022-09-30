@@ -15,7 +15,7 @@ enum NetworkError: Error {
     case decodeError
     case responseError
 
-    var errorDescription: String? {
+    var errorDescription: String {
         switch self {
         case .unknownError:
             return "알 수 없는 에러입니다."
