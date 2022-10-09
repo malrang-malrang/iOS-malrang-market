@@ -181,7 +181,7 @@ final class ManagementView: UIViewController {
             descriptions: self.descriptionTextView.text,
             price: Double(self.priceTextField.text ?? Const.zerroString),
             stock: Int(self.stockTextField.text ?? Const.zerroString),
-            secret: UserInfomation.secret,
+            secret: Bundle.main.secret,
             imageInfos: self.viewModel.imageList()
         )
     }

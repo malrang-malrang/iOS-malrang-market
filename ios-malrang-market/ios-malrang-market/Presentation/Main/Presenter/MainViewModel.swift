@@ -7,6 +7,7 @@
 
 import RxSwift
 import RxRelay
+import RxCocoa
 
 protocol MainViewModelInput {
     func fetchFirstPage()
@@ -19,6 +20,7 @@ protocol MainViewModelOutput {
     var pageState: Observable<Page> { get }
     var productList: Observable<[ProductInfomation]> { get }
     func productInfomationList() -> [ProductInfomation]
+    func fetch() -> Observable<[ProductInfomation]>
 }
 
 protocol MainViewModelable: MainViewModelInput, MainViewModelOutput {}
@@ -90,5 +92,19 @@ final class MainViewModel: MainViewModelable {
 
     func productInfomationList() -> [ProductInfomation] {
         return self.productListRelay.value
+    }
+
+    func fetch() -> Observable<[ProductInfomation]> {
+        return self.useCase.fetchProductCatalog(pageNumber: 0, perPages: 20)
+            .do { catalog in
+                self.hasNext = catalog.hasNextPage
+                self.currentPage = catalog.pageNumber
+            }
+            .map { $0.items }
+            .catch({ error in
+                self.errorRelay.accept(error)
+                return Observable.just([])
+            })
+            .share()
     }
 }

@@ -68,11 +68,12 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     }
 
     func showActionSheet(_ product: ProductInfomation) {
+        let vendorId = Bundle.main.vendorId
         let cancelAction = UIAlertAction(title: Const.check, style: .cancel)
         let editAction = UIAlertAction(
             title: Const.productInfomationEdit,
             style: .default) { _ in
-                guard UserInfomation.vendotId == product.vendorId else {
+                guard vendorId == product.vendorId else {
                     return self.showAlert(
                         title: InputError.productAuthority.errorDescription
                     )
@@ -83,7 +84,7 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
         let deleteAction = UIAlertAction(
             title: Const.productInfomationDelete,
             style: .default) { _ in
-                guard UserInfomation.vendotId == product.vendorId else {
+                guard vendorId == product.vendorId else {
                     return self.showAlert(
                         title: InputError.productAuthority.errorDescription
                     )

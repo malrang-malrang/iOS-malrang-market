@@ -75,6 +75,7 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
             previewProvider: nil
         ) { _ in
 
+            let vendorId = Bundle.main.vendorId
             let shareAction = UIAction(
                 title: Const.productInfomationShare,
                 image: SystemImage.share
@@ -86,7 +87,7 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
                 title: Const.productInfomationEdit,
                 image: SystemImage.edit
             ) { _ in
-                guard UserInfomation.vendotId == product.vendorId else {
+                guard vendorId == product.vendorId else {
                     return self.showAlert(
                         title: InputError.productAuthority.errorDescription
                     )
@@ -99,7 +100,7 @@ final class SearchViewCoordinator: Coordinator, SearchViewCoordinatorProtocol {
                 image: SystemImage.trash,
                 attributes: .destructive
             ) { _ in
-                guard UserInfomation.vendotId == product.vendorId else {
+                guard vendorId == product.vendorId else {
                     return self.showAlert(
                         title: InputError.productAuthority.errorDescription
                     )

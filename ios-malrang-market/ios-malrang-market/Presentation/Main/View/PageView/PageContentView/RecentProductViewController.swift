@@ -74,7 +74,7 @@ final class RecentProductViewController: UIViewController, NotificationObservabl
     }
 
     private func bind() {
-        self.viewModel.productList
+        self.viewModel.fetch()
             .bind(to: self.tableView.rx.items) { tableView, row, element in
                 guard let cell = tableView.dequeueReusableCell(
                     withIdentifier: RecentProductListCell.identifier,
@@ -87,6 +87,20 @@ final class RecentProductViewController: UIViewController, NotificationObservabl
                 return cell
             }
             .disposed(by: self.disposeBag)
+
+//        self.viewModel.productList
+//            .bind(to: self.tableView.rx.items) { tableView, row, element in
+//                guard let cell = tableView.dequeueReusableCell(
+//                    withIdentifier: RecentProductListCell.identifier,
+//                    for: IndexPath(row: row, section: .zero)
+//                ) as? RecentProductListCell else {
+//                    return UITableViewCell()
+//                }
+//                cell.configure(product: element)
+//
+//                return cell
+//            }
+//            .disposed(by: self.disposeBag)
 
         self.tableView.rx.modelSelected(ProductInfomation.self)
             .withUnretained(self)

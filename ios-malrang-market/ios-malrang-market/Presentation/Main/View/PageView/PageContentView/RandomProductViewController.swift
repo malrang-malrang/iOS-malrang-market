@@ -87,7 +87,7 @@ final class RandomProductViewController: UIViewController, NotificationObservabl
     }
 
     private func bind() {
-        self.viewModel.productList
+        self.viewModel.fetch()
             .map { $0.shuffled() }
             .bind(to: self.collectionView.rx.items) { collectionView, row, element in
                 guard let cell = collectionView.dequeueReusableCell(
@@ -118,6 +118,7 @@ final class RandomProductViewController: UIViewController, NotificationObservabl
             .disposed(by: self.disposeBag)
 
         self.refreshControl.rx.controlEvent(.valueChanged)
+            .throttle(.seconds(Int(0.5)), scheduler: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { recentView, _ in
                 recentView.pullToRefresh()

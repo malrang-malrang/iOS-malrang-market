@@ -10,7 +10,6 @@ import Foundation
 private enum Const {
     static let basePath = "api/products"
     static let identifier = "identifier"
-    static let identifierSerialNumber = UserInfomation.identifier
     static let contentType = "Content-Type"
 }
 
@@ -58,7 +57,7 @@ extension EndPointStorage {
     private func productPost(_ body: ProductRequest) -> EndPoint {
         let headers: [String: String] = [
             Const.contentType: "multipart/form-data; boundary=\"\(body.boundary ?? "")\"",
-            Const.identifier: Const.identifierSerialNumber
+            Const.identifier: Bundle.main.apiKey
         ]
         let endPoint = EndPoint(
             path: Const.basePath,

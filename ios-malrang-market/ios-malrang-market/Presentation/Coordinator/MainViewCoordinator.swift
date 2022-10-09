@@ -103,6 +103,7 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
             previewProvider: nil
         ) { _ in
 
+            let vendorId = Bundle.main.vendorId
             let shareAction = UIAction(
                 title: Const.productInfomationShare,
                 image: SystemImage.share
@@ -114,7 +115,7 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
                 title: Const.productInfomationEdit,
                 image: SystemImage.edit
             ) { _ in
-                guard UserInfomation.vendotId == product.vendorId else {
+                guard vendorId == product.vendorId else {
                     return self.showAlert(
                         title: InputError.productAuthority.errorDescription
                     )
@@ -127,7 +128,7 @@ final class MainViewCoordinator: Coordinator, MainViewCoordinatorProtocol {
                 image: SystemImage.trash,
                 attributes: .destructive
             ) { _ in
-                guard UserInfomation.vendotId == product.vendorId else {
+                guard vendorId == product.vendorId else {
                     return self.showAlert(
                         title: InputError.productAuthority.errorDescription
                     )
