@@ -10,9 +10,11 @@ import UIKit
 final class ImageCacheManager {
     static let shared = ImageCacheManager()
 
-    let cache = NSCache<NSString, UIImage>()
+    let cache: NSCache<NSString, UIImage> = {
+        let cache = NSCache<NSString, UIImage>()
+        cache.countLimit = 100
+        return cache
+    }()
 
-    private init() {
-        self.cache.countLimit = 100
-    }
+    private init() {}
 }

@@ -52,7 +52,6 @@ final class DetailViewCoordinator: Coordinator, DetailViewCoordinatorProtocol {
     }
 
     func showAlert(title: String) {
-//        let checkAction = UIAlertAction(title: Const.check, style: .default)
         let checkAction = UIAlertAction(
             title: Const.check,
             style: .default) { _ in

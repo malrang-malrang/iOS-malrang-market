@@ -238,13 +238,8 @@
 		300442CD28AB8167007FF20B /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				3082ED7328E7316C00C62663 /* MalrangMarketAPI */,
 				3082ED6C28E19D5500C62663 /* ImageDownloader */,
-				300442CE28AB81A6007FF20B /* NetworkProvider.swift */,
-				30E7A2BE28ABDA8500396255 /* NetworkError.swift */,
-				30E7A2E428B0E05000396255 /* Requestable.swift */,
-				300442D428ABCFBA007FF20B /* HTTPMethod.swift */,
-				300442D628ABCFCB007FF20B /* EndPoint.swift */,
-				30E7A2E828B1314600396255 /* EndPointStorage.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -378,6 +373,19 @@
 				3082ED6D28E19D6E00C62663 /* ImageDownloadError.swift */,
 			);
 			path = ImageDownloader;
+			sourceTree = "<group>";
+		};
+		3082ED7328E7316C00C62663 /* MalrangMarketAPI */ = {
+			isa = PBXGroup;
+			children = (
+				300442CE28AB81A6007FF20B /* NetworkProvider.swift */,
+				30E7A2BE28ABDA8500396255 /* NetworkError.swift */,
+				30E7A2E428B0E05000396255 /* Requestable.swift */,
+				300442D428ABCFBA007FF20B /* HTTPMethod.swift */,
+				300442D628ABCFCB007FF20B /* EndPoint.swift */,
+				30E7A2E828B1314600396255 /* EndPointStorage.swift */,
+			);
+			path = MalrangMarketAPI;
 			sourceTree = "<group>";
 		};
 		30BA5FB928CF59EF00D109BC /* Presenter */ = {
